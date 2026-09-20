@@ -24,6 +24,24 @@
     --maroon: #C1121F;
     --purple: #9B5DE5;
     --sky: #35B7FF;
+    --emerald: #2EC4B6;
+    --coral: #FF7F6B;
+    --steel: #5B8DEF;
+    --red: #FF3B3B;
+    --slate: #3A3F58;
+    --gridiron: #A6753D;
+    --diamond: #588157;
+    --ice: #8ECAE6;
+    --rose: #FF8FAB;
+    --denim: #3D5A80;
+    --punk: #9E2A2B;
+    --mtvorange: #FF6B35;
+    --aegean: #2A6F97;
+    --americana: #3C3B6E;
+    --dumb: #F4A300;
+    --ace: #C9A66B;
+    --mask: #39FF14;
+    --comedy90s: #00C2CB;
     --teal: #33D6B0;
     --lime: #A8E063;
     --text: #F5F2FF;
@@ -85,23 +103,23 @@
     padding: 18px;
   }
   .muted { color: var(--text-dim); font-size: 14px; line-height: 1.5; }
-  .top-title { font-size: 26px; padding: 4px 0 18px; letter-spacing: .3px; }
+  .top-title { font-size: 26px; padding: 4px 0 6px; letter-spacing: .3px; }
   .brand-chin { color: var(--pink); }
   .brand-up { color: var(--yellow); }
 
   /* ---------- HOME ---------- */
   #screen-home .section-label { font-size: 13px; font-weight: 700; color: var(--text-dim); margin: 18px 0 10px; }
-  .deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .deck-chip {
-    border-radius: 18px;
-    padding: 16px 14px;
+    border-radius: 14px;
+    padding: 10px 10px;
     border: 2px solid transparent;
     cursor: pointer;
     position: relative;
     color: var(--ink);
   }
-  .deck-chip .deck-name { font-family: 'Baloo 2'; font-weight: 700; font-size: 17px; display: block; }
-  .deck-chip .deck-count { font-size: 12px; opacity: .75; font-weight: 600; }
+  .deck-chip .deck-name { font-family: 'Baloo 2'; font-weight: 700; font-size: 14px; display: block; line-height: 1.15; }
+  .deck-chip .deck-count { font-size: 10px; opacity: .75; font-weight: 600; }
   .deck-chip.selected { border-color: var(--text); }
   .deck-chip.tv { background: var(--teal); }
   .deck-chip.animals { background: var(--lime); }
@@ -112,12 +130,30 @@
   .deck-chip.cuisine { background: var(--amber); color: var(--ink); }
   .deck-chip.nineties { background: var(--purple); color: var(--text); }
   .deck-chip.y2k { background: var(--sky); color: var(--ink); }
+  .deck-chip.sunny { background: var(--emerald); color: var(--ink); }
+  .deck-chip.arrested { background: var(--coral); color: var(--ink); }
+  .deck-chip.office { background: var(--steel); color: var(--text); }
+  .deck-chip.avengers { background: var(--red); color: var(--text); }
+  .deck-chip.batman { background: var(--slate); color: var(--text); }
+  .deck-chip.nfl { background: var(--gridiron); color: var(--text); }
+  .deck-chip.mlb { background: var(--diamond); color: var(--text); }
+  .deck-chip.nhl { background: var(--ice); color: var(--ink); }
+  .deck-chip.girls { background: var(--rose); color: var(--ink); }
+  .deck-chip.boys { background: var(--denim); color: var(--text); }
+  .deck-chip.poppunk { background: var(--punk); color: var(--text); }
+  .deck-chip.mtv { background: var(--mtvorange); color: var(--ink); }
+  .deck-chip.greek { background: var(--aegean); color: var(--text); }
+  .deck-chip.american { background: var(--americana); color: var(--text); }
+  .deck-chip.dumb { background: var(--dumb); color: var(--ink); }
+  .deck-chip.ace { background: var(--ace); color: var(--ink); }
+  .deck-chip.mask { background: var(--mask); color: var(--ink); }
+  .deck-chip.comedy90s { background: var(--comedy90s); color: var(--ink); }
   .deck-chip .check {
-    position: absolute; top: 10px; right: 10px;
-    width: 22px; height: 22px; border-radius: 50%;
+    position: absolute; top: 6px; right: 6px;
+    width: 17px; height: 17px; border-radius: 50%;
     background: rgba(0,0,0,.15);
     display: flex; align-items: center; justify-content: center;
-    font-size: 13px; opacity: 0;
+    font-size: 10px; opacity: 0;
   }
   .deck-chip.selected .check { opacity: 1; background: rgba(0,0,0,.35); }
 
@@ -127,6 +163,8 @@
     font-family: 'Inter'; font-weight: 700; font-size: 14px; padding: 10px; border-radius: 10px; cursor: pointer;
   }
   .mode-toggle button.active { background: var(--pink); color: var(--text); }
+  .mode-toggle.compact { padding: 3px; flex: 1.3; min-width: 0; }
+  .mode-toggle.compact button { padding: 8px 4px; font-size: 12px; border-radius: 8px; }
 
   .timer-stepper { display: flex; align-items: center; justify-content: space-between; }
   .timer-stepper .val { font-family: 'Baloo 2'; font-size: 30px; }
@@ -134,6 +172,8 @@
     width: 44px; height: 44px; border-radius: 12px; border: none;
     background: var(--panel-alt); color: var(--text); font-size: 20px; font-weight: 700; cursor: pointer;
   }
+  .stepper-btn.small { width: 30px; height: 30px; border-radius: 9px; font-size: 15px; }
+  .val.small { font-size: 15px; font-weight: 700; }
   .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 2px; }
   .switch { position: relative; width: 46px; height: 26px; }
   .switch input { opacity: 0; width: 0; height: 0; }
@@ -141,7 +181,18 @@
   .slider::before { content:""; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: var(--text); border-radius: 50%; transition: .15s; }
   input:checked + .slider { background: var(--pink); }
   input:checked + .slider::before { transform: translateX(20px); }
+  .switch.small { width: 32px; height: 19px; flex-shrink: 0; }
+  .switch.small .slider::before { width: 13px; height: 13px; left: 3px; top: 3px; }
+  .switch.small input:checked + .slider::before { transform: translateX(13px); }
 
+  .settings-row { display: flex; align-items: stretch; gap: 6px; margin-top: 10px; }
+  .card.compact { padding: 6px 8px; flex: 1; min-width: 0; }
+  .card.compact.timer-stepper { display: flex; align-items: center; justify-content: space-between; }
+  .skip-chip {
+    display: flex; align-items: center; gap: 6px; flex: 0 0 auto;
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: 14px;
+    padding: 0 10px; font-size: 12px; font-weight: 600; color: var(--text-dim);
+  }
   /* ---------- TEAM SETUP ---------- */
   .team-input {
     width: 100%; background: var(--panel); border: 1px solid var(--panel-line); color: var(--text);
@@ -168,6 +219,15 @@
   }
   .score-pill { background: rgba(0,0,0,.25); border-radius: 30px; padding: 8px 14px; font-weight: 700; font-family: 'Baloo 2'; font-size: 18px; }
   .timer-pill { background: rgba(0,0,0,.25); border-radius: 30px; padding: 8px 16px; font-weight: 700; font-family: 'Baloo 2'; font-size: 18px; }
+  .quit-btn {
+    position: absolute; z-index: 3;
+    top: calc(env(safe-area-inset-top,0px) + 10px); left: 14px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(255,255,255,.06); color: rgba(255,255,255,.4);
+    border: none; font-size: 12px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .quit-btn:active { background: rgba(255,255,255,.16); color: rgba(255,255,255,.7); }
   .progress-track { position: relative; z-index: 2; height: 6px; background: rgba(255,255,255,.15); margin: 0 20px; border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--yellow); width: 100%; }
   .word-stage { position: relative; z-index: 2; flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px 24px; }
@@ -209,42 +269,32 @@
 
   <!-- HOME -->
   <div class="screen active" id="screen-home">
+    <h1 class="top-title"><span class="brand-chin">Chin</span><span class="brand-up">Up</span></h1>
+    <div class="section-label" style="margin-top:0;">Pick your decks</div>
+
     <div class="scroll">
-      <h1 class="top-title"><span class="brand-chin">Chin</span><span class="brand-up">Up</span></h1>
-
-      <div class="section-label">Pick your decks</div>
       <div class="deck-grid" id="deck-grid"></div>
+    </div>
 
-      <div class="section-label">Mode</div>
-      <div class="mode-toggle">
+    <button class="btn block" id="btn-continue" style="margin-top:10px; padding:12px 16px; font-size:15px;">Continue</button>
+
+    <div class="settings-row">
+      <div class="mode-toggle compact">
         <button id="mode-solo" class="active">Solo</button>
         <button id="mode-team">Team</button>
       </div>
-
-      <div class="section-label">Round timer</div>
-      <div class="card timer-stepper">
-        <button class="stepper-btn" id="timer-down">−</button>
-        <div class="val"><span id="timer-val">60</span>s</div>
-        <button class="stepper-btn" id="timer-up">+</button>
+      <div class="timer-stepper card compact">
+        <button class="stepper-btn small" id="timer-down">−</button>
+        <div class="val small"><span id="timer-val">60</span>s</div>
+        <button class="stepper-btn small" id="timer-up">+</button>
       </div>
-
-      <div class="section-label">Options</div>
-      <div class="card">
-        <div class="switch-row">
-          <div>
-            <div style="font-weight:600;">Limit skips</div>
-            <div class="muted">Classic rule — 3 skips per round</div>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="opt-limit-skips">
-            <span class="slider"></span>
-          </label>
-        </div>
+      <div class="skip-chip">
+        <span>Skips</span>
+        <label class="switch small">
+          <input type="checkbox" id="opt-limit-skips">
+          <span class="slider"></span>
+        </label>
       </div>
-    </div>
-
-    <div class="footer-actions">
-      <button class="btn block" id="btn-continue">Continue</button>
     </div>
   </div>
 
@@ -265,10 +315,9 @@
   <div class="screen" id="screen-ready">
     <div class="turn-badge" id="ready-turn-badge" style="display:none;"></div>
     <h1 style="font-size:30px;">Hold the phone to your forehead</h1>
-    <p class="muted" style="max-width:320px;">Screen facing out, toward your friends. Have someone facing you tap ✓ or ✕ for each word so you don't see it.</p>
+    <p class="muted" style="max-width:320px;">Screen facing out. Tilt down for correct, tilt up to skip — or have a friend tap ✓ / ✕ for you instead.</p>
     <button class="btn block" id="btn-start-round" style="max-width:280px;">Start round</button>
     <button class="btn secondary block" id="btn-back-home-2" style="max-width:280px;">Change decks</button>
-    <button class="btn secondary block" id="btn-try-tilt" style="max-width:280px; font-size:14px; padding:10px;">Try tilt controls (experimental)</button>
     <div class="muted" id="motion-status" style="min-height:18px;"></div>
   </div>
 
@@ -280,6 +329,7 @@
   <!-- GAME -->
   <div class="screen" id="screen-game">
     <div class="flash-layer" id="flash-layer"></div>
+    <button class="quit-btn" id="btn-quit-round" aria-label="End round early">✕</button>
     <div class="game-top">
       <div class="score-pill" id="game-score">0</div>
       <div class="timer-pill" id="game-timer">60</div>
@@ -368,6 +418,96 @@
       label: "2000s",
       cls: "y2k",
       words: ["Y2K","iPod","MySpace","Flip Phone","Razr Phone","Low-Rise Jeans","Ugg Boots","Juicy Couture Tracksuit","Silly Bandz","Webkinz","Guitar Hero","Napster","LimeWire","Von Dutch Hat","Trucker Hat","Livestrong Bracelet","Emo Hair","MSN Messenger","Xbox 360","Nintendo Wii","Crocs","Bedazzled Jeans","Chain Wallet","Bratz Dolls","High School Musical","Side Ponytail","Polyphonic Ringtone","Text Speak","Club Penguin","Nintendo DS","Chunky Highlights","Skinny Jeans","Planking","Rickroll","Disposable Camera","BlackBerry","iPod Nano","Motorola Sidekick","Bejeweled","Myspace Top 8"]
+    },
+    sunny: {
+      label: "Always Sunny",
+      cls: "sunny",
+      words: ["Paddy's Pub","The Gang","Nightman","Dayman","Kitten Mittons","Rum Ham","Milk Steak","Wildcard","Charlie Work","The D.E.N.N.I.S. System","Green Man","Troll Toll","Boyle Milk","The McPoyles","Gas Station Chili","Chardee MacDennis","Sweet Dee","Mac's Karate Moves","Frank's Wine Cellar","Wolf Cola","Cricket","PTSDee","Lethal Weapon 5","Pop-Pop","Da Maniac","Gail the Snail","The Waitress","The Implication","Nightcrawlers","South Philly","Philadelphia Eagles","The Lawyer","Riggs the Cat","Egg Hunt","World's Greatest Boxer","Trash Man","Flip Flop","Danny DeVito","The Nightman Cometh","Bird Law"]
+    },
+    arrested: {
+      label: "Arrested Development",
+      cls: "arrested",
+      words: ["Banana Stand","There's Always Money in the Banana Stand","Chicken Dance","Steve Holt","Annyong","Her?","I've Made a Huge Mistake","Bluth Company","Frozen Banana","Gob's Magic Tricks","Segway","Cornballer","Motherboy","Never Nude","Hand to the Chicken","Franklin the Puppet","Tobias Fünke","Blue Man Group Audition","Light Treason","Bob Loblaw","Bob Loblaw's Law Blog","Egg? Ann?","The Model Home","Charlie Brown Shirt","Maeby's Fake Name","Come On!","I Just Blue Myself","The Stair Car","Lucille 2","Awesome","Gene Parmesan","Loose Seal","Balboa Towers","Illusion, Michael","Marry Me","Magician's Alliance","Skip's Scramble","Mock Trial with J. Reinhold","The Bluth Family Yacht","Fakeblock"]
+    },
+    office: {
+      label: "The Office",
+      cls: "office",
+      words: ["Dunder Mifflin","World's Best Boss","Schrute Farms","Bears, Beets, Battlestar Galactica","That's What She Said","Prison Mike","Threat Level Midnight","Fire Drill","The Dundies","Parkour","Assistant to the Regional Manager","Identity Theft","Kevin's Chili","Diversity Day","The Birthday Party","Michael Scott Paper Company","Booze Cruise","Casino Night","Jim's Pranks","Stapler in Jell-O","The Finer Things Club","Basketball Game","Golden Ticket","Nard Dog","Angela's Cats","Creed's Secrets","Party Planning Committee","Toby From HR","Scranton Strangler","Vance Refrigeration","Pretzel Day","The Office Olympics","Beet-Related Puns","Dwight's Bobblehead","The Alliance","Conference Room Meeting","Cece Halpert","Sensei Dwight","Merger with Sabre","Float Like a Spelling Bee Champion"]
+    },
+    avengers: {
+      label: "The Avengers",
+      cls: "avengers",
+      words: ["Iron Man","Captain America","Thor","Hulk","Black Widow","Hawkeye","Nick Fury","Loki","Vision","Scarlet Witch","Ant-Man","Spider-Man","Black Panther","Doctor Strange","Thanos","Infinity Gauntlet","Captain Marvel","Star-Lord","Groot","Rocket Raccoon","Gamora","War Machine","Falcon","Winter Soldier","Wakanda","Asgard","Mjolnir","Vibranium Shield","S.H.I.E.L.D.","Avengers Tower","Quinjet","Infinity Stones","Ultron","The Snap","Wanda Maximoff","Peter Parker","Tony Stark","Bruce Banner","Nebula","Shuri"]
+    },
+    batman: {
+      label: "Batman",
+      cls: "batman",
+      words: ["Batman","Bruce Wayne","The Joker","Batmobile","Gotham City","Robin","Alfred","Batcave","Commissioner Gordon","Harley Quinn","Catwoman","The Riddler","Two-Face","Bane","Penguin","Batarang","Bat-Signal","Wayne Manor","Arkham Asylum","The Dark Knight","Utility Belt","Batwing","Poison Ivy","Mr. Freeze","Ra's al Ghul","Scarecrow","Batgirl","Lucius Fox","Wayne Enterprises","The Batcomputer","Crime Alley","Nightwing","Clayface","Court of Owls","Joker's Laugh","Caped Crusader","Dark Knight Rises","Batsuit","Grappling Hook","Batmobile Chase"]
+    },
+    nfl: {
+      label: "NFL Teams",
+      cls: "nfl",
+      words: ["Arizona Cardinals","Atlanta Falcons","Baltimore Ravens","Buffalo Bills","Carolina Panthers","Chicago Bears","Cincinnati Bengals","Cleveland Browns","Dallas Cowboys","Denver Broncos","Detroit Lions","Green Bay Packers","Houston Texans","Indianapolis Colts","Jacksonville Jaguars","Kansas City Chiefs","Las Vegas Raiders","Los Angeles Chargers","Los Angeles Rams","Miami Dolphins","Minnesota Vikings","New England Patriots","New Orleans Saints","New York Giants","New York Jets","Philadelphia Eagles","Pittsburgh Steelers","San Francisco 49ers","Seattle Seahawks","Tampa Bay Buccaneers","Tennessee Titans","Washington Commanders"]
+    },
+    mlb: {
+      label: "MLB Teams",
+      cls: "mlb",
+      words: ["Arizona Diamondbacks","Atlanta Braves","Baltimore Orioles","Boston Red Sox","Chicago Cubs","Chicago White Sox","Cincinnati Reds","Cleveland Guardians","Colorado Rockies","Detroit Tigers","Houston Astros","Kansas City Royals","Los Angeles Angels","Los Angeles Dodgers","Miami Marlins","Milwaukee Brewers","Minnesota Twins","New York Mets","New York Yankees","Athletics","Philadelphia Phillies","Pittsburgh Pirates","San Diego Padres","San Francisco Giants","Seattle Mariners","St. Louis Cardinals","Tampa Bay Rays","Texas Rangers","Toronto Blue Jays","Washington Nationals"]
+    },
+    nhl: {
+      label: "NHL Teams",
+      cls: "nhl",
+      words: ["Anaheim Ducks","Boston Bruins","Buffalo Sabres","Calgary Flames","Carolina Hurricanes","Chicago Blackhawks","Colorado Avalanche","Columbus Blue Jackets","Dallas Stars","Detroit Red Wings","Edmonton Oilers","Florida Panthers","Los Angeles Kings","Minnesota Wild","Montreal Canadiens","Nashville Predators","New Jersey Devils","New York Islanders","New York Rangers","Ottawa Senators","Philadelphia Flyers","Pittsburgh Penguins","San Jose Sharks","Seattle Kraken","St. Louis Blues","Tampa Bay Lightning","Toronto Maple Leafs","Utah Mammoth","Vancouver Canucks","Vegas Golden Knights","Washington Capitals","Winnipeg Jets"]
+    },
+    girls: {
+      label: "Girls Night Out",
+      cls: "girls",
+      words: ["Karaoke","Wine Night","Spa Day","Brunch","Photo Booth","Bachelorette Party","Manicure","Girls Trip","Cocktail Hour","Dance Floor","Group Chat","Matching Pajamas","Face Masks","Rom-Com Marathon","Gossip Session","Shopping Spree","Selfie Stick","Mimosas","Book Club","Trivia Night","Dive Bar","Sleepover","Nail Polish","Prosecco","Statement Heels","Hair and Makeup","Bridal Shower","Photo Dump","Dance Party","Late Night Tacos","Uber Home","Bar Crawl","Confetti","Disco Ball","The Squad","Best Friends","Champagne Toast","Retail Therapy","Chick Flick","Sisterhood"]
+    },
+    boys: {
+      label: "Boys Night Out",
+      cls: "boys",
+      words: ["Poker Night","Wings and Beer","Sports Bar","Fantasy Football Draft","Cigars","Bachelor Party","Grilling","Video Game Tournament","Pool Table","Darts","Karaoke","Road Trip","Fishing Trip","Golf Outing","Barbecue","Beer Pong","Buffalo Wings","March Madness Bracket","Whiskey Tasting","Poker Chips","Arm Wrestling","Sports Jersey","Man Cave","Tailgate Party","Trivia Night","Bowling Night","Bar Crawl","Steakhouse","Fireworks","Cornhole","Bromance","Hunting Trip","Camping Trip","Dive Bar","High Fives","Wingman","Guys' Trip","Late Night Pizza","Chugging Contest","Buddy System"]
+    },
+    poppunk: {
+      label: "Pop Punk",
+      cls: "poppunk",
+      words: ["Blink-182","Green Day","Sum 41","Fall Out Boy","Paramore","My Chemical Romance","Good Charlotte","Simple Plan","All Time Low","New Found Glory","The Offspring","Yellowcard","Bowling for Soup","Avril Lavigne","Panic! At The Disco","A Day to Remember","Neck Deep","State Champs","5 Seconds of Summer","Machine Gun Kelly","Warped Tour","Skater Shoes","Studded Belt","Checkered Vans","Eyeliner","Snapback Hat","Band Tee","Mosh Pit","Power Chords","Three Chord Song","Emo Bangs","Guyliner","Pop Punk Anthem","Teenage Angst","Suburbia","Basement Show","Battle of the Bands","Skate Park","Wallet Chain","Hot Topic"]
+    },
+    mtv: {
+      label: "MTV",
+      cls: "mtv",
+      words: ["Total Request Live","MTV Video Music Awards","The Real World","Jersey Shore","Cribs","Pimp My Ride","Punk'd","Teen Mom","16 and Pregnant","Yo! MTV Raps","Beavis and Butt-Head","Daria","MTV Unplugged","Road Rules","The Hills","Laguna Beach","Making the Video","Ridiculousness","Catfish","Parental Control","My Super Sweet 16","Rob & Big","Jackass","Celebrity Deathmatch","Moon Person Award","VJ","Music Video Premiere","The Osbournes","Making the Band","Wild 'N Out","True Life","Video Killed the Radio Star","MTV Spring Break","Snooki","The Situation","Carson Daly","Behind the Music","Singled Out","Made","The Grind"]
+    },
+    greek: {
+      label: "Greek History",
+      cls: "greek",
+      words: ["Socrates","Plato","Aristotle","Alexander the Great","Sparta","Athens","The Parthenon","Trojan War","Olympic Games","Democracy","Homer's Odyssey","Zeus","Battle of Marathon","Battle of Thermopylae","The 300 Spartans","Peloponnesian War","Oracle of Delphi","Mount Olympus","Hippocrates","Pythagoras","Archimedes","Euclid","The Iliad","Minoan Civilization","Mycenae","The Agora","The Acropolis","Byzantine Empire","Alexander's Empire","Herodotus","Thucydides","Hellenistic Period","Greek City-States","Pheidippides","Colossus of Rhodes","The Trojan Horse","Golden Age of Pericles","Draco's Laws","Solon's Reforms","Cleisthenes"]
+    },
+    american: {
+      label: "American History",
+      cls: "american",
+      words: ["George Washington","Declaration of Independence","Boston Tea Party","American Revolution","Abraham Lincoln","The Civil War","Emancipation Proclamation","The Constitution","The Bill of Rights","Louisiana Purchase","Manifest Destiny","The Gold Rush","Industrial Revolution","The Great Depression","World War II","Pearl Harbor","D-Day","Civil Rights Movement","Underground Railroad","The Alamo","Gettysburg Address","Trail of Tears","Women's Suffrage","Prohibition","The Great Migration","Cold War","Space Race","Moon Landing","Watergate Scandal","Fall of the Berlin Wall","September 11th","The Pilgrims","The Mayflower","Founding Fathers","Statue of Liberty","Ellis Island","Wall Street Crash of 1929","Vietnam War","Lewis and Clark Expedition","Continental Congress"]
+    },
+    dumb: {
+      label: "Dumb and Dumber",
+      cls: "dumb",
+      words: ["Lloyd Christmas","Harry Dunne","The Mutt Cutts Van","Sea Bass","So You're Telling Me There's a Chance","Most Annoying Sound in the World","Briefcase Full of Money","Aspen, Colorado","Mary Swanson","Ear Muffs","Petey the Parakeet","Toilet Scene","Tuxedo Rental","Samsonite Luggage","Hitchhiking","Sea World","Chapstick and Salt","Turbo Lax","Pat Sajak","Wheel of Fortune","Snowmobile","Ski Lodge","Kick Me Sign","Bickering Brothers","Pea Soup","Big Gulp","Motorcycle Cop","Ring the Bell for Service","Roadkill","Scooter","Money Belt","Newlyweds Van","Frozen Tongue on Ski Lift","Fanny Pack","World's Best Cup of Coffee Mug","Rhode Island","Providence","Wheelchair-Bound Villain","Shaggin' Wagon","Orange Tuxedo"]
+    },
+    ace: {
+      label: "Ace Ventura",
+      cls: "ace",
+      words: ["Ace Ventura","Pet Detective","Alrighty Then","Spleen the Alpaca","Einhorn is Finkle","Finkle is Einhorn","Loo Loo Loo","Dolphin Named Snowflake","Miami Dolphins","Ray Finkle","Squirrel Impression","Talking Out of His Backside","Consuela","Woodstock the Bird","Shikaka","Pet Alligator","Rhino Costume","Renting a Room from Woody","Wachootoo Tribe","Wachati Tribe","Bat Cave Scene","Snapping Gum","Kicking Down the Door","Do Not Go In There","Turtle Neck Sweater","Loud Hawaiian Shirt","White Suit","Ace's Convertible","Detective Einhorn","Miss Finkle","Hair Flip","Talking to Animals","Squeaky Voice","Cheek Talking","Fake Mustache","Zebra Suit","Ventura's Apartment","Answering Machine Message","Parrot Sidekick","Pigeon-English Accent"]
+    },
+    mask: {
+      label: "The Mask",
+      cls: "mask",
+      words: ["Stanley Ipkiss","The Mask of Loki","Cuban Pete","Smokin'!","Somebody Stop Me!","Ssss-Smokin'","Green Face","Milo the Dog","Tina Carlyle","Big Bad Wolf","Zoot Suit","Tommy Gun Scene","Bank Robbery","Cartoon Physics","Yellow Zoot Suit","Cha-Cha-Cha","Coco Bongo Club","Dorian Tyrell","Police Chase","Tank Scene","Wolf Whistle","Eyes Popping Out","Heart Pounding Out of Chest","Green Mask","Norse Mythology","Trickster God","Edge City","Charlie the Coworker","Peggy Brandt","Lieutenant Kellaway","Milo's Superhero Cape","Mask Transformation","Sledgehammer Gag","Tuxedo Dance Number","Rocket Skates","Gun Twirling","Big Mouth Gag","Tex Avery Style","Animated Hijinks","Ipkiss's Bank Job"]
+    },
+    comedy90s: {
+      label: "90s Movie Comedies",
+      cls: "comedy90s",
+      words: ["Dumb and Dumber","Ace Ventura: Pet Detective","Ace Ventura: When Nature Calls","The Mask","Wayne's World","Wayne's World 2","Billy Madison","Happy Gilmore","Tommy Boy","Black Sheep","Austin Powers: International Man of Mystery","The Big Lebowski","Clueless","Home Alone","Home Alone 2: Lost in New York","Mrs. Doubtfire","Liar Liar","The Nutty Professor","Groundhog Day","The Wedding Singer","There's Something About Mary","American Pie","Office Space","Half Baked","Airheads","So I Married an Axe Murderer","Encino Man","Bio-Dome","PCU","Kingpin","Cool Runnings","Multiplicity","The Cable Guy","Robin Hood: Men in Tights","Hot Shots! Part Deux","Naked Gun 33⅓","Grumpy Old Men","Sister Act","My Cousin Vinny","City Slickers"]
     }
   };
 
@@ -508,25 +648,39 @@
 
   const motionStatusEl = document.getElementById("motion-status");
   const startRoundBtn = document.getElementById("btn-start-round");
-  const tryTiltBtn = document.getElementById("btn-try-tilt");
 
-  startRoundBtn.addEventListener("click", () => {
+  startRoundBtn.addEventListener("click", async () => {
+    lockLandscape();
+    startRoundBtn.disabled = true;
+    const granted = await requestMotionPermission();
+    startRoundBtn.disabled = false;
+    if (!granted) {
+      motionStatusEl.textContent = "Tilt isn't available here — use the ✓ / ✕ buttons instead.";
+    }
     startCountdown();
   });
 
-  tryTiltBtn.addEventListener("click", async () => {
-    tryTiltBtn.disabled = true;
-    tryTiltBtn.textContent = "Checking...";
-    const granted = await requestMotionPermission();
-    if (granted) {
-      motionStatusEl.textContent = "Tilt enabled — give it a shot alongside the buttons.";
-      tryTiltBtn.textContent = "Tilt enabled ✓";
-    } else {
-      motionStatusEl.textContent = "Tilt isn't available on this browser — the buttons work great on their own.";
-      tryTiltBtn.textContent = "Try tilt controls (experimental)";
-      tryTiltBtn.disabled = false;
-    }
-  });
+  function lockLandscape(){
+    try {
+      const el = document.documentElement;
+      const fsRequest = el.requestFullscreen ? el.requestFullscreen()
+        : el.webkitRequestFullscreen ? el.webkitRequestFullscreen()
+        : Promise.resolve();
+      const tryLock = () => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock("landscape").catch(() => {});
+        }
+      };
+      Promise.resolve(fsRequest).then(tryLock).catch(tryLock);
+    } catch(e) { /* orientation lock unsupported on this browser — game still works in portrait */ }
+  }
+
+  function unlockOrientation(){
+    try {
+      if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    } catch(e) { /* ignore */ }
+  }
 
   async function requestMotionPermission(){
     try {
@@ -732,12 +886,15 @@
   function endRound(){
     clearInterval(state.timerHandle);
     window.removeEventListener("deviceorientation", onTilt);
+    unlockOrientation();
     if (state.mode === "team") {
       state.teams[state.currentTeamIndex].total += state.score;
     }
     renderResults();
     show("screen-results");
   }
+
+  document.getElementById("btn-quit-round").addEventListener("click", endRound);
 
   /* ---------------- RESULTS ---------------- */
   const resultsTitle = document.getElementById("results-title");
