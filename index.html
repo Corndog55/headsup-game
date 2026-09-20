@@ -389,165 +389,90 @@
      Add more decks by adding a new key here with a color class
      (tv / animals / movies / celebs) and a words array. */
   const DECKS = {
-    tv: {
-      label: "TV Shows",
-      cls: "tv",
-      words: ["Friends","Seinfeld","The Office","Cheers","Frasier","Lost","Survivor","Jeopardy!","Wheel of Fortune","SpongeBob SquarePants","The Simpsons","South Park","Sesame Street","MythBusters","Shark Tank","American Idol","The Voice","Big Brother","The Bachelor","Dancing with the Stars","Breaking Bad","Grey's Anatomy","ER","M*A*S*H","I Love Lucy","The Twilight Zone","Scooby-Doo","Tom and Jerry","Power Rangers","Full House","Saved by the Bell","Gilligan's Island","The Price Is Right","Family Feud","America's Got Talent","American Ninja Warrior","Deal or No Deal","Antiques Roadshow","Wild Kratts","Jaws"]
-    },
-    animals: {
-      label: "Animals",
-      cls: "animals",
-      words: ["Elephant","Giraffe","Penguin","Kangaroo","Octopus","Platypus","Hedgehog","Flamingo","Cheetah","Sloth","Koala","Otter","Peacock","Raccoon","Chameleon","Armadillo","Walrus","Narwhal","Toucan","Jellyfish","Porcupine","Meerkat","Wombat","Alpaca","Hippopotamus","Rhinoceros","Beaver","Skunk","Ostrich","Pelican","Seahorse","Crab","Lobster","Firefly","Bumblebee","Ladybug","Owl","Bat","Squirrel","Dolphin"]
-    },
-    movies: {
-      label: "Movies",
-      cls: "movies",
-      words: ["Titanic","Inception","Frozen","Jurassic Park","The Matrix","Rocky","Gladiator","Toy Story","Shrek","Avatar","Casablanca","Psycho","Grease","Ghostbusters","Aladdin","Moana","Coco","Up","Cars","Finding Nemo","The Lion King","Star Wars","Jumanji","Elf","Home Alone","The Grinch","Twilight","Frankenstein","Dracula","Godzilla","King Kong","E.T.","Back to the Future","Ferris Bueller's Day Off","The Sandlot","Space Jam","The Goonies","Babe","Ratatouille","Rocky II"]
-    },
-    celebs: {
-      label: "Celebrities",
-      cls: "celebs",
-      words: ["Oprah Winfrey","Tom Hanks","Beyoncé","Elvis Presley","Marilyn Monroe","Albert Einstein","Michael Jordan","Serena Williams","Taylor Swift","Elton John","Meryl Streep","Will Smith","Dwayne Johnson","Jennifer Lawrence","Robin Williams","Charlie Chaplin","Walt Disney","Steve Jobs","Bill Gates","Abraham Lincoln","Cleopatra","Leonardo da Vinci","Mozart","William Shakespeare","Muhammad Ali","Babe Ruth","Amelia Earhart","Neil Armstrong","Martin Luther King Jr.","Rosa Parks","Bruce Lee","Jackie Chan","Betty White","Julia Child","Fred Rogers","Stan Lee","Walt Whitman","Vincent van Gogh","Pablo Picasso","Frida Kahlo"]
-    },
-    seinfeld: {
-      label: "Seinfeld",
-      cls: "seinfeld",
-      words: ["The Soup Nazi","Master of My Domain","Yada Yada Yada","Festivus","The Puffy Shirt","Junior Mint","Not That There's Anything Wrong With That","Close Talker","Low Talker","Man Hands","Shrinkage","Spongeworthy","Double-Dipping","Regifting","The Contest","Serenity Now","The Big Salad","Bizarro World","Newman","The Marble Rye","No Soup For You","Elaine's Dance","The Opposite","Vandelay Industries","Art Vandelay","The Bubble Boy","The Comeback","The Mango","Kramer's Entrance","The Hamptons","Sponge-Worthy Test","Pretzels Making Me Thirsty","The Armoire","The Rye","Assman","Del Boca Vista","Superman","Cigars in the Office","Peterman","The Chicken Roaster"]
-    },
-    adult: {
-      label: "Adult Supervision",
-      cls: "adult",
-      words: ["Netflix and Chill","Booty Call","One Night Stand","Skinny Dipping","Walk of Shame","Friends with Benefits","Speed Dating","Blind Date","Sexting","Awkward Boner","Bachelor Party","Bachelorette Party","Strip Poker","Lap Dance","Hot Tub Makeout","Third Wheel","Wingman","Player","Cougar","Sugar Daddy","Ghosting","Drunk Text","Morning After","Tinder Date","Pillow Talk","Love Bite","Cuddle Buddy","Spring Break","Hookup","Flirty Text","Man Candy","Eye Candy","Hot Mess","Party Foul","Truth or Dare","Seven Minutes in Heaven","Spin the Bottle","Sultry Look","Naughty List","Honeymoon Phase"]
-    },
-    cuisine: {
-      label: "Cuisine",
-      cls: "cuisine",
-      words: ["Sushi","Tacos","Pizza","Pasta","Curry","Dumplings","Paella","Ramen","Falafel","Kebab","Risotto","Gumbo","Ceviche","Poutine","Croissant","Baguette","Tempura","Pho","Bibimbap","Hummus","Guacamole","Empanada","Quiche","Lasagna","Moussaka","Goulash","Schnitzel","Tiramisu","Baklava","Churros","Fondue","Sashimi","Dim Sum","Biryani","Tandoori Chicken","Shawarma","Bruschetta","Gnocchi","Chowder","Jambalaya"]
+    y2k: {
+      label: "2000s",
+      cls: "y2k",
+      words: ["Y2K","iPod","MySpace","Flip Phone","Razr Phone","Low-Rise Jeans","Ugg Boots","Juicy Couture Tracksuit","Silly Bandz","Webkinz","Guitar Hero","Napster","LimeWire","Von Dutch Hat","Trucker Hat","Livestrong Bracelet","Emo Hair","MSN Messenger","Xbox 360","Nintendo Wii","Crocs","Bedazzled Jeans","Chain Wallet","Bratz Dolls","High School Musical","Side Ponytail","Polyphonic Ringtone","Text Speak","Club Penguin","Nintendo DS","Chunky Highlights","Skinny Jeans","Planking","Rickroll","Disposable Camera","BlackBerry","iPod Nano","Motorola Sidekick","Bejeweled","Myspace Top 8"]
     },
     nineties: {
       label: "90s",
       cls: "nineties",
       words: ["Tamagotchi","Beanie Babies","Dial-Up Internet","Walkman","Discman","Furby","Blockbuster Video","Grunge","Backstreet Boys","Spice Girls","Game Boy","Pogs","Slap Bracelet","Frosted Tips","Doc Martens","Brick Cell Phone","AOL Instant Messenger","Scrunchie","JNCO Jeans","Trapper Keeper","Lisa Frank","Rollerblades","Nirvana","Mixtape","VHS Tape","Floppy Disk","Chain Letter","Butterfly Clips","Gel Pens","Lava Lamp","Dunkaroos","Surge Soda","Crystal Pepsi","Hacky Sack","Koosh Ball","Gak","Full House Theme Song","Zubaz Pants","Fanny Pack","Overalls With One Strap Undone"]
     },
-    y2k: {
-      label: "2000s",
-      cls: "y2k",
-      words: ["Y2K","iPod","MySpace","Flip Phone","Razr Phone","Low-Rise Jeans","Ugg Boots","Juicy Couture Tracksuit","Silly Bandz","Webkinz","Guitar Hero","Napster","LimeWire","Von Dutch Hat","Trucker Hat","Livestrong Bracelet","Emo Hair","MSN Messenger","Xbox 360","Nintendo Wii","Crocs","Bedazzled Jeans","Chain Wallet","Bratz Dolls","High School Musical","Side Ponytail","Polyphonic Ringtone","Text Speak","Club Penguin","Nintendo DS","Chunky Highlights","Skinny Jeans","Planking","Rickroll","Disposable Camera","BlackBerry","iPod Nano","Motorola Sidekick","Bejeweled","Myspace Top 8"]
-    },
-    sunny: {
-      label: "Always Sunny",
-      cls: "sunny",
-      words: ["Paddy's Pub","The Gang","Nightman","Dayman","Kitten Mittons","Rum Ham","Milk Steak","Wildcard","Charlie Work","The D.E.N.N.I.S. System","Green Man","Troll Toll","Boyle Milk","The McPoyles","Gas Station Chili","Chardee MacDennis","Sweet Dee","Mac's Karate Moves","Frank's Wine Cellar","Wolf Cola","Cricket","PTSDee","Lethal Weapon 5","Pop-Pop","Da Maniac","Gail the Snail","The Waitress","The Implication","Nightcrawlers","South Philly","Philadelphia Eagles","The Lawyer","Riggs the Cat","Egg Hunt","World's Greatest Boxer","Trash Man","Flip Flop","Danny DeVito","The Nightman Cometh","Bird Law"]
-    },
-    arrested: {
-      label: "Arrested Development",
-      cls: "arrested",
-      words: ["Banana Stand","There's Always Money in the Banana Stand","Chicken Dance","Steve Holt","Annyong","Her?","I've Made a Huge Mistake","Bluth Company","Frozen Banana","Gob's Magic Tricks","Segway","Cornballer","Motherboy","Never Nude","Hand to the Chicken","Franklin the Puppet","Tobias Fünke","Blue Man Group Audition","Light Treason","Bob Loblaw","Bob Loblaw's Law Blog","Egg? Ann?","The Model Home","Charlie Brown Shirt","Maeby's Fake Name","Come On!","I Just Blue Myself","The Stair Car","Lucille 2","Awesome","Gene Parmesan","Loose Seal","Balboa Towers","Illusion, Michael","Marry Me","Magician's Alliance","Skip's Scramble","Mock Trial with J. Reinhold","The Bluth Family Yacht","Fakeblock"]
-    },
-    office: {
-      label: "The Office",
-      cls: "office",
-      words: ["Dunder Mifflin","World's Best Boss","Schrute Farms","Bears, Beets, Battlestar Galactica","That's What She Said","Prison Mike","Threat Level Midnight","Fire Drill","The Dundies","Parkour","Assistant to the Regional Manager","Identity Theft","Kevin's Chili","Diversity Day","The Birthday Party","Michael Scott Paper Company","Booze Cruise","Casino Night","Jim's Pranks","Stapler in Jell-O","The Finer Things Club","Basketball Game","Golden Ticket","Nard Dog","Angela's Cats","Creed's Secrets","Party Planning Committee","Toby From HR","Scranton Strangler","Vance Refrigeration","Pretzel Day","The Office Olympics","Beet-Related Puns","Dwight's Bobblehead","The Alliance","Conference Room Meeting","Cece Halpert","Sensei Dwight","Merger with Sabre","Float Like a Spelling Bee Champion"]
-    },
-    avengers: {
-      label: "The Avengers",
-      cls: "avengers",
-      words: ["Iron Man","Captain America","Thor","Hulk","Black Widow","Hawkeye","Nick Fury","Loki","Vision","Scarlet Witch","Ant-Man","Spider-Man","Black Panther","Doctor Strange","Thanos","Infinity Gauntlet","Captain Marvel","Star-Lord","Groot","Rocket Raccoon","Gamora","War Machine","Falcon","Winter Soldier","Wakanda","Asgard","Mjolnir","Vibranium Shield","S.H.I.E.L.D.","Avengers Tower","Quinjet","Infinity Stones","Ultron","The Snap","Wanda Maximoff","Peter Parker","Tony Stark","Bruce Banner","Nebula","Shuri"]
-    },
-    batman: {
-      label: "Batman",
-      cls: "batman",
-      words: ["Batman","Bruce Wayne","The Joker","Batmobile","Gotham City","Robin","Alfred","Batcave","Commissioner Gordon","Harley Quinn","Catwoman","The Riddler","Two-Face","Bane","Penguin","Batarang","Bat-Signal","Wayne Manor","Arkham Asylum","The Dark Knight","Utility Belt","Batwing","Poison Ivy","Mr. Freeze","Ra's al Ghul","Scarecrow","Batgirl","Lucius Fox","Wayne Enterprises","The Batcomputer","Crime Alley","Nightwing","Clayface","Court of Owls","Joker's Laugh","Caped Crusader","Dark Knight Rises","Batsuit","Grappling Hook","Batmobile Chase"]
-    },
-    nfl: {
-      label: "NFL Teams",
-      cls: "nfl",
-      words: ["Arizona Cardinals","Atlanta Falcons","Baltimore Ravens","Buffalo Bills","Carolina Panthers","Chicago Bears","Cincinnati Bengals","Cleveland Browns","Dallas Cowboys","Denver Broncos","Detroit Lions","Green Bay Packers","Houston Texans","Indianapolis Colts","Jacksonville Jaguars","Kansas City Chiefs","Las Vegas Raiders","Los Angeles Chargers","Los Angeles Rams","Miami Dolphins","Minnesota Vikings","New England Patriots","New Orleans Saints","New York Giants","New York Jets","Philadelphia Eagles","Pittsburgh Steelers","San Francisco 49ers","Seattle Seahawks","Tampa Bay Buccaneers","Tennessee Titans","Washington Commanders"]
-    },
-    mlb: {
-      label: "MLB Teams",
-      cls: "mlb",
-      words: ["Arizona Diamondbacks","Atlanta Braves","Baltimore Orioles","Boston Red Sox","Chicago Cubs","Chicago White Sox","Cincinnati Reds","Cleveland Guardians","Colorado Rockies","Detroit Tigers","Houston Astros","Kansas City Royals","Los Angeles Angels","Los Angeles Dodgers","Miami Marlins","Milwaukee Brewers","Minnesota Twins","New York Mets","New York Yankees","Athletics","Philadelphia Phillies","Pittsburgh Pirates","San Diego Padres","San Francisco Giants","Seattle Mariners","St. Louis Cardinals","Tampa Bay Rays","Texas Rangers","Toronto Blue Jays","Washington Nationals"]
-    },
-    nhl: {
-      label: "NHL Teams",
-      cls: "nhl",
-      words: ["Anaheim Ducks","Boston Bruins","Buffalo Sabres","Calgary Flames","Carolina Hurricanes","Chicago Blackhawks","Colorado Avalanche","Columbus Blue Jackets","Dallas Stars","Detroit Red Wings","Edmonton Oilers","Florida Panthers","Los Angeles Kings","Minnesota Wild","Montreal Canadiens","Nashville Predators","New Jersey Devils","New York Islanders","New York Rangers","Ottawa Senators","Philadelphia Flyers","Pittsburgh Penguins","San Jose Sharks","Seattle Kraken","St. Louis Blues","Tampa Bay Lightning","Toronto Maple Leafs","Utah Mammoth","Vancouver Canucks","Vegas Golden Knights","Washington Capitals","Winnipeg Jets"]
-    },
-    girls: {
-      label: "Girls Night Out",
-      cls: "girls",
-      words: ["Karaoke","Wine Night","Spa Day","Brunch","Photo Booth","Bachelorette Party","Manicure","Girls Trip","Cocktail Hour","Dance Floor","Group Chat","Matching Pajamas","Face Masks","Rom-Com Marathon","Gossip Session","Shopping Spree","Selfie Stick","Mimosas","Book Club","Trivia Night","Dive Bar","Sleepover","Nail Polish","Prosecco","Statement Heels","Hair and Makeup","Bridal Shower","Photo Dump","Dance Party","Late Night Tacos","Uber Home","Bar Crawl","Confetti","Disco Ball","The Squad","Best Friends","Champagne Toast","Retail Therapy","Chick Flick","Sisterhood"]
-    },
-    boys: {
-      label: "Boys Night Out",
-      cls: "boys",
-      words: ["Poker Night","Wings and Beer","Sports Bar","Fantasy Football Draft","Cigars","Bachelor Party","Grilling","Video Game Tournament","Pool Table","Darts","Karaoke","Road Trip","Fishing Trip","Golf Outing","Barbecue","Beer Pong","Buffalo Wings","March Madness Bracket","Whiskey Tasting","Poker Chips","Arm Wrestling","Sports Jersey","Man Cave","Tailgate Party","Trivia Night","Bowling Night","Bar Crawl","Steakhouse","Fireworks","Cornhole","Bromance","Hunting Trip","Camping Trip","Dive Bar","High Fives","Wingman","Guys' Trip","Late Night Pizza","Chugging Contest","Buddy System"]
-    },
-    poppunk: {
-      label: "Pop Punk",
-      cls: "poppunk",
-      words: ["Blink-182","Green Day","Sum 41","Fall Out Boy","Paramore","My Chemical Romance","Good Charlotte","Simple Plan","All Time Low","New Found Glory","The Offspring","Yellowcard","Bowling for Soup","Avril Lavigne","Panic! At The Disco","A Day to Remember","Neck Deep","State Champs","5 Seconds of Summer","Machine Gun Kelly","Warped Tour","Skater Shoes","Studded Belt","Checkered Vans","Eyeliner","Snapback Hat","Band Tee","Mosh Pit","Power Chords","Three Chord Song","Emo Bangs","Guyliner","Pop Punk Anthem","Teenage Angst","Suburbia","Basement Show","Battle of the Bands","Skate Park","Wallet Chain","Hot Topic"]
-    },
-    mtv: {
-      label: "MTV",
-      cls: "mtv",
-      words: ["Total Request Live","MTV Video Music Awards","The Real World","Jersey Shore","Cribs","Pimp My Ride","Punk'd","Teen Mom","16 and Pregnant","Yo! MTV Raps","Beavis and Butt-Head","Daria","MTV Unplugged","Road Rules","The Hills","Laguna Beach","Making the Video","Ridiculousness","Catfish","Parental Control","My Super Sweet 16","Rob & Big","Jackass","Celebrity Deathmatch","Moon Person Award","VJ","Music Video Premiere","The Osbournes","Making the Band","Wild 'N Out","True Life","Video Killed the Radio Star","MTV Spring Break","Snooki","The Situation","Carson Daly","Behind the Music","Singled Out","Made","The Grind"]
-    },
-    greek: {
-      label: "Greek History",
-      cls: "greek",
-      words: ["Socrates","Plato","Aristotle","Alexander the Great","Sparta","Athens","The Parthenon","Trojan War","Olympic Games","Democracy","Homer's Odyssey","Zeus","Battle of Marathon","Battle of Thermopylae","The 300 Spartans","Peloponnesian War","Oracle of Delphi","Mount Olympus","Hippocrates","Pythagoras","Archimedes","Euclid","The Iliad","Minoan Civilization","Mycenae","The Agora","The Acropolis","Byzantine Empire","Alexander's Empire","Herodotus","Thucydides","Hellenistic Period","Greek City-States","Pheidippides","Colossus of Rhodes","The Trojan Horse","Golden Age of Pericles","Draco's Laws","Solon's Reforms","Cleisthenes"]
-    },
-    american: {
-      label: "American History",
-      cls: "american",
-      words: ["George Washington","Declaration of Independence","Boston Tea Party","American Revolution","Abraham Lincoln","The Civil War","Emancipation Proclamation","The Constitution","The Bill of Rights","Louisiana Purchase","Manifest Destiny","The Gold Rush","Industrial Revolution","The Great Depression","World War II","Pearl Harbor","D-Day","Civil Rights Movement","Underground Railroad","The Alamo","Gettysburg Address","Trail of Tears","Women's Suffrage","Prohibition","The Great Migration","Cold War","Space Race","Moon Landing","Watergate Scandal","Fall of the Berlin Wall","September 11th","The Pilgrims","The Mayflower","Founding Fathers","Statue of Liberty","Ellis Island","Wall Street Crash of 1929","Vietnam War","Lewis and Clark Expedition","Continental Congress"]
-    },
-    dumb: {
-      label: "Dumb and Dumber",
-      cls: "dumb",
-      words: ["Lloyd Christmas","Harry Dunne","The Mutt Cutts Van","Sea Bass","So You're Telling Me There's a Chance","Most Annoying Sound in the World","Briefcase Full of Money","Aspen, Colorado","Mary Swanson","Ear Muffs","Petey the Parakeet","Toilet Scene","Tuxedo Rental","Samsonite Luggage","Hitchhiking","Sea World","Chapstick and Salt","Turbo Lax","Pat Sajak","Wheel of Fortune","Snowmobile","Ski Lodge","Kick Me Sign","Bickering Brothers","Pea Soup","Big Gulp","Motorcycle Cop","Ring the Bell for Service","Roadkill","Scooter","Money Belt","Newlyweds Van","Frozen Tongue on Ski Lift","Fanny Pack","World's Best Cup of Coffee Mug","Rhode Island","Providence","Wheelchair-Bound Villain","Shaggin' Wagon","Orange Tuxedo"]
+    comedy90s: {
+      label: "90s Movie Comedies",
+      cls: "comedy90s",
+      words: ["Dumb and Dumber","Ace Ventura: Pet Detective","Ace Ventura: When Nature Calls","The Mask","Wayne's World","Wayne's World 2","Billy Madison","Happy Gilmore","Tommy Boy","Black Sheep","Austin Powers: International Man of Mystery","The Big Lebowski","Clueless","Home Alone","Home Alone 2: Lost in New York","Mrs. Doubtfire","Liar Liar","The Nutty Professor","Groundhog Day","The Wedding Singer","There's Something About Mary","American Pie","Office Space","Half Baked","Airheads","So I Married an Axe Murderer","Encino Man","Bio-Dome","PCU","Kingpin","Cool Runnings","Multiplicity","The Cable Guy","Robin Hood: Men in Tights","Hot Shots! Part Deux","Naked Gun 33⅓","Grumpy Old Men","Sister Act","My Cousin Vinny","City Slickers"]
     },
     ace: {
       label: "Ace Ventura",
       cls: "ace",
       words: ["Ace Ventura","Pet Detective","Alrighty Then","Spleen the Alpaca","Einhorn is Finkle","Finkle is Einhorn","Loo Loo Loo","Dolphin Named Snowflake","Miami Dolphins","Ray Finkle","Squirrel Impression","Talking Out of His Backside","Consuela","Woodstock the Bird","Shikaka","Pet Alligator","Rhino Costume","Renting a Room from Woody","Wachootoo Tribe","Wachati Tribe","Bat Cave Scene","Snapping Gum","Kicking Down the Door","Do Not Go In There","Turtle Neck Sweater","Loud Hawaiian Shirt","White Suit","Ace's Convertible","Detective Einhorn","Miss Finkle","Hair Flip","Talking to Animals","Squeaky Voice","Cheek Talking","Fake Mustache","Zebra Suit","Ventura's Apartment","Answering Machine Message","Parrot Sidekick","Pigeon-English Accent"]
     },
-    mask: {
-      label: "The Mask",
-      cls: "mask",
-      words: ["Stanley Ipkiss","The Mask of Loki","Cuban Pete","Smokin'!","Somebody Stop Me!","Ssss-Smokin'","Green Face","Milo the Dog","Tina Carlyle","Big Bad Wolf","Zoot Suit","Tommy Gun Scene","Bank Robbery","Cartoon Physics","Yellow Zoot Suit","Cha-Cha-Cha","Coco Bongo Club","Dorian Tyrell","Police Chase","Tank Scene","Wolf Whistle","Eyes Popping Out","Heart Pounding Out of Chest","Green Mask","Norse Mythology","Trickster God","Edge City","Charlie the Coworker","Peggy Brandt","Lieutenant Kellaway","Milo's Superhero Cape","Mask Transformation","Sledgehammer Gag","Tuxedo Dance Number","Rocket Skates","Gun Twirling","Big Mouth Gag","Tex Avery Style","Animated Hijinks","Ipkiss's Bank Job"]
+    adult: {
+      label: "Adult Supervision",
+      cls: "adult",
+      words: ["Netflix and Chill","Booty Call","One Night Stand","Skinny Dipping","Walk of Shame","Friends with Benefits","Speed Dating","Blind Date","Sexting","Awkward Boner","Bachelor Party","Bachelorette Party","Strip Poker","Lap Dance","Hot Tub Makeout","Third Wheel","Wingman","Player","Cougar","Sugar Daddy","Ghosting","Drunk Text","Morning After","Tinder Date","Pillow Talk","Love Bite","Cuddle Buddy","Spring Break","Hookup","Flirty Text","Man Candy","Eye Candy","Hot Mess","Party Foul","Truth or Dare","Seven Minutes in Heaven","Spin the Bottle","Sultry Look","Naughty List","Honeymoon Phase"]
     },
-    comedy90s: {
-      label: "90s Movie Comedies",
-      cls: "comedy90s",
-      words: ["Dumb and Dumber","Ace Ventura: Pet Detective","Ace Ventura: When Nature Calls","The Mask","Wayne's World","Wayne's World 2","Billy Madison","Happy Gilmore","Tommy Boy","Black Sheep","Austin Powers: International Man of Mystery","The Big Lebowski","Clueless","Home Alone","Home Alone 2: Lost in New York","Mrs. Doubtfire","Liar Liar","The Nutty Professor","Groundhog Day","The Wedding Singer","There's Something About Mary","American Pie","Office Space","Half Baked","Airheads","So I Married an Axe Murderer","Encino Man","Bio-Dome","PCU","Kingpin","Cool Runnings","Multiplicity","The Cable Guy","Robin Hood: Men in Tights","Hot Shots! Part Deux","Naked Gun 33⅓","Grumpy Old Men","Sister Act","My Cousin Vinny","City Slickers"]
+    sunny: {
+      label: "Always Sunny",
+      cls: "sunny",
+      words: ["Paddy's Pub","The Gang","Nightman","Dayman","Kitten Mittons","Rum Ham","Milk Steak","Wildcard","Charlie Work","The D.E.N.N.I.S. System","Green Man","Troll Toll","Boyle Milk","The McPoyles","Gas Station Chili","Chardee MacDennis","Sweet Dee","Mac's Karate Moves","Frank's Wine Cellar","Wolf Cola","Cricket","PTSDee","Lethal Weapon 5","Pop-Pop","Da Maniac","Gail the Snail","The Waitress","The Implication","Nightcrawlers","South Philly","Philadelphia Eagles","The Lawyer","Riggs the Cat","Egg Hunt","World's Greatest Boxer","Trash Man","Flip Flop","Danny DeVito","The Nightman Cometh","Bird Law"]
     },
-    blink182: {
-      label: "Blink-182 Songs",
-      cls: "blink182",
-      words: ["All the Small Things","What's My Age Again?","Adam's Song","First Date","Dammit","I Miss You","Feeling This","Down","Stay Together for the Kids","The Rock Show","Man Overboard","Josie","Aliens Exist","Dysentery Gary","Reckless Abandon","Every Time I Look for You","Wasting Time","Not Now","Always","Bored to Death","She's Out of Her Mind","Left Alone","Ghost on the Dance Floor","Up All Night","After Midnight","Anthem","Anthem Part Two","Wendy Clear","Going Away to College","Family Reunion","Voyeur","Stockholm Syndrome","Violence","Happy Days","Edging","Fell in Love","One More Time","Toxic Positivity","Apple Shampoo","Los Angeles"]
+    american: {
+      label: "American History",
+      cls: "american",
+      words: ["George Washington","Declaration of Independence","Boston Tea Party","American Revolution","Abraham Lincoln","The Civil War","Emancipation Proclamation","The Constitution","The Bill of Rights","Louisiana Purchase","Manifest Destiny","The Gold Rush","Industrial Revolution","The Great Depression","World War II","Pearl Harbor","D-Day","Civil Rights Movement","Underground Railroad","The Alamo","Gettysburg Address","Trail of Tears","Women's Suffrage","Prohibition","The Great Migration","Cold War","Space Race","Moon Landing","Watergate Scandal","Fall of the Berlin Wall","September 11th","The Pilgrims","The Mayflower","Founding Fathers","Statue of Liberty","Ellis Island","Wall Street Crash of 1929","Vietnam War","Lewis and Clark Expedition","Continental Congress"]
     },
-    brands: {
-      label: "Brands",
-      cls: "brands",
-      words: ["Nike","Apple","Coca-Cola","McDonald's","Google","Amazon","Netflix","Disney","Starbucks","Adidas","Nintendo","Tesla","Samsung","Sony","Toyota","Ford","Pepsi","Walmart","Target","IKEA","LEGO","Spotify","Instagram","YouTube","Uber","Airbnb","FedEx","UPS","Visa","Mastercard","Levi's","Gucci","Chanel","Rolex","Harley-Davidson","Dunkin'","KFC","Subway","Oreo","Kleenex"]
+    animals: {
+      label: "Animals",
+      cls: "animals",
+      words: ["Elephant","Giraffe","Penguin","Kangaroo","Octopus","Platypus","Hedgehog","Flamingo","Cheetah","Sloth","Koala","Otter","Peacock","Raccoon","Chameleon","Armadillo","Walrus","Narwhal","Toucan","Jellyfish","Porcupine","Meerkat","Wombat","Alpaca","Hippopotamus","Rhinoceros","Beaver","Skunk","Ostrich","Pelican","Seahorse","Crab","Lobster","Firefly","Bumblebee","Ladybug","Owl","Bat","Squirrel","Dolphin"]
+    },
+    arrested: {
+      label: "Arrested Development",
+      cls: "arrested",
+      words: ["Banana Stand","There's Always Money in the Banana Stand","Chicken Dance","Steve Holt","Annyong","Her?","I've Made a Huge Mistake","Bluth Company","Frozen Banana","Gob's Magic Tricks","Segway","Cornballer","Motherboy","Never Nude","Hand to the Chicken","Franklin the Puppet","Tobias Fünke","Blue Man Group Audition","Light Treason","Bob Loblaw","Bob Loblaw's Law Blog","Egg? Ann?","The Model Home","Charlie Brown Shirt","Maeby's Fake Name","Come On!","I Just Blue Myself","The Stair Car","Lucille 2","Awesome","Gene Parmesan","Loose Seal","Balboa Towers","Illusion, Michael","Marry Me","Magician's Alliance","Skip's Scramble","Mock Trial with J. Reinhold","The Bluth Family Yacht","Fakeblock"]
+    },
+    arsenio: {
+      label: "Arsenio Hall Show Guests",
+      cls: "arsenio",
+      words: ["Bill Clinton","Eddie Murphy","Magic Johnson","Public Enemy","Tupac Shakur","Louis Farrakhan","Paula Abdul","Muhammad Ali","Mary-Kate and Ashley Olsen","Prince","Dan Rather","Spike Lee","Bill Cosby","Mike Tyson","Evander Holyfield","Brooke Shields","Leslie Nielsen","Luther Vandross","Ice Cube","Mac Miller","Nas","Kendrick Lamar","Russell Simmons","Big Sean","2 Chainz","Nick Cannon","Chris Tucker","Lisa Kudrow","George Lopez","Mark Harmon","Penn & Teller","Earth, Wind & Fire","Angela Bassett","Ice-T","Dr. Dre","Eazy-E","Snoop Dogg","LL Cool J","Wu-Tang Clan","Sinbad"]
     },
     spanish: {
       label: "Basic Spanish",
       cls: "spanish",
       words: ["Hola","Gracias","Por Favor","Buenos Días","Buenas Noches","Amigo","Familia","Casa","Agua","Comida","Perro","Gato","Sol","Luna","Playa","Fiesta","Baile","Música","Trabajo","Escuela","Libro","Coche","Ciudad","País","Mar","Montaña","Cielo","Corazón","Amor","Feliz","Triste","Grande","Pequeño","Rápido","Lento","Rojo","Azul","Verde","Cerveza","Mañana"]
     },
-    twss: {
-      label: "That's What She Said",
-      cls: "twss",
-      words: ["It's Bigger Than I Expected","I Didn't Think It Would Fit","That's What I'm Talking About","I Need Two Hands For This","It's So Much Bigger In Person","I've Never Seen One This Size","Give It To Me Slow","That Was Longer Than I Thought","I Can Barely Handle It","It Just Slipped Right In","Go Easy On Me","That's A Tight Squeeze","I Need A Minute To Catch My Breath","It Feels Better Than Last Time","Push It In Further","That's The Spot","It's Hard To Get A Grip","This Is My First Time With One This Big","I'm Getting Tired Already","Just A Little More","That Really Filled Me Up","Slow And Steady Wins","It's Bigger Than My Hand","I Need To Stretch First","That's Deep","Keep Going, Don't Stop","It's Too Big To Handle Alone","I Like A Firm Grip","That Was Intense","It Took A While To Get It In","Let's Do That Again","I Wasn't Ready For That","It's Been A While Since I've Done This","That's Impressive","I'm Out Of Practice","It's Bigger Than My Expectations","That Escalated Quickly","I Need A Bigger One","This Is Harder Than It Looks"]
+    batman: {
+      label: "Batman",
+      cls: "batman",
+      words: ["Batman","Bruce Wayne","The Joker","Batmobile","Gotham City","Robin","Alfred","Batcave","Commissioner Gordon","Harley Quinn","Catwoman","The Riddler","Two-Face","Bane","Penguin","Batarang","Bat-Signal","Wayne Manor","Arkham Asylum","The Dark Knight","Utility Belt","Batwing","Poison Ivy","Mr. Freeze","Ra's al Ghul","Scarecrow","Batgirl","Lucius Fox","Wayne Enterprises","The Batcomputer","Crime Alley","Nightwing","Clayface","Court of Owls","Joker's Laugh","Caped Crusader","Dark Knight Rises","Batsuit","Grappling Hook","Batmobile Chase"]
     },
-    arsenio: {
-      label: "Arsenio Hall Show Guests",
-      cls: "arsenio",
-      words: ["Bill Clinton","Eddie Murphy","Magic Johnson","Public Enemy","Tupac Shakur","Louis Farrakhan","Paula Abdul","Muhammad Ali","Mary-Kate and Ashley Olsen","Prince","Dan Rather","Spike Lee","Bill Cosby","Mike Tyson","Evander Holyfield","Brooke Shields","Leslie Nielsen","Luther Vandross","Ice Cube","Mac Miller","Nas","Kendrick Lamar","Russell Simmons","Big Sean","2 Chainz","Nick Cannon","Chris Tucker","Lisa Kudrow","George Lopez","Mark Harmon","Penn & Teller","Earth, Wind & Fire","Angela Bassett","Ice-T","Dr. Dre","Eazy-E","Snoop Dogg","LL Cool J","Wu-Tang Clan","Sinbad"]
+    blink182: {
+      label: "Blink-182 Songs",
+      cls: "blink182",
+      words: ["All the Small Things","What's My Age Again?","Adam's Song","First Date","Dammit","I Miss You","Feeling This","Down","Stay Together for the Kids","The Rock Show","Man Overboard","Josie","Aliens Exist","Dysentery Gary","Reckless Abandon","Every Time I Look for You","Wasting Time","Not Now","Always","Bored to Death","She's Out of Her Mind","Left Alone","Ghost on the Dance Floor","Up All Night","After Midnight","Anthem","Anthem Part Two","Wendy Clear","Going Away to College","Family Reunion","Voyeur","Stockholm Syndrome","Violence","Happy Days","Edging","Fell in Love","One More Time","Toxic Positivity","Apple Shampoo","Los Angeles"]
+    },
+    boys: {
+      label: "Boys Night Out",
+      cls: "boys",
+      words: ["Poker Night","Wings and Beer","Sports Bar","Fantasy Football Draft","Cigars","Bachelor Party","Grilling","Video Game Tournament","Pool Table","Darts","Karaoke","Road Trip","Fishing Trip","Golf Outing","Barbecue","Beer Pong","Buffalo Wings","March Madness Bracket","Whiskey Tasting","Poker Chips","Arm Wrestling","Sports Jersey","Man Cave","Tailgate Party","Trivia Night","Bowling Night","Bar Crawl","Steakhouse","Fireworks","Cornhole","Bromance","Hunting Trip","Camping Trip","Dive Bar","High Fives","Wingman","Guys' Trip","Late Night Pizza","Chugging Contest","Buddy System"]
+    },
+    brands: {
+      label: "Brands",
+      cls: "brands",
+      words: ["Nike","Apple","Coca-Cola","McDonald's","Google","Amazon","Netflix","Disney","Starbucks","Adidas","Nintendo","Tesla","Samsung","Sony","Toyota","Ford","Pepsi","Walmart","Target","IKEA","LEGO","Spotify","Instagram","YouTube","Uber","Airbnb","FedEx","UPS","Visa","Mastercard","Levi's","Gucci","Chanel","Rolex","Harley-Davidson","Dunkin'","KFC","Subway","Oreo","Kleenex"]
+    },
+    celebs: {
+      label: "Celebrities",
+      cls: "celebs",
+      words: ["Oprah Winfrey","Tom Hanks","Beyoncé","Elvis Presley","Marilyn Monroe","Albert Einstein","Michael Jordan","Serena Williams","Taylor Swift","Elton John","Meryl Streep","Will Smith","Dwayne Johnson","Jennifer Lawrence","Robin Williams","Charlie Chaplin","Walt Disney","Steve Jobs","Bill Gates","Abraham Lincoln","Cleopatra","Leonardo da Vinci","Mozart","William Shakespeare","Muhammad Ali","Babe Ruth","Amelia Earhart","Neil Armstrong","Martin Luther King Jr.","Rosa Parks","Bruce Lee","Jackie Chan","Betty White","Julia Child","Fred Rogers","Stan Lee","Walt Whitman","Vincent van Gogh","Pablo Picasso","Frida Kahlo"]
+    },
+    cuisine: {
+      label: "Cuisine",
+      cls: "cuisine",
+      words: ["Sushi","Tacos","Pizza","Pasta","Curry","Dumplings","Paella","Ramen","Falafel","Kebab","Risotto","Gumbo","Ceviche","Poutine","Croissant","Baguette","Tempura","Pho","Bibimbap","Hummus","Guacamole","Empanada","Quiche","Lasagna","Moussaka","Goulash","Schnitzel","Tiramisu","Baklava","Churros","Fondue","Sashimi","Dim Sum","Biryani","Tandoori Chicken","Shawarma","Bruschetta","Gnocchi","Chowder","Jambalaya"]
     },
     dadjokes: {
       label: "Dad Joke Punchlines",
@@ -558,6 +483,81 @@
       label: "Dad Joke Setups",
       cls: "dadsetup",
       words: ["Why don't scientists trust atoms?","Why did the scarecrow win an award?","What do you call a fish with no eyes?","Why don't eggs tell jokes?","What do you call a bear with no teeth?","Why did the bicycle fall over?","What do you call cheese that isn't yours?","Why can't you give Elsa a balloon?","What do you call a fake noodle?","Why did the coffee file a police report?","What do you call a can opener that doesn't work?","Why did the golfer bring two pairs of pants?","What do you call a dinosaur that crashes his car?","Why don't oysters share?","What do you call a sleeping bull?","Why did the math book look sad?","What did the ocean say to the beach?","Why did the tomato turn red?","What do you call a pile of cats?","Why don't skeletons fight each other?","What do you call an alligator in a vest?","Why did the cookie go to the doctor?","What do you call a boomerang that won't come back?","Why did the stadium get hot after the game?","What do you call a factory that makes okay products?","Why did the chicken join a band?","What do you call a snowman with a six pack?","Why did the belt get arrested?","What do you call a fish wearing a bowtie?","Why don't scientists trust stairs?","What do you call a cow with no legs?","Why did the picture go to jail?","What do you call a lazy kangaroo?","Why did the smartphone need glasses?","What do you call two birds in love?","Why did the barber win the race?","What do you call a pig that does karate?","Why did the gym close down?","What do you call a dog magician?","Why did the banana go to the doctor?"]
+    },
+    dumb: {
+      label: "Dumb and Dumber",
+      cls: "dumb",
+      words: ["Lloyd Christmas","Harry Dunne","The Mutt Cutts Van","Sea Bass","So You're Telling Me There's a Chance","Most Annoying Sound in the World","Briefcase Full of Money","Aspen, Colorado","Mary Swanson","Ear Muffs","Petey the Parakeet","Toilet Scene","Tuxedo Rental","Samsonite Luggage","Hitchhiking","Sea World","Chapstick and Salt","Turbo Lax","Pat Sajak","Wheel of Fortune","Snowmobile","Ski Lodge","Kick Me Sign","Bickering Brothers","Pea Soup","Big Gulp","Motorcycle Cop","Ring the Bell for Service","Roadkill","Scooter","Money Belt","Newlyweds Van","Frozen Tongue on Ski Lift","Fanny Pack","World's Best Cup of Coffee Mug","Rhode Island","Providence","Wheelchair-Bound Villain","Shaggin' Wagon","Orange Tuxedo"]
+    },
+    girls: {
+      label: "Girls Night Out",
+      cls: "girls",
+      words: ["Karaoke","Wine Night","Spa Day","Brunch","Photo Booth","Bachelorette Party","Manicure","Girls Trip","Cocktail Hour","Dance Floor","Group Chat","Matching Pajamas","Face Masks","Rom-Com Marathon","Gossip Session","Shopping Spree","Selfie Stick","Mimosas","Book Club","Trivia Night","Dive Bar","Sleepover","Nail Polish","Prosecco","Statement Heels","Hair and Makeup","Bridal Shower","Photo Dump","Dance Party","Late Night Tacos","Uber Home","Bar Crawl","Confetti","Disco Ball","The Squad","Best Friends","Champagne Toast","Retail Therapy","Chick Flick","Sisterhood"]
+    },
+    greek: {
+      label: "Greek History",
+      cls: "greek",
+      words: ["Socrates","Plato","Aristotle","Alexander the Great","Sparta","Athens","The Parthenon","Trojan War","Olympic Games","Democracy","Homer's Odyssey","Zeus","Battle of Marathon","Battle of Thermopylae","The 300 Spartans","Peloponnesian War","Oracle of Delphi","Mount Olympus","Hippocrates","Pythagoras","Archimedes","Euclid","The Iliad","Minoan Civilization","Mycenae","The Agora","The Acropolis","Byzantine Empire","Alexander's Empire","Herodotus","Thucydides","Hellenistic Period","Greek City-States","Pheidippides","Colossus of Rhodes","The Trojan Horse","Golden Age of Pericles","Draco's Laws","Solon's Reforms","Cleisthenes"]
+    },
+    mlb: {
+      label: "MLB Teams",
+      cls: "mlb",
+      words: ["Arizona Diamondbacks","Atlanta Braves","Baltimore Orioles","Boston Red Sox","Chicago Cubs","Chicago White Sox","Cincinnati Reds","Cleveland Guardians","Colorado Rockies","Detroit Tigers","Houston Astros","Kansas City Royals","Los Angeles Angels","Los Angeles Dodgers","Miami Marlins","Milwaukee Brewers","Minnesota Twins","New York Mets","New York Yankees","Athletics","Philadelphia Phillies","Pittsburgh Pirates","San Diego Padres","San Francisco Giants","Seattle Mariners","St. Louis Cardinals","Tampa Bay Rays","Texas Rangers","Toronto Blue Jays","Washington Nationals"]
+    },
+    movies: {
+      label: "Movies",
+      cls: "movies",
+      words: ["Titanic","Inception","Frozen","Jurassic Park","The Matrix","Rocky","Gladiator","Toy Story","Shrek","Avatar","Casablanca","Psycho","Grease","Ghostbusters","Aladdin","Moana","Coco","Up","Cars","Finding Nemo","The Lion King","Star Wars","Jumanji","Elf","Home Alone","The Grinch","Twilight","Frankenstein","Dracula","Godzilla","King Kong","E.T.","Back to the Future","Ferris Bueller's Day Off","The Sandlot","Space Jam","The Goonies","Babe","Ratatouille","Rocky II"]
+    },
+    mtv: {
+      label: "MTV",
+      cls: "mtv",
+      words: ["Total Request Live","MTV Video Music Awards","The Real World","Jersey Shore","Cribs","Pimp My Ride","Punk'd","Teen Mom","16 and Pregnant","Yo! MTV Raps","Beavis and Butt-Head","Daria","MTV Unplugged","Road Rules","The Hills","Laguna Beach","Making the Video","Ridiculousness","Catfish","Parental Control","My Super Sweet 16","Rob & Big","Jackass","Celebrity Deathmatch","Moon Person Award","VJ","Music Video Premiere","The Osbournes","Making the Band","Wild 'N Out","True Life","Video Killed the Radio Star","MTV Spring Break","Snooki","The Situation","Carson Daly","Behind the Music","Singled Out","Made","The Grind"]
+    },
+    nfl: {
+      label: "NFL Teams",
+      cls: "nfl",
+      words: ["Arizona Cardinals","Atlanta Falcons","Baltimore Ravens","Buffalo Bills","Carolina Panthers","Chicago Bears","Cincinnati Bengals","Cleveland Browns","Dallas Cowboys","Denver Broncos","Detroit Lions","Green Bay Packers","Houston Texans","Indianapolis Colts","Jacksonville Jaguars","Kansas City Chiefs","Las Vegas Raiders","Los Angeles Chargers","Los Angeles Rams","Miami Dolphins","Minnesota Vikings","New England Patriots","New Orleans Saints","New York Giants","New York Jets","Philadelphia Eagles","Pittsburgh Steelers","San Francisco 49ers","Seattle Seahawks","Tampa Bay Buccaneers","Tennessee Titans","Washington Commanders"]
+    },
+    nhl: {
+      label: "NHL Teams",
+      cls: "nhl",
+      words: ["Anaheim Ducks","Boston Bruins","Buffalo Sabres","Calgary Flames","Carolina Hurricanes","Chicago Blackhawks","Colorado Avalanche","Columbus Blue Jackets","Dallas Stars","Detroit Red Wings","Edmonton Oilers","Florida Panthers","Los Angeles Kings","Minnesota Wild","Montreal Canadiens","Nashville Predators","New Jersey Devils","New York Islanders","New York Rangers","Ottawa Senators","Philadelphia Flyers","Pittsburgh Penguins","San Jose Sharks","Seattle Kraken","St. Louis Blues","Tampa Bay Lightning","Toronto Maple Leafs","Utah Mammoth","Vancouver Canucks","Vegas Golden Knights","Washington Capitals","Winnipeg Jets"]
+    },
+    poppunk: {
+      label: "Pop Punk",
+      cls: "poppunk",
+      words: ["Blink-182","Green Day","Sum 41","Fall Out Boy","Paramore","My Chemical Romance","Good Charlotte","Simple Plan","All Time Low","New Found Glory","The Offspring","Yellowcard","Bowling for Soup","Avril Lavigne","Panic! At The Disco","A Day to Remember","Neck Deep","State Champs","5 Seconds of Summer","Machine Gun Kelly","Warped Tour","Skater Shoes","Studded Belt","Checkered Vans","Eyeliner","Snapback Hat","Band Tee","Mosh Pit","Power Chords","Three Chord Song","Emo Bangs","Guyliner","Pop Punk Anthem","Teenage Angst","Suburbia","Basement Show","Battle of the Bands","Skate Park","Wallet Chain","Hot Topic"]
+    },
+    seinfeld: {
+      label: "Seinfeld",
+      cls: "seinfeld",
+      words: ["The Soup Nazi","Master of My Domain","Yada Yada Yada","Festivus","The Puffy Shirt","Junior Mint","Not That There's Anything Wrong With That","Close Talker","Low Talker","Man Hands","Shrinkage","Spongeworthy","Double-Dipping","Regifting","The Contest","Serenity Now","The Big Salad","Bizarro World","Newman","The Marble Rye","No Soup For You","Elaine's Dance","The Opposite","Vandelay Industries","Art Vandelay","The Bubble Boy","The Comeback","The Mango","Kramer's Entrance","The Hamptons","Sponge-Worthy Test","Pretzels Making Me Thirsty","The Armoire","The Rye","Assman","Del Boca Vista","Superman","Cigars in the Office","Peterman","The Chicken Roaster"]
+    },
+    twss: {
+      label: "That's What She Said",
+      cls: "twss",
+      words: ["It's Bigger Than I Expected","I Didn't Think It Would Fit","That's What I'm Talking About","I Need Two Hands For This","It's So Much Bigger In Person","I've Never Seen One This Size","Give It To Me Slow","That Was Longer Than I Thought","I Can Barely Handle It","It Just Slipped Right In","Go Easy On Me","That's A Tight Squeeze","I Need A Minute To Catch My Breath","It Feels Better Than Last Time","Push It In Further","That's The Spot","It's Hard To Get A Grip","This Is My First Time With One This Big","I'm Getting Tired Already","Just A Little More","That Really Filled Me Up","Slow And Steady Wins","It's Bigger Than My Hand","I Need To Stretch First","That's Deep","Keep Going, Don't Stop","It's Too Big To Handle Alone","I Like A Firm Grip","That Was Intense","It Took A While To Get It In","Let's Do That Again","I Wasn't Ready For That","It's Been A While Since I've Done This","That's Impressive","I'm Out Of Practice","It's Bigger Than My Expectations","That Escalated Quickly","I Need A Bigger One","This Is Harder Than It Looks"]
+    },
+    avengers: {
+      label: "The Avengers",
+      cls: "avengers",
+      words: ["Iron Man","Captain America","Thor","Hulk","Black Widow","Hawkeye","Nick Fury","Loki","Vision","Scarlet Witch","Ant-Man","Spider-Man","Black Panther","Doctor Strange","Thanos","Infinity Gauntlet","Captain Marvel","Star-Lord","Groot","Rocket Raccoon","Gamora","War Machine","Falcon","Winter Soldier","Wakanda","Asgard","Mjolnir","Vibranium Shield","S.H.I.E.L.D.","Avengers Tower","Quinjet","Infinity Stones","Ultron","The Snap","Wanda Maximoff","Peter Parker","Tony Stark","Bruce Banner","Nebula","Shuri"]
+    },
+    mask: {
+      label: "The Mask",
+      cls: "mask",
+      words: ["Stanley Ipkiss","The Mask of Loki","Cuban Pete","Smokin'!","Somebody Stop Me!","Ssss-Smokin'","Green Face","Milo the Dog","Tina Carlyle","Big Bad Wolf","Zoot Suit","Tommy Gun Scene","Bank Robbery","Cartoon Physics","Yellow Zoot Suit","Cha-Cha-Cha","Coco Bongo Club","Dorian Tyrell","Police Chase","Tank Scene","Wolf Whistle","Eyes Popping Out","Heart Pounding Out of Chest","Green Mask","Norse Mythology","Trickster God","Edge City","Charlie the Coworker","Peggy Brandt","Lieutenant Kellaway","Milo's Superhero Cape","Mask Transformation","Sledgehammer Gag","Tuxedo Dance Number","Rocket Skates","Gun Twirling","Big Mouth Gag","Tex Avery Style","Animated Hijinks","Ipkiss's Bank Job"]
+    },
+    office: {
+      label: "The Office",
+      cls: "office",
+      words: ["Dunder Mifflin","World's Best Boss","Schrute Farms","Bears, Beets, Battlestar Galactica","That's What She Said","Prison Mike","Threat Level Midnight","Fire Drill","The Dundies","Parkour","Assistant to the Regional Manager","Identity Theft","Kevin's Chili","Diversity Day","The Birthday Party","Michael Scott Paper Company","Booze Cruise","Casino Night","Jim's Pranks","Stapler in Jell-O","The Finer Things Club","Basketball Game","Golden Ticket","Nard Dog","Angela's Cats","Creed's Secrets","Party Planning Committee","Toby From HR","Scranton Strangler","Vance Refrigeration","Pretzel Day","The Office Olympics","Beet-Related Puns","Dwight's Bobblehead","The Alliance","Conference Room Meeting","Cece Halpert","Sensei Dwight","Merger with Sabre","Float Like a Spelling Bee Champion"]
+    },
+    tv: {
+      label: "TV Shows",
+      cls: "tv",
+      words: ["Friends","Seinfeld","The Office","Cheers","Frasier","Lost","Survivor","Jeopardy!","Wheel of Fortune","SpongeBob SquarePants","The Simpsons","South Park","Sesame Street","MythBusters","Shark Tank","American Idol","The Voice","Big Brother","The Bachelor","Dancing with the Stars","Breaking Bad","Grey's Anatomy","ER","M*A*S*H","I Love Lucy","The Twilight Zone","Scooby-Doo","Tom and Jerry","Power Rangers","Full House","Saved by the Bell","Gilligan's Island","The Price Is Right","Family Feud","America's Got Talent","American Ninja Warrior","Deal or No Deal","Antiques Roadshow","Wild Kratts","Jaws"]
     }
   };
 
