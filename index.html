@@ -650,7 +650,6 @@
   const startRoundBtn = document.getElementById("btn-start-round");
 
   startRoundBtn.addEventListener("click", async () => {
-    lockLandscape();
     startRoundBtn.disabled = true;
     const granted = await requestMotionPermission();
     startRoundBtn.disabled = false;
@@ -659,28 +658,6 @@
     }
     startCountdown();
   });
-
-  function lockLandscape(){
-    try {
-      const el = document.documentElement;
-      const fsRequest = el.requestFullscreen ? el.requestFullscreen()
-        : el.webkitRequestFullscreen ? el.webkitRequestFullscreen()
-        : Promise.resolve();
-      const tryLock = () => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock("landscape").catch(() => {});
-        }
-      };
-      Promise.resolve(fsRequest).then(tryLock).catch(tryLock);
-    } catch(e) { /* orientation lock unsupported on this browser — game still works in portrait */ }
-  }
-
-  function unlockOrientation(){
-    try {
-      if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
-      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
-    } catch(e) { /* ignore */ }
-  }
 
   async function requestMotionPermission(){
     try {
@@ -886,7 +863,6 @@
   function endRound(){
     clearInterval(state.timerHandle);
     window.removeEventListener("deviceorientation", onTilt);
-    unlockOrientation();
     if (state.mode === "team") {
       state.teams[state.currentTeamIndex].total += state.score;
     }
