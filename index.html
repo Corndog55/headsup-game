@@ -43,6 +43,12 @@
     --mask: #39FF14;
     --comedy90s: #00C2CB;
     --blink182: #FF3EA5;
+    --brands: #457B9D;
+    --spanish: #E76F51;
+    --twss: #D00000;
+    --arsenio: #3A0CA3;
+    --dadjokes: #52B788;
+    --dadsetup: #F4A261;
     --teal: #33D6B0;
     --lime: #A8E063;
     --text: #F5F2FF;
@@ -150,6 +156,12 @@
   .deck-chip.mask { background: var(--mask); color: var(--ink); }
   .deck-chip.comedy90s { background: var(--comedy90s); color: var(--ink); }
   .deck-chip.blink182 { background: var(--blink182); color: var(--ink); }
+  .deck-chip.brands { background: var(--brands); color: var(--text); }
+  .deck-chip.spanish { background: var(--spanish); color: var(--ink); }
+  .deck-chip.twss { background: var(--twss); color: var(--text); }
+  .deck-chip.arsenio { background: var(--arsenio); color: var(--text); }
+  .deck-chip.dadjokes { background: var(--dadjokes); color: var(--ink); }
+  .deck-chip.dadsetup { background: var(--dadsetup); color: var(--ink); }
   .deck-chip .check {
     position: absolute; top: 6px; right: 6px;
     width: 17px; height: 17px; border-radius: 50%;
@@ -516,6 +528,36 @@
       label: "Blink-182 Songs",
       cls: "blink182",
       words: ["All the Small Things","What's My Age Again?","Adam's Song","First Date","Dammit","I Miss You","Feeling This","Down","Stay Together for the Kids","The Rock Show","Man Overboard","Josie","Aliens Exist","Dysentery Gary","Reckless Abandon","Every Time I Look for You","Wasting Time","Not Now","Always","Bored to Death","She's Out of Her Mind","Left Alone","Ghost on the Dance Floor","Up All Night","After Midnight","Anthem","Anthem Part Two","Wendy Clear","Going Away to College","Family Reunion","Voyeur","Stockholm Syndrome","Violence","Happy Days","Edging","Fell in Love","One More Time","Toxic Positivity","Apple Shampoo","Los Angeles"]
+    },
+    brands: {
+      label: "Brands",
+      cls: "brands",
+      words: ["Nike","Apple","Coca-Cola","McDonald's","Google","Amazon","Netflix","Disney","Starbucks","Adidas","Nintendo","Tesla","Samsung","Sony","Toyota","Ford","Pepsi","Walmart","Target","IKEA","LEGO","Spotify","Instagram","YouTube","Uber","Airbnb","FedEx","UPS","Visa","Mastercard","Levi's","Gucci","Chanel","Rolex","Harley-Davidson","Dunkin'","KFC","Subway","Oreo","Kleenex"]
+    },
+    spanish: {
+      label: "Basic Spanish",
+      cls: "spanish",
+      words: ["Hola","Gracias","Por Favor","Buenos Días","Buenas Noches","Amigo","Familia","Casa","Agua","Comida","Perro","Gato","Sol","Luna","Playa","Fiesta","Baile","Música","Trabajo","Escuela","Libro","Coche","Ciudad","País","Mar","Montaña","Cielo","Corazón","Amor","Feliz","Triste","Grande","Pequeño","Rápido","Lento","Rojo","Azul","Verde","Cerveza","Mañana"]
+    },
+    twss: {
+      label: "That's What She Said",
+      cls: "twss",
+      words: ["It's Bigger Than I Expected","I Didn't Think It Would Fit","That's What I'm Talking About","I Need Two Hands For This","It's So Much Bigger In Person","I've Never Seen One This Size","Give It To Me Slow","That Was Longer Than I Thought","I Can Barely Handle It","It Just Slipped Right In","Go Easy On Me","That's A Tight Squeeze","I Need A Minute To Catch My Breath","It Feels Better Than Last Time","Push It In Further","That's The Spot","It's Hard To Get A Grip","This Is My First Time With One This Big","I'm Getting Tired Already","Just A Little More","That Really Filled Me Up","Slow And Steady Wins","It's Bigger Than My Hand","I Need To Stretch First","That's Deep","Keep Going, Don't Stop","It's Too Big To Handle Alone","I Like A Firm Grip","That Was Intense","It Took A While To Get It In","Let's Do That Again","I Wasn't Ready For That","It's Been A While Since I've Done This","That's Impressive","I'm Out Of Practice","It's Bigger Than My Expectations","That Escalated Quickly","I Need A Bigger One","This Is Harder Than It Looks"]
+    },
+    arsenio: {
+      label: "Arsenio Hall Show Guests",
+      cls: "arsenio",
+      words: ["Bill Clinton","Eddie Murphy","Magic Johnson","Public Enemy","Tupac Shakur","Louis Farrakhan","Paula Abdul","Muhammad Ali","Mary-Kate and Ashley Olsen","Prince","Dan Rather","Spike Lee","Bill Cosby","Mike Tyson","Evander Holyfield","Brooke Shields","Leslie Nielsen","Luther Vandross","Ice Cube","Mac Miller","Nas","Kendrick Lamar","Russell Simmons","Big Sean","2 Chainz","Nick Cannon","Chris Tucker","Lisa Kudrow","George Lopez","Mark Harmon","Penn & Teller","Earth, Wind & Fire","Angela Bassett","Ice-T","Dr. Dre","Eazy-E","Snoop Dogg","LL Cool J","Wu-Tang Clan","Sinbad"]
+    },
+    dadjokes: {
+      label: "Dad Joke Punchlines",
+      cls: "dadjokes",
+      words: ["Because They Make Up Everything","He Was Outstanding In His Field","They'd Crack Each Other Up","A Gummy Bear","It Was Two-Tired","Nacho Cheese","She'll Let It Go","An Impasta","It Got Mugged","A Can't Opener","In Case He Got A Hole In One","Tyrannosaurus Wrecks","Because They're Shellfish","A Bulldozer","It Had Too Many Problems","Nothing, It Just Waved","It Saw The Salad Dressing","A Meow-ntain","They Don't Have The Guts","An Investigator","It Felt Crummy","A Stick","All The Fans Left","A Satisfactory","It Had The Drumsticks","An Abdominal Snowman","For Holding Up A Pair Of Pants","Sofishticated","They're Always Up To Something","Ground Beef","It Was Framed","A Pouch Potato","It Lost Its Contacts","Tweethearts","He Knew A Shortcut","A Pork Chop","It Just Didn't Work Out","A Labracadabrador","It Wasn't Peeling Well","A Fsh"]
+    },
+    dadsetup: {
+      label: "Dad Joke Setups",
+      cls: "dadsetup",
+      words: ["Why don't scientists trust atoms?","Why did the scarecrow win an award?","What do you call a fish with no eyes?","Why don't eggs tell jokes?","What do you call a bear with no teeth?","Why did the bicycle fall over?","What do you call cheese that isn't yours?","Why can't you give Elsa a balloon?","What do you call a fake noodle?","Why did the coffee file a police report?","What do you call a can opener that doesn't work?","Why did the golfer bring two pairs of pants?","What do you call a dinosaur that crashes his car?","Why don't oysters share?","What do you call a sleeping bull?","Why did the math book look sad?","What did the ocean say to the beach?","Why did the tomato turn red?","What do you call a pile of cats?","Why don't skeletons fight each other?","What do you call an alligator in a vest?","Why did the cookie go to the doctor?","What do you call a boomerang that won't come back?","Why did the stadium get hot after the game?","What do you call a factory that makes okay products?","Why did the chicken join a band?","What do you call a snowman with a six pack?","Why did the belt get arrested?","What do you call a fish wearing a bowtie?","Why don't scientists trust stairs?","What do you call a cow with no legs?","Why did the picture go to jail?","What do you call a lazy kangaroo?","Why did the smartphone need glasses?","What do you call two birds in love?","Why did the barber win the race?","What do you call a pig that does karate?","Why did the gym close down?","What do you call a dog magician?","Why did the banana go to the doctor?"]
     }
   };
 
