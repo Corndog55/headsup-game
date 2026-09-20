@@ -338,6 +338,7 @@
     <div class="word-stage"><div class="word-text" id="word-text">WORD</div></div>
     <div class="tilt-hint" id="tilt-hint"></div>
     <div class="tilt-hint" id="tilt-debug" style="opacity:.5;"></div>
+    <div class="tilt-hint" id="landscape-debug" style="opacity:.5;"></div>
     <div class="tap-controls">
       <button class="tap-btn skip-btn" id="btn-tap-skip">✕</button>
       <button class="tap-btn correct-btn" id="btn-tap-correct">✓</button>
@@ -661,18 +662,29 @@
   });
 
   function lockLandscape(){
+    const report = (msg) => {
+      const el = document.getElementById("landscape-debug");
+      if (el) el.textContent = msg;
+    };
     try {
       const el = document.documentElement;
+      const hasFs = !!(el.requestFullscreen || el.webkitRequestFullscreen);
       const fsRequest = el.requestFullscreen ? el.requestFullscreen()
         : el.webkitRequestFullscreen ? el.webkitRequestFullscreen()
-        : Promise.resolve();
-      const tryLock = () => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock("landscape").catch(() => {});
+        : Promise.reject(new Error("no fullscreen API on this browser"));
+      const tryLock = (fsErr) => {
+        if (!(screen.orientation && screen.orientation.lock)) {
+          report("landscape: no orientation.lock API" + (fsErr ? " (fullscreen also failed: " + fsErr + ")" : " (fullscreen ok)"));
+          return;
         }
+        screen.orientation.lock("landscape")
+          .then(() => report("landscape: locked ✓"))
+          .catch((e) => report("landscape: lock failed — " + e.message + (fsErr ? " (fullscreen also failed: " + fsErr + ")" : " (fullscreen ok)")));
       };
-      Promise.resolve(fsRequest).then(tryLock).catch(tryLock);
-    } catch(e) { /* orientation lock unsupported on this browser — game still works in portrait */ }
+      Promise.resolve(fsRequest).then(() => tryLock(null)).catch((e) => tryLock(e.message));
+    } catch(e) {
+      report("landscape: error — " + e.message);
+    }
   }
 
   function unlockOrientation(){
