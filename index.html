@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chin Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --ink: #150F2E;
+    --panel: #211A44;
+    --panel-alt: #2B2159;
+    --panel-line: #392C6E;
+    --pink: #FF4E7A;
+    --yellow: #FFD23F;
+    --teal: #33D6B0;
+    --lime: #A8E063;
+    --text: #F5F2FF;
+    --text-dim: #B7ADDA;
+    --correct: #34D399;
+    --skip: #FF5C5C;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    height: 100%;
+    background: var(--ink);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Baloo 2', system-ui, sans-serif;
+    font-weight: 800;
+    margin: 0;
+  }
+  .app {
+    position: fixed;
+    inset: 0;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 20px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+    display: flex;
+    flex-direction: column;
+  }
+  .screen { display: none; flex: 1; min-height: 0; flex-direction: column; padding: 0 20px; }
+  .screen.active { display: flex; }
+
+  /* ---------- shared bits ---------- */
+  .scroll { overflow-y: auto; flex: 1; min-height: 0; -webkit-overflow-scrolling: touch; }
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+    color: var(--ink);
+    background: var(--yellow);
+    transition: transform .08s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn.secondary { background: var(--panel-alt); color: var(--text); border: 1px solid var(--panel-line); }
+  .btn.block { width: 100%; }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .row { display: flex; gap: 10px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 20px;
+    padding: 18px;
+  }
+  .muted { color: var(--text-dim); font-size: 14px; line-height: 1.5; }
+  .top-title { font-size: 26px; padding: 4px 0 18px; letter-spacing: .3px; }
+  .brand-chin { color: var(--pink); }
+  .brand-up { color: var(--yellow); }
+
+  /* ---------- HOME ---------- */
+  #screen-home .section-label { font-size: 13px; font-weight: 700; color: var(--text-dim); margin: 18px 0 10px; }
+  .deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .deck-chip {
+    border-radius: 18px;
+    padding: 16px 14px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    position: relative;
+    color: var(--ink);
+  }
+  .deck-chip .deck-name { font-family: 'Baloo 2'; font-weight: 700; font-size: 17px; display: block; }
+  .deck-chip .deck-count { font-size: 12px; opacity: .75; font-weight: 600; }
+  .deck-chip.selected { border-color: var(--text); }
+  .deck-chip.tv { background: var(--teal); }
+  .deck-chip.animals { background: var(--lime); }
+  .deck-chip.movies { background: var(--pink); color: var(--text); }
+  .deck-chip.celebs { background: var(--yellow); }
+  .deck-chip .check {
+    position: absolute; top: 10px; right: 10px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(0,0,0,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; opacity: 0;
+  }
+  .deck-chip.selected .check { opacity: 1; background: rgba(0,0,0,.35); }
+
+  .mode-toggle { display: flex; background: var(--panel); border: 1px solid var(--panel-line); border-radius: 14px; padding: 4px; }
+  .mode-toggle button {
+    flex: 1; border: none; background: transparent; color: var(--text-dim);
+    font-family: 'Inter'; font-weight: 700; font-size: 14px; padding: 10px; border-radius: 10px; cursor: pointer;
+  }
+  .mode-toggle button.active { background: var(--pink); color: var(--text); }
+
+  .timer-stepper { display: flex; align-items: center; justify-content: space-between; }
+  .timer-stepper .val { font-family: 'Baloo 2'; font-size: 30px; }
+  .stepper-btn {
+    width: 44px; height: 44px; border-radius: 12px; border: none;
+    background: var(--panel-alt); color: var(--text); font-size: 20px; font-weight: 700; cursor: pointer;
+  }
+  .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 2px; }
+  .switch { position: relative; width: 46px; height: 26px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: var(--panel-line); border-radius: 20px; cursor: pointer; transition: .15s; }
+  .slider::before { content:""; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: var(--text); border-radius: 50%; transition: .15s; }
+  input:checked + .slider { background: var(--pink); }
+  input:checked + .slider::before { transform: translateX(20px); }
+
+  /* ---------- TEAM SETUP ---------- */
+  .team-input {
+    width: 100%; background: var(--panel); border: 1px solid var(--panel-line); color: var(--text);
+    font-family: 'Inter'; font-weight: 600; font-size: 16px; border-radius: 14px; padding: 14px; margin-bottom: 12px;
+  }
+  .team-input:focus { outline: 2px solid var(--pink); }
+
+  /* ---------- READY / COUNTDOWN ---------- */
+  #screen-ready, #screen-countdown { align-items: center; justify-content: center; text-align: center; gap: 18px; }
+  .turn-badge { font-family: 'Baloo 2'; font-size: 22px; padding: 8px 18px; border-radius: 40px; background: var(--panel-alt); }
+  .big-num { font-family: 'Baloo 2'; font-size: 120px; line-height: 1; }
+
+  /* ---------- GAME ---------- */
+  #screen-game { padding: 0; position: relative; }
+  .flash-layer {
+    position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .15s ease; z-index: 1;
+  }
+  .flash-layer.show-correct { opacity: 1; background: var(--correct); }
+  .flash-layer.show-skip { opacity: 1; background: var(--skip); }
+  .game-top {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: calc(env(safe-area-inset-top,0px) + 16px) 20px 10px;
+  }
+  .score-pill { background: rgba(0,0,0,.25); border-radius: 30px; padding: 8px 14px; font-weight: 700; font-family: 'Baloo 2'; font-size: 18px; }
+  .timer-pill { background: rgba(0,0,0,.25); border-radius: 30px; padding: 8px 16px; font-weight: 700; font-family: 'Baloo 2'; font-size: 18px; }
+  .progress-track { position: relative; z-index: 2; height: 6px; background: rgba(255,255,255,.15); margin: 0 20px; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--yellow); width: 100%; }
+  .word-stage { position: relative; z-index: 2; flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px 24px; }
+  .word-text { font-family: 'Baloo 2'; font-weight: 800; font-size: 15vw; text-align: center; line-height: 1.05; word-break: break-word; }
+  .tap-controls { position: relative; z-index: 2; display: flex; gap: 14px; padding: 0 20px calc(env(safe-area-inset-bottom,0px) + 16px); }
+  .tap-btn {
+    flex: 1; border: none; border-radius: 22px; padding: 20px 0; font-size: 30px; cursor: pointer;
+  }
+  .tap-btn.skip-btn { background: var(--skip); color: #fff; }
+  .tap-btn.correct-btn { background: var(--correct); color: var(--ink); }
+  .tap-btn:disabled { opacity: .35; }
+  .tilt-hint { position: relative; z-index: 2; text-align: center; color: rgba(255,255,255,.55); font-size: 12px; padding-bottom: 4px; }
+
+  /* ---------- RESULTS ---------- */
+  #screen-results h2 { font-size: 24px; margin-bottom: 2px; }
+  .results-score { font-family: 'Baloo 2'; font-size: 56px; margin: 8px 0 18px; }
+  .word-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .word-tag { font-size: 14px; font-weight: 600; border-radius: 10px; padding: 7px 11px; }
+  .word-tag.correct { background: rgba(52,211,153,.18); color: var(--correct); }
+  .word-tag.skip { background: rgba(255,92,92,.18); color: var(--skip); }
+  .scoreboard-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--panel-line); font-family:'Baloo 2'; font-size: 18px; }
+  .scoreboard-row:last-child { border-bottom: none; }
+
+  .footer-actions { display: flex; gap: 10px; padding-top: 16px; }
+  .spacer { flex: 1; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="scroll">
+      <h1 class="top-title"><span class="brand-chin">Chin</span><span class="brand-up">Up</span></h1>
+
+      <div class="section-label">Pick your decks</div>
+      <div class="deck-grid" id="deck-grid"></div>
+
+      <div class="section-label">Mode</div>
+      <div class="mode-toggle">
+        <button id="mode-solo" class="active">Solo</button>
+        <button id="mode-team">Team</button>
+      </div>
+
+      <div class="section-label">Round timer</div>
+      <div class="card timer-stepper">
+        <button class="stepper-btn" id="timer-down">−</button>
+        <div class="val"><span id="timer-val">60</span>s</div>
+        <button class="stepper-btn" id="timer-up">+</button>
+      </div>
+
+      <div class="section-label">Options</div>
+      <div class="card">
+        <div class="switch-row">
+          <div>
+            <div style="font-weight:600;">Limit skips</div>
+            <div class="muted">Classic rule — 3 skips per round</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="opt-limit-skips">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-actions">
+      <button class="btn block" id="btn-continue">Continue</button>
+    </div>
+  </div>
+
+  <!-- TEAM SETUP -->
+  <div class="screen" id="screen-team-setup">
+    <h1 class="top-title">Name your teams</h1>
+    <input class="team-input" id="team1-name" value="Team 1" maxlength="18">
+    <input class="team-input" id="team2-name" value="Team 2" maxlength="18">
+    <div class="muted" style="margin-top:4px;">Teams take turns. Scores carry over until you end the game.</div>
+    <div class="spacer"></div>
+    <div class="footer-actions">
+      <button class="btn secondary" id="team-back">Back</button>
+      <button class="btn block" id="team-continue">Start</button>
+    </div>
+  </div>
+
+  <!-- READY -->
+  <div class="screen" id="screen-ready">
+    <div class="turn-badge" id="ready-turn-badge" style="display:none;"></div>
+    <h1 style="font-size:30px;">Hold the phone to your forehead</h1>
+    <p class="muted" style="max-width:320px;">Screen facing out, toward your friends. Have someone facing you tap ✓ or ✕ for each word so you don't see it.</p>
+    <button class="btn block" id="btn-start-round" style="max-width:280px;">Start round</button>
+    <button class="btn secondary block" id="btn-back-home-2" style="max-width:280px;">Change decks</button>
+    <button class="btn secondary block" id="btn-try-tilt" style="max-width:280px; font-size:14px; padding:10px;">Try tilt controls (experimental)</button>
+    <div class="muted" id="motion-status" style="min-height:18px;"></div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="screen" id="screen-countdown">
+    <div class="big-num" id="countdown-num">3</div>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screen-game">
+    <div class="flash-layer" id="flash-layer"></div>
+    <div class="game-top">
+      <div class="score-pill" id="game-score">0</div>
+      <div class="timer-pill" id="game-timer">60</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="word-stage"><div class="word-text" id="word-text">WORD</div></div>
+    <div class="tilt-hint" id="tilt-hint"></div>
+    <div class="tilt-hint" id="tilt-debug" style="opacity:.5;"></div>
+    <div class="tap-controls">
+      <button class="tap-btn skip-btn" id="btn-tap-skip">✕</button>
+      <button class="tap-btn correct-btn" id="btn-tap-correct">✓</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="screen-results">
+    <div class="scroll">
+      <h2 id="results-title">Round over!</h2>
+      <div class="results-score" id="results-score">0</div>
+
+      <div id="results-scoreboard" style="display:none;" class="card" style="margin-bottom:16px;"></div>
+
+      <div class="section-label">Got right (<span id="correct-count">0</span>)</div>
+      <div class="word-list" id="correct-list"></div>
+
+      <div class="section-label">Skipped (<span id="skip-count">0</span>)</div>
+      <div class="word-list" id="skip-list"></div>
+    </div>
+    <div class="footer-actions">
+      <button class="btn secondary" id="btn-new-game">New game</button>
+      <button class="btn block" id="btn-play-again">Next round</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- DECKS ----------------
+     Add more decks by adding a new key here with a color class
+     (tv / animals / movies / celebs) and a words array. */
+  const DECKS = {
+    tv: {
+      label: "TV Shows",
+      cls: "tv",
+      words: ["Friends","Seinfeld","The Office","Cheers","Frasier","Lost","Survivor","Jeopardy!","Wheel of Fortune","SpongeBob SquarePants","The Simpsons","South Park","Sesame Street","MythBusters","Shark Tank","American Idol","The Voice","Big Brother","The Bachelor","Dancing with the Stars","Breaking Bad","Grey's Anatomy","ER","M*A*S*H","I Love Lucy","The Twilight Zone","Scooby-Doo","Tom and Jerry","Power Rangers","Full House","Saved by the Bell","Gilligan's Island","The Price Is Right","Family Feud","America's Got Talent","American Ninja Warrior","Deal or No Deal","Antiques Roadshow","Wild Kratts","Jaws"]
+    },
+    animals: {
+      label: "Animals",
+      cls: "animals",
+      words: ["Elephant","Giraffe","Penguin","Kangaroo","Octopus","Platypus","Hedgehog","Flamingo","Cheetah","Sloth","Koala","Otter","Peacock","Raccoon","Chameleon","Armadillo","Walrus","Narwhal","Toucan","Jellyfish","Porcupine","Meerkat","Wombat","Alpaca","Hippopotamus","Rhinoceros","Beaver","Skunk","Ostrich","Pelican","Seahorse","Crab","Lobster","Firefly","Bumblebee","Ladybug","Owl","Bat","Squirrel","Dolphin"]
+    },
+    movies: {
+      label: "Movies",
+      cls: "movies",
+      words: ["Titanic","Inception","Frozen","Jurassic Park","The Matrix","Rocky","Gladiator","Toy Story","Shrek","Avatar","Casablanca","Psycho","Grease","Ghostbusters","Aladdin","Moana","Coco","Up","Cars","Finding Nemo","The Lion King","Star Wars","Jumanji","Elf","Home Alone","The Grinch","Twilight","Frankenstein","Dracula","Godzilla","King Kong","E.T.","Back to the Future","Ferris Bueller's Day Off","The Sandlot","Space Jam","The Goonies","Babe","Ratatouille","Rocky II"]
+    },
+    celebs: {
+      label: "Celebrities",
+      cls: "celebs",
+      words: ["Oprah Winfrey","Tom Hanks","Beyoncé","Elvis Presley","Marilyn Monroe","Albert Einstein","Michael Jordan","Serena Williams","Taylor Swift","Elton John","Meryl Streep","Will Smith","Dwayne Johnson","Jennifer Lawrence","Robin Williams","Charlie Chaplin","Walt Disney","Steve Jobs","Bill Gates","Abraham Lincoln","Cleopatra","Leonardo da Vinci","Mozart","William Shakespeare","Muhammad Ali","Babe Ruth","Amelia Earhart","Neil Armstrong","Martin Luther King Jr.","Rosa Parks","Bruce Lee","Jackie Chan","Betty White","Julia Child","Fred Rogers","Stan Lee","Walt Whitman","Vincent van Gogh","Pablo Picasso","Frida Kahlo"]
+    }
+  };
+
+  /* ---------------- STATE ---------------- */
+  const state = {
+    selectedDecks: new Set(["tv","animals","movies","celebs"]),
+    mode: "solo",              // 'solo' | 'team'
+    timerSeconds: 60,
+    limitSkips: false,
+    teams: [{name:"Team 1", total:0},{name:"Team 2", total:0}],
+    currentTeamIndex: 0,
+    usedWords: new Set(),
+    wordPool: [],
+    wordIndex: 0,
+    currentWord: "",
+    correctWords: [],
+    skippedWords: [],
+    skipsUsed: 0,
+    score: 0,
+    secondsLeft: 60,
+    timerHandle: null,
+    tiltBaseline: null,
+    tiltArmed: true,
+    motionActive: false
+  };
+
+  /* ---------------- PERSISTED PREFS ---------------- */
+  function loadPrefs(){
+    try {
+      const raw = localStorage.getItem("chinup-prefs");
+      if (!raw) return;
+      const p = JSON.parse(raw);
+      if (p.timerSeconds) state.timerSeconds = p.timerSeconds;
+      if (Array.isArray(p.selectedDecks) && p.selectedDecks.length) state.selectedDecks = new Set(p.selectedDecks);
+      if (p.mode) state.mode = p.mode;
+      if (typeof p.limitSkips === "boolean") state.limitSkips = p.limitSkips;
+    } catch(e) { /* ignore, use defaults */ }
+  }
+  function savePrefs(){
+    try {
+      localStorage.setItem("chinup-prefs", JSON.stringify({
+        timerSeconds: state.timerSeconds,
+        selectedDecks: Array.from(state.selectedDecks),
+        mode: state.mode,
+        limitSkips: state.limitSkips
+      }));
+    } catch(e) { /* storage unavailable, continue without persistence */ }
+  }
+
+  /* ---------------- SCREEN NAV ---------------- */
+  function show(id){
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+
+  /* ---------------- HOME SCREEN ---------------- */
+  const deckGrid = document.getElementById("deck-grid");
+  function renderDeckGrid(){
+    deckGrid.innerHTML = "";
+    Object.keys(DECKS).forEach(key => {
+      const d = DECKS[key];
+      const chip = document.createElement("div");
+      chip.className = "deck-chip " + d.cls + (state.selectedDecks.has(key) ? " selected" : "");
+      chip.innerHTML = '<span class="deck-name">' + d.label + '</span><span class="deck-count">' + d.words.length + ' words</span><span class="check">✓</span>';
+      chip.addEventListener("click", () => {
+        if (state.selectedDecks.has(key)) {
+          if (state.selectedDecks.size > 1) state.selectedDecks.delete(key);
+        } else {
+          state.selectedDecks.add(key);
+        }
+        renderDeckGrid();
+      });
+      deckGrid.appendChild(chip);
+    });
+  }
+
+  const modeSoloBtn = document.getElementById("mode-solo");
+  const modeTeamBtn = document.getElementById("mode-team");
+  function renderMode(){
+    modeSoloBtn.classList.toggle("active", state.mode === "solo");
+    modeTeamBtn.classList.toggle("active", state.mode === "team");
+  }
+  modeSoloBtn.addEventListener("click", () => { state.mode = "solo"; renderMode(); });
+  modeTeamBtn.addEventListener("click", () => { state.mode = "team"; renderMode(); });
+
+  const timerVal = document.getElementById("timer-val");
+  function renderTimer(){ timerVal.textContent = state.timerSeconds; }
+  document.getElementById("timer-down").addEventListener("click", () => {
+    state.timerSeconds = Math.max(15, state.timerSeconds - 15);
+    renderTimer();
+  });
+  document.getElementById("timer-up").addEventListener("click", () => {
+    state.timerSeconds = Math.min(180, state.timerSeconds + 15);
+    renderTimer();
+  });
+
+  const limitSkipsBox = document.getElementById("opt-limit-skips");
+  limitSkipsBox.addEventListener("change", () => { state.limitSkips = limitSkipsBox.checked; });
+
+  document.getElementById("btn-continue").addEventListener("click", () => {
+    savePrefs();
+    if (state.mode === "team") {
+      document.getElementById("team1-name").value = state.teams[0].name;
+      document.getElementById("team2-name").value = state.teams[1].name;
+      show("screen-team-setup");
+    } else {
+      goToReady();
+    }
+  });
+
+  /* ---------------- TEAM SETUP ---------------- */
+  document.getElementById("team-back").addEventListener("click", () => show("screen-home"));
+  document.getElementById("team-continue").addEventListener("click", () => {
+    const n1 = document.getElementById("team1-name").value.trim() || "Team 1";
+    const n2 = document.getElementById("team2-name").value.trim() || "Team 2";
+    state.teams[0].name = n1;
+    state.teams[1].name = n2;
+    state.currentTeamIndex = 0;
+    goToReady();
+  });
+
+  /* ---------------- READY SCREEN ---------------- */
+  const readyBadge = document.getElementById("ready-turn-badge");
+  function goToReady(){
+    if (state.mode === "team") {
+      readyBadge.style.display = "inline-block";
+      readyBadge.textContent = state.teams[state.currentTeamIndex].name + "'s turn";
+    } else {
+      readyBadge.style.display = "none";
+    }
+    if (!state.motionActive) {
+      document.getElementById("motion-status").textContent = "";
+    }
+    show("screen-ready");
+  }
+  document.getElementById("btn-back-home-2").addEventListener("click", () => show("screen-home"));
+
+  const motionStatusEl = document.getElementById("motion-status");
+  const startRoundBtn = document.getElementById("btn-start-round");
+  const tryTiltBtn = document.getElementById("btn-try-tilt");
+
+  startRoundBtn.addEventListener("click", () => {
+    startCountdown();
+  });
+
+  tryTiltBtn.addEventListener("click", async () => {
+    tryTiltBtn.disabled = true;
+    tryTiltBtn.textContent = "Checking...";
+    const granted = await requestMotionPermission();
+    if (granted) {
+      motionStatusEl.textContent = "Tilt enabled — give it a shot alongside the buttons.";
+      tryTiltBtn.textContent = "Tilt enabled ✓";
+    } else {
+      motionStatusEl.textContent = "Tilt isn't available on this browser — the buttons work great on their own.";
+      tryTiltBtn.textContent = "Try tilt controls (experimental)";
+      tryTiltBtn.disabled = false;
+    }
+  });
+
+  async function requestMotionPermission(){
+    try {
+      if (typeof DeviceOrientationEvent !== "undefined" &&
+          typeof DeviceOrientationEvent.requestPermission === "function") {
+        const result = await DeviceOrientationEvent.requestPermission();
+        state.motionActive = (result === "granted");
+        return state.motionActive;
+      } else if (typeof DeviceOrientationEvent !== "undefined" && window.isSecureContext) {
+        // Android / non-iOS browsers — no explicit permission prompt, sensor should just fire.
+        state.motionActive = true;
+        return true;
+      } else {
+        state.motionActive = false;
+        return false;
+      }
+    } catch(e) {
+      state.motionActive = false;
+      return false;
+    }
+  }
+
+  // Returns a single tilt angle regardless of whether the phone is held in
+  // portrait or landscape, since beta/gamma swap roles depending on orientation.
+  function getTiltAngle(e){
+    let screenAngle = 0;
+    if (window.screen && window.screen.orientation && typeof window.screen.orientation.angle === "number") {
+      screenAngle = window.screen.orientation.angle;
+    } else if (typeof window.orientation === "number") {
+      screenAngle = window.orientation;
+    }
+    switch (screenAngle) {
+      case 90: return -e.gamma;
+      case -90:
+      case 270: return e.gamma;
+      case 180: return -e.beta;
+      default: return e.beta;
+    }
+  }
+
+  /* ---------------- COUNTDOWN ---------------- */
+  const countdownNum = document.getElementById("countdown-num");
+  function startCountdown(){
+    show("screen-countdown");
+    let n = 3;
+    countdownNum.textContent = n;
+    const iv = setInterval(() => {
+      n -= 1;
+      if (n <= 0) {
+        clearInterval(iv);
+        beginRound();
+      } else {
+        countdownNum.textContent = n;
+      }
+    }, 700);
+  }
+
+  /* ---------------- WORD POOL ---------------- */
+  function buildPool(){
+    let all = [];
+    state.selectedDecks.forEach(key => { all = all.concat(DECKS[key].words); });
+    let available = all.filter(w => !state.usedWords.has(w));
+    if (available.length < 5) {
+      state.usedWords.clear();
+      available = all.slice();
+    }
+    for (let i = available.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [available[i], available[j]] = [available[j], available[i]];
+    }
+    return available;
+  }
+
+  /* ---------------- ROUND / GAME ---------------- */
+  const flashLayer = document.getElementById("flash-layer");
+  const wordTextEl = document.getElementById("word-text");
+  const gameScoreEl = document.getElementById("game-score");
+  const gameTimerEl = document.getElementById("game-timer");
+  const progressFill = document.getElementById("progress-fill");
+  const tapSkipBtn = document.getElementById("btn-tap-skip");
+  const tapCorrectBtn = document.getElementById("btn-tap-correct");
+  const tiltHint = document.getElementById("tilt-hint");
+
+  function beginRound(){
+    state.wordPool = buildPool();
+    state.wordIndex = 0;
+    state.correctWords = [];
+    state.skippedWords = [];
+    state.skipsUsed = 0;
+    state.score = 0;
+    state.secondsLeft = state.timerSeconds;
+    state.tiltBaseline = null;
+    state.tiltArmed = true;
+
+    gameScoreEl.textContent = "0";
+    gameTimerEl.textContent = state.secondsLeft;
+    progressFill.style.width = "100%";
+    tiltHint.textContent = state.motionActive ? "Tilt down = correct · Tilt up = skip" : "Tap the buttons below";
+    document.getElementById("tilt-debug").textContent = "";
+    updateSkipButtonState();
+    showWord();
+
+    show("screen-game");
+
+    state.sensorEventReceived = false;
+    if (state.motionActive) {
+      window.addEventListener("deviceorientation", onTilt);
+      setTimeout(() => {
+        if (!state.sensorEventReceived && document.getElementById("screen-game").classList.contains("active")) {
+          tiltHint.textContent = "No motion signal detected — use the buttons below";
+        }
+      }, 1500);
+    }
+
+    state.timerHandle = setInterval(() => {
+      state.secondsLeft -= 1;
+      gameTimerEl.textContent = Math.max(0, state.secondsLeft);
+      progressFill.style.width = Math.max(0, (state.secondsLeft / state.timerSeconds) * 100) + "%";
+      if (state.secondsLeft <= 0) endRound();
+    }, 1000);
+  }
+
+  function showWord(){
+    if (state.wordIndex >= state.wordPool.length) {
+      state.wordPool = buildPool();
+      state.wordIndex = 0;
+    }
+    state.currentWord = state.wordPool[state.wordIndex];
+    wordTextEl.textContent = state.currentWord;
+    state.usedWords.add(state.currentWord);
+    state.tiltBaseline = null; // recalibrate neutral position for each new word
+  }
+
+  function updateSkipButtonState(){
+    const blocked = state.limitSkips && state.skipsUsed >= 3;
+    tapSkipBtn.disabled = blocked;
+  }
+
+  function flash(kind){
+    flashLayer.classList.remove("show-correct", "show-skip");
+    void flashLayer.offsetWidth; // restart animation
+    flashLayer.classList.add(kind === "correct" ? "show-correct" : "show-skip");
+    setTimeout(() => flashLayer.classList.remove("show-correct", "show-skip"), 220);
+  }
+
+  function markCorrect(){
+    if (!document.getElementById("screen-game").classList.contains("active")) return;
+    state.correctWords.push(state.currentWord);
+    state.score += 1;
+    gameScoreEl.textContent = state.score;
+    flash("correct");
+    if (navigator.vibrate) navigator.vibrate(40);
+    state.wordIndex += 1;
+    showWord();
+  }
+
+  function markSkip(){
+    if (!document.getElementById("screen-game").classList.contains("active")) return;
+    if (state.limitSkips && state.skipsUsed >= 3) return;
+    state.skippedWords.push(state.currentWord);
+    state.skipsUsed += 1;
+    updateSkipButtonState();
+    flash("skip");
+    if (navigator.vibrate) navigator.vibrate([20,40,20]);
+    state.wordIndex += 1;
+    showWord();
+  }
+
+  tapCorrectBtn.addEventListener("click", markCorrect);
+  tapSkipBtn.addEventListener("click", markSkip);
+
+  function onTilt(e){
+    const angle = getTiltAngle(e);
+    if (angle === null || typeof angle === "undefined" || Number.isNaN(angle)) return;
+    state.sensorEventReceived = true;
+    if (state.tiltBaseline === null) { state.tiltBaseline = angle; return; }
+    const delta = angle - state.tiltBaseline;
+
+    const debugEl = document.getElementById("tilt-debug");
+    if (debugEl) debugEl.textContent = "tilt: " + Math.round(delta) + "°";
+
+    const TRIGGER = 22;
+    const RESET = 8;
+    if (state.tiltArmed) {
+      if (delta > TRIGGER) {
+        state.tiltArmed = false;
+        markCorrect();
+      } else if (delta < -TRIGGER) {
+        state.tiltArmed = false;
+        markSkip();
+      }
+    } else if (Math.abs(delta) < RESET) {
+      state.tiltArmed = true;
+    }
+  }
+
+  function endRound(){
+    clearInterval(state.timerHandle);
+    window.removeEventListener("deviceorientation", onTilt);
+    if (state.mode === "team") {
+      state.teams[state.currentTeamIndex].total += state.score;
+    }
+    renderResults();
+    show("screen-results");
+  }
+
+  /* ---------------- RESULTS ---------------- */
+  const resultsTitle = document.getElementById("results-title");
+  const resultsScore = document.getElementById("results-score");
+  const resultsScoreboard = document.getElementById("results-scoreboard");
+  const correctCountEl = document.getElementById("correct-count");
+  const skipCountEl = document.getElementById("skip-count");
+  const correctListEl = document.getElementById("correct-list");
+  const skipListEl = document.getElementById("skip-list");
+  const playAgainBtn = document.getElementById("btn-play-again");
+
+  function renderResults(){
+    if (state.mode === "team") {
+      resultsTitle.textContent = state.teams[state.currentTeamIndex].name + "'s round";
+      playAgainBtn.textContent = "Next team's turn";
+      resultsScoreboard.style.display = "block";
+      resultsScoreboard.innerHTML = state.teams.map(t =>
+        '<div class="scoreboard-row"><span>' + escapeHtml(t.name) + '</span><span>' + t.total + '</span></div>'
+      ).join("");
+    } else {
+      resultsTitle.textContent = "Round over!";
+      playAgainBtn.textContent = "Play again";
+      resultsScoreboard.style.display = "none";
+    }
+    resultsScore.textContent = state.score;
+    correctCountEl.textContent = state.correctWords.length;
+    skipCountEl.textContent = state.skippedWords.length;
+    correctListEl.innerHTML = state.correctWords.map(w => '<span class="word-tag correct">' + escapeHtml(w) + '</span>').join("") || '<span class="muted">None yet</span>';
+    skipListEl.innerHTML = state.skippedWords.map(w => '<span class="word-tag skip">' + escapeHtml(w) + '</span>').join("") || '<span class="muted">None</span>';
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  document.getElementById("btn-new-game").addEventListener("click", () => {
+    renderDeckGrid();
+    renderMode();
+    renderTimer();
+    show("screen-home");
+  });
+
+  playAgainBtn.addEventListener("click", () => {
+    if (state.mode === "team") {
+      state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
+    }
+    goToReady();
+  });
+
+  /* ---------------- INIT ---------------- */
+  loadPrefs();
+  renderDeckGrid();
+  renderMode();
+  renderTimer();
+  limitSkipsBox.checked = state.limitSkips;
+})();
+</script>
+</body>
+</html>
