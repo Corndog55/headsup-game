@@ -347,6 +347,7 @@
     timerHandle: null,
     tiltBaseline: null,
     tiltArmed: true,
+    lastTiltTrigger: 0,
     motionActive: false
   };
 
@@ -575,6 +576,7 @@
     state.secondsLeft = state.timerSeconds;
     state.tiltBaseline = null;
     state.tiltArmed = true;
+    state.lastTiltTrigger = 0;
 
     gameScoreEl.textContent = "0";
     gameTimerEl.textContent = state.secondsLeft;
@@ -663,14 +665,19 @@
     const debugEl = document.getElementById("tilt-debug");
     if (debugEl) debugEl.textContent = "tilt: " + Math.round(delta) + "°";
 
-    const TRIGGER = 22;
-    const RESET = 8;
+    const now = Date.now();
+    if (now - state.lastTiltTrigger < 700) return; // cooldown — ignore rapid re-triggers
+
+    const TRIGGER = 40;
+    const RESET = 15;
     if (state.tiltArmed) {
       if (delta > TRIGGER) {
         state.tiltArmed = false;
+        state.lastTiltTrigger = now;
         markCorrect();
       } else if (delta < -TRIGGER) {
         state.tiltArmed = false;
+        state.lastTiltTrigger = now;
         markSkip();
       }
     } else if (Math.abs(delta) < RESET) {
