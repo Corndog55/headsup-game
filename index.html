@@ -19,6 +19,11 @@
     --panel-line: #392C6E;
     --pink: #FF4E7A;
     --yellow: #FFD23F;
+    --orange: #FF8C42;
+    --amber: #FFC24B;
+    --maroon: #C1121F;
+    --purple: #9B5DE5;
+    --sky: #35B7FF;
     --teal: #33D6B0;
     --lime: #A8E063;
     --text: #F5F2FF;
@@ -102,6 +107,11 @@
   .deck-chip.animals { background: var(--lime); }
   .deck-chip.movies { background: var(--pink); color: var(--text); }
   .deck-chip.celebs { background: var(--yellow); }
+  .deck-chip.seinfeld { background: var(--orange); color: var(--ink); }
+  .deck-chip.adult { background: var(--maroon); color: var(--text); }
+  .deck-chip.cuisine { background: var(--amber); color: var(--ink); }
+  .deck-chip.nineties { background: var(--purple); color: var(--text); }
+  .deck-chip.y2k { background: var(--sky); color: var(--ink); }
   .deck-chip .check {
     position: absolute; top: 10px; right: 10px;
     width: 22px; height: 22px; border-radius: 50%;
@@ -161,7 +171,7 @@
   .progress-track { position: relative; z-index: 2; height: 6px; background: rgba(255,255,255,.15); margin: 0 20px; border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--yellow); width: 100%; }
   .word-stage { position: relative; z-index: 2; flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px 24px; }
-  .word-text { font-family: 'Baloo 2'; font-weight: 800; font-size: 15vw; text-align: center; line-height: 1.05; word-break: break-word; }
+  .word-text { font-family: 'Baloo 2'; font-weight: 800; font-size: clamp(28px, 12vmin, 90px); text-align: center; line-height: 1.05; word-break: break-word; }
   .tap-controls { position: relative; z-index: 2; display: flex; gap: 14px; padding: 0 20px calc(env(safe-area-inset-bottom,0px) + 16px); }
   .tap-btn {
     flex: 1; border: none; border-radius: 22px; padding: 20px 0; font-size: 30px; cursor: pointer;
@@ -170,6 +180,15 @@
   .tap-btn.correct-btn { background: var(--correct); color: var(--ink); }
   .tap-btn:disabled { opacity: .35; }
   .tilt-hint { position: relative; z-index: 2; text-align: center; color: rgba(255,255,255,.55); font-size: 12px; padding-bottom: 4px; }
+
+  @media (orientation: landscape) and (max-height: 500px) {
+    .game-top { padding: calc(env(safe-area-inset-top,0px) + 8px) 16px 6px; }
+    .score-pill, .timer-pill { padding: 5px 12px; font-size: 15px; }
+    .word-stage { padding: 4px 24px; }
+    .tap-btn { padding: 10px 0; font-size: 22px; }
+    .tap-controls { padding: 0 16px calc(env(safe-area-inset-bottom,0px) + 8px); gap: 10px; }
+    .tilt-hint { font-size: 10px; padding-bottom: 2px; }
+  }
 
   /* ---------- RESULTS ---------- */
   #screen-results h2 { font-size: 24px; margin-bottom: 2px; }
@@ -324,6 +343,31 @@
       label: "Celebrities",
       cls: "celebs",
       words: ["Oprah Winfrey","Tom Hanks","Beyoncé","Elvis Presley","Marilyn Monroe","Albert Einstein","Michael Jordan","Serena Williams","Taylor Swift","Elton John","Meryl Streep","Will Smith","Dwayne Johnson","Jennifer Lawrence","Robin Williams","Charlie Chaplin","Walt Disney","Steve Jobs","Bill Gates","Abraham Lincoln","Cleopatra","Leonardo da Vinci","Mozart","William Shakespeare","Muhammad Ali","Babe Ruth","Amelia Earhart","Neil Armstrong","Martin Luther King Jr.","Rosa Parks","Bruce Lee","Jackie Chan","Betty White","Julia Child","Fred Rogers","Stan Lee","Walt Whitman","Vincent van Gogh","Pablo Picasso","Frida Kahlo"]
+    },
+    seinfeld: {
+      label: "Seinfeld",
+      cls: "seinfeld",
+      words: ["The Soup Nazi","Master of My Domain","Yada Yada Yada","Festivus","The Puffy Shirt","Junior Mint","Not That There's Anything Wrong With That","Close Talker","Low Talker","Man Hands","Shrinkage","Spongeworthy","Double-Dipping","Regifting","The Contest","Serenity Now","The Big Salad","Bizarro World","Newman","The Marble Rye","No Soup For You","Elaine's Dance","The Opposite","Vandelay Industries","Art Vandelay","The Bubble Boy","The Comeback","The Mango","Kramer's Entrance","The Hamptons","Sponge-Worthy Test","Pretzels Making Me Thirsty","The Armoire","The Rye","Assman","Del Boca Vista","Superman","Cigars in the Office","Peterman","The Chicken Roaster"]
+    },
+    adult: {
+      label: "Adult Supervision",
+      cls: "adult",
+      words: ["Netflix and Chill","Booty Call","One Night Stand","Skinny Dipping","Walk of Shame","Friends with Benefits","Speed Dating","Blind Date","Sexting","Awkward Boner","Bachelor Party","Bachelorette Party","Strip Poker","Lap Dance","Hot Tub Makeout","Third Wheel","Wingman","Player","Cougar","Sugar Daddy","Ghosting","Drunk Text","Morning After","Tinder Date","Pillow Talk","Love Bite","Cuddle Buddy","Spring Break","Hookup","Flirty Text","Man Candy","Eye Candy","Hot Mess","Party Foul","Truth or Dare","Seven Minutes in Heaven","Spin the Bottle","Sultry Look","Naughty List","Honeymoon Phase"]
+    },
+    cuisine: {
+      label: "Cuisine",
+      cls: "cuisine",
+      words: ["Sushi","Tacos","Pizza","Pasta","Curry","Dumplings","Paella","Ramen","Falafel","Kebab","Risotto","Gumbo","Ceviche","Poutine","Croissant","Baguette","Tempura","Pho","Bibimbap","Hummus","Guacamole","Empanada","Quiche","Lasagna","Moussaka","Goulash","Schnitzel","Tiramisu","Baklava","Churros","Fondue","Sashimi","Dim Sum","Biryani","Tandoori Chicken","Shawarma","Bruschetta","Gnocchi","Chowder","Jambalaya"]
+    },
+    nineties: {
+      label: "90s",
+      cls: "nineties",
+      words: ["Tamagotchi","Beanie Babies","Dial-Up Internet","Walkman","Discman","Furby","Blockbuster Video","Grunge","Backstreet Boys","Spice Girls","Game Boy","Pogs","Slap Bracelet","Frosted Tips","Doc Martens","Brick Cell Phone","AOL Instant Messenger","Scrunchie","JNCO Jeans","Trapper Keeper","Lisa Frank","Rollerblades","Nirvana","Mixtape","VHS Tape","Floppy Disk","Chain Letter","Butterfly Clips","Gel Pens","Lava Lamp","Dunkaroos","Surge Soda","Crystal Pepsi","Hacky Sack","Koosh Ball","Gak","Full House Theme Song","Zubaz Pants","Fanny Pack","Overalls With One Strap Undone"]
+    },
+    y2k: {
+      label: "2000s",
+      cls: "y2k",
+      words: ["Y2K","iPod","MySpace","Flip Phone","Razr Phone","Low-Rise Jeans","Ugg Boots","Juicy Couture Tracksuit","Silly Bandz","Webkinz","Guitar Hero","Napster","LimeWire","Von Dutch Hat","Trucker Hat","Livestrong Bracelet","Emo Hair","MSN Messenger","Xbox 360","Nintendo Wii","Crocs","Bedazzled Jeans","Chain Wallet","Bratz Dolls","High School Musical","Side Ponytail","Polyphonic Ringtone","Text Speak","Club Penguin","Nintendo DS","Chunky Highlights","Skinny Jeans","Planking","Rickroll","Disposable Camera","BlackBerry","iPod Nano","Motorola Sidekick","Bejeweled","Myspace Top 8"]
     }
   };
 
