@@ -286,7 +286,7 @@
   <!-- HOME -->
   <div class="screen active" id="screen-home">
     <h1 class="top-title"><span class="brand-chin">Chin</span><span class="brand-up">Up</span></h1>
-    <div class="section-label" style="margin-top:0;">Pick your decks</div>
+    <div class="section-label" id="deck-picker-label" style="margin-top:0;">Picked Decks</div>
 
     <div class="scroll">
       <div class="deck-grid" id="deck-grid"></div>
@@ -647,6 +647,14 @@
       });
       deckGrid.appendChild(chip);
     });
+    renderDeckPickerLabel();
+  }
+
+  function renderDeckPickerLabel(){
+    const labelEl = document.getElementById("deck-picker-label");
+    if (!labelEl) return;
+    const names = Object.keys(DECKS).filter(key => state.selectedDecks.has(key)).map(key => DECKS[key].label);
+    labelEl.textContent = "Picked Decks: " + names.join(", ");
   }
 
   const modeSoloBtn = document.getElementById("mode-solo");
@@ -759,19 +767,20 @@
 
   async function requestMotionPermission(){
     try {
-      if (typeof DeviceOrientationEvent !== "undefined" &&
-          typeof DeviceOrientationEvent.requestPermission === "function") {
-        const result = await DeviceOrientationEvent.requestPermission();
-        state.motionActive = (result === "granted");
-        return state.motionActive;
-      } else if (typeof DeviceOrientationEvent !== "undefined" && window.isSecureContext) {
-        // Android / non-iOS browsers — no explicit permission prompt, sensor should just fire.
-        state.motionActive = true;
-        return true;
-      } else {
-        state.motionActive = false;
-        return false;
+      let granted = true;
+      if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
+        const r1 = await DeviceOrientationEvent.requestPermission();
+        granted = granted && (r1 === "granted");
       }
+      if (typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function") {
+        const r2 = await DeviceMotionEvent.requestPermission();
+        granted = granted && (r2 === "granted");
+      }
+      if (!(typeof DeviceMotionEvent !== "undefined" && window.isSecureContext) && !(typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function")) {
+        granted = false;
+      }
+      state.motionActive = granted;
+      return granted;
     } catch(e) {
       state.motionActive = false;
       return false;
@@ -780,37 +789,44 @@
 
   // Returns a single tilt angle regardless of whether the phone is held in
   // portrait or landscape, since beta/gamma swap roles depending on orientation.
-  function getTiltAngle(e){
-    let screenAngle = 0;
+  function currentScreenAngle(){
     if (window.screen && window.screen.orientation && typeof window.screen.orientation.angle === "number") {
-      screenAngle = window.screen.orientation.angle;
+      return window.screen.orientation.angle;
     } else if (typeof window.orientation === "number") {
-      screenAngle = window.orientation;
+      return window.orientation;
     }
+    return 0;
+  }
+
+  // Gravity-vector based tilt reading (from devicemotion), not the deviceorientation
+  // beta/gamma Euler angles — those become unstable/non-monotonic exactly when the
+  // phone is held near-vertical (i.e. right where this game holds it), which is why
+  // "up" and "down" could both read as the same sign. This is stable at any angle.
+  function getTiltAngle(e){
+    const g = e.accelerationIncludingGravity;
+    if (!g || g.y === null || g.z === null || typeof g.y === "undefined" || typeof g.z === "undefined") return null;
+    const screenAngle = currentScreenAngle();
     switch (screenAngle) {
-      case 90: return -e.gamma;
+      case 90: return Math.atan2(g.x, g.z) * (180 / Math.PI);
       case -90:
-      case 270: return e.gamma;
-      case 180: return -e.beta;
-      default: return e.beta;
+      case 270: return -Math.atan2(g.x, g.z) * (180 / Math.PI);
+      case 180: return -Math.atan2(g.y, g.z) * (180 / Math.PI);
+      default: return Math.atan2(g.y, g.z) * (180 / Math.PI);
     }
   }
 
   // The axis perpendicular to the tilt axis above — used to detect twisting/rolling
   // the phone, which can otherwise bleed into the tilt reading near-vertical.
   function getCrossAxis(e){
-    let screenAngle = 0;
-    if (window.screen && window.screen.orientation && typeof window.screen.orientation.angle === "number") {
-      screenAngle = window.screen.orientation.angle;
-    } else if (typeof window.orientation === "number") {
-      screenAngle = window.orientation;
-    }
+    const g = e.accelerationIncludingGravity;
+    if (!g || g.x === null || g.z === null || typeof g.x === "undefined" || typeof g.z === "undefined") return null;
+    const screenAngle = currentScreenAngle();
     switch (screenAngle) {
-      case 90: return e.beta;
+      case 90: return Math.atan2(g.y, g.z) * (180 / Math.PI);
       case -90:
-      case 270: return e.beta;
-      case 180: return e.gamma;
-      default: return e.gamma;
+      case 270: return Math.atan2(g.y, g.z) * (180 / Math.PI);
+      case 180: return Math.atan2(g.x, g.z) * (180 / Math.PI);
+      default: return Math.atan2(g.x, g.z) * (180 / Math.PI);
     }
   }
 
@@ -888,7 +904,7 @@
 
     state.sensorEventReceived = false;
     if (state.motionActive) {
-      window.addEventListener("deviceorientation", onTilt);
+      window.addEventListener("devicemotion", onTilt);
       setTimeout(() => {
         if (!state.sensorEventReceived && document.getElementById("screen-game").classList.contains("active")) {
           tiltHint.textContent = "No motion signal detected — use the buttons below";
@@ -1046,7 +1062,7 @@
 
   function endRound(){
     clearInterval(state.timerHandle);
-    window.removeEventListener("deviceorientation", onTilt);
+    window.removeEventListener("devicemotion", onTilt);
     unlockOrientation();
     if (state.mode === "team") {
       state.teams[state.currentTeamIndex].total += state.score;
