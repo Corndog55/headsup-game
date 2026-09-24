@@ -582,6 +582,9 @@
     tiltBaseline: null,
     tiltArmed: true,
     lastTiltTrigger: 0,
+    smoothedAngle: null,
+    tiltPendingDir: null,
+    tiltPendingSince: 0,
     motionActive: false
   };
 
@@ -836,6 +839,9 @@
     state.tiltBaseline = null;
     state.tiltArmed = true;
     state.lastTiltTrigger = 0;
+    state.smoothedAngle = null;
+    state.tiltPendingDir = null;
+    state.tiltPendingSince = 0;
 
     gameScoreEl.textContent = "0";
     gameTimerEl.textContent = state.secondsLeft;
@@ -873,7 +879,6 @@
     state.currentWord = state.wordPool[state.wordIndex];
     wordTextEl.textContent = state.currentWord;
     state.usedWords.add(state.currentWord);
-    state.tiltBaseline = null; // recalibrate neutral position for each new word
   }
 
   function updateSkipButtonState(){
@@ -918,29 +923,48 @@
     const angle = getTiltAngle(e);
     if (angle === null || typeof angle === "undefined" || Number.isNaN(angle)) return;
     state.sensorEventReceived = true;
-    if (state.tiltBaseline === null) { state.tiltBaseline = angle; return; }
-    const delta = angle - state.tiltBaseline;
+    if (state.tiltBaseline === null) {
+      state.tiltBaseline = angle;
+      state.smoothedAngle = angle;
+      return;
+    }
+
+    // Smooth the raw signal so small hand-shake/jitter doesn't register as intent.
+    state.smoothedAngle = state.smoothedAngle * 0.75 + angle * 0.25;
+    const delta = state.smoothedAngle - state.tiltBaseline;
 
     const debugEl = document.getElementById("tilt-debug");
     if (debugEl) debugEl.textContent = "tilt: " + Math.round(delta) + "°";
 
     const now = Date.now();
-    if (now - state.lastTiltTrigger < 700) return; // cooldown — ignore rapid re-triggers
+    if (now - state.lastTiltTrigger < 700) { state.tiltPendingDir = null; return; } // cooldown — ignore rapid re-triggers
 
-    const TRIGGER = 40;
-    const RESET = 15;
-    if (state.tiltArmed) {
-      if (delta > TRIGGER) {
+    const TRIGGER = 40;   // how far past neutral counts as an intentional tilt
+    const RESET = 22;     // dead zone — how close to neutral before it re-arms (gives "play" for an imperfect hold)
+    const HOLD_MS = 200;  // must stay past TRIGGER this long before it fires — filters a quick overshoot/wobble
+
+    if (!state.tiltArmed) {
+      if (Math.abs(delta) < RESET) state.tiltArmed = true;
+      return;
+    }
+
+    const dir = delta > TRIGGER ? "correct" : delta < -TRIGGER ? "skip" : null;
+
+    if (!dir) {
+      state.tiltPendingDir = null;
+      return;
+    }
+
+    if (state.tiltPendingDir === dir) {
+      if (now - state.tiltPendingSince >= HOLD_MS) {
         state.tiltArmed = false;
         state.lastTiltTrigger = now;
-        markCorrect();
-      } else if (delta < -TRIGGER) {
-        state.tiltArmed = false;
-        state.lastTiltTrigger = now;
-        markSkip();
+        state.tiltPendingDir = null;
+        if (dir === "correct") markCorrect(); else markSkip();
       }
-    } else if (Math.abs(delta) < RESET) {
-      state.tiltArmed = true;
+    } else {
+      state.tiltPendingDir = dir;
+      state.tiltPendingSince = now;
     }
   }
 
