@@ -585,6 +585,10 @@
     smoothedAngle: null,
     tiltPendingDir: null,
     tiltPendingSince: 0,
+    tiltLastAttemptDir: null,
+    inDeadZoneSince: null,
+    crossBaseline: null,
+    smoothedCross: null,
     motionActive: false
   };
 
@@ -785,6 +789,24 @@
     }
   }
 
+  // The axis perpendicular to the tilt axis above — used to detect twisting/rolling
+  // the phone, which can otherwise bleed into the tilt reading near-vertical.
+  function getCrossAxis(e){
+    let screenAngle = 0;
+    if (window.screen && window.screen.orientation && typeof window.screen.orientation.angle === "number") {
+      screenAngle = window.screen.orientation.angle;
+    } else if (typeof window.orientation === "number") {
+      screenAngle = window.orientation;
+    }
+    switch (screenAngle) {
+      case 90: return e.beta;
+      case -90:
+      case 270: return e.beta;
+      case 180: return e.gamma;
+      default: return e.gamma;
+    }
+  }
+
   /* ---------------- COUNTDOWN ---------------- */
   const countdownNum = document.getElementById("countdown-num");
   function startCountdown(){
@@ -842,6 +864,10 @@
     state.smoothedAngle = null;
     state.tiltPendingDir = null;
     state.tiltPendingSince = 0;
+    state.tiltLastAttemptDir = null;
+    state.inDeadZoneSince = null;
+    state.crossBaseline = null;
+    state.smoothedCross = null;
 
     gameScoreEl.textContent = "0";
     gameTimerEl.textContent = state.secondsLeft;
@@ -921,11 +947,15 @@
 
   function onTilt(e){
     const angle = getTiltAngle(e);
+    const cross = getCrossAxis(e);
     if (angle === null || typeof angle === "undefined" || Number.isNaN(angle)) return;
     state.sensorEventReceived = true;
     if (state.tiltBaseline === null) {
       state.tiltBaseline = angle;
       state.smoothedAngle = angle;
+      state.crossBaseline = cross;
+      state.smoothedCross = cross;
+      state.inDeadZoneSince = Date.now();
       return;
     }
 
@@ -933,18 +963,47 @@
     state.smoothedAngle = state.smoothedAngle * 0.75 + angle * 0.25;
     const delta = state.smoothedAngle - state.tiltBaseline;
 
+    if (cross !== null && typeof cross !== "undefined" && !Number.isNaN(cross)) {
+      state.smoothedCross = state.smoothedCross * 0.75 + cross * 0.25;
+    }
+    const crossDelta = (state.smoothedCross !== null) ? state.smoothedCross - state.crossBaseline : 0;
+
     const debugEl = document.getElementById("tilt-debug");
-    if (debugEl) debugEl.textContent = "tilt: " + Math.round(delta) + "°";
+    if (debugEl) debugEl.textContent = "tilt: " + Math.round(delta) + "° / twist: " + Math.round(crossDelta) + "°";
 
     const now = Date.now();
-    if (now - state.lastTiltTrigger < 700) { state.tiltPendingDir = null; return; } // cooldown — ignore rapid re-triggers
+    if (now - state.lastTiltTrigger < 700) {
+      state.tiltPendingDir = null;
+      state.inDeadZoneSince = null;
+      return;
+    } // cooldown — ignore rapid re-triggers
 
-    const TRIGGER = 40;   // how far past neutral counts as an intentional tilt
-    const RESET = 22;     // dead zone — how close to neutral before it re-arms (gives "play" for an imperfect hold)
-    const HOLD_MS = 200;  // must stay past TRIGGER this long before it fires — filters a quick overshoot/wobble
+    const TRIGGER = 40;        // how far past neutral counts as an intentional tilt
+    const RESET = 22;          // dead zone — how close to neutral before it's considered "settled" (gives "play" for an imperfect hold)
+    const HOLD_MS = 200;       // must stay past TRIGGER this long before it fires — filters a quick overshoot/wobble
+    const MIN_SETTLE_MS = 130; // must rest in the dead zone this long before a DIFFERENT direction is allowed to register
+    const CROSS_LIMIT = 40;    // if the phone is twisting/rolling this much at the same time, don't count it as a tilt
+
+    const inDeadZone = Math.abs(delta) < RESET;
+    if (inDeadZone) {
+      if (state.inDeadZoneSince === null) state.inDeadZoneSince = now;
+      if (now - state.inDeadZoneSince >= MIN_SETTLE_MS) {
+        state.tiltLastAttemptDir = null; // genuinely settled — either direction is fair game again
+        state.tiltArmed = true;
+        state.crossBaseline = state.smoothedCross; // re-anchor "not twisted" against however they're resting now
+      }
+    } else {
+      state.inDeadZoneSince = null;
+    }
 
     if (!state.tiltArmed) {
-      if (Math.abs(delta) < RESET) state.tiltArmed = true;
+      state.tiltPendingDir = null;
+      return;
+    }
+
+    // Twisting/rolling the phone alongside the tilt — treat this as not a clean gesture yet.
+    if (Math.abs(crossDelta) > CROSS_LIMIT) {
+      state.tiltPendingDir = null;
       return;
     }
 
@@ -955,11 +1014,21 @@
       return;
     }
 
+    // If this reading points the opposite way from the last real attempt, and the phone
+    // never rested at neutral in between, it's very likely rebound/momentum from that
+    // same motion — not a second, deliberate tilt. Ignore it.
+    if (state.tiltLastAttemptDir && state.tiltLastAttemptDir !== dir) {
+      return;
+    }
+    state.tiltLastAttemptDir = dir;
+
     if (state.tiltPendingDir === dir) {
       if (now - state.tiltPendingSince >= HOLD_MS) {
         state.tiltArmed = false;
         state.lastTiltTrigger = now;
         state.tiltPendingDir = null;
+        state.tiltLastAttemptDir = null;
+        state.inDeadZoneSince = null;
         if (dir === "correct") markCorrect(); else markSkip();
       }
     } else {
