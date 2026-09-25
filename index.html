@@ -312,7 +312,7 @@
         </label>
       </div>
     </div>
-    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v6</div>
+    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v7</div>
   </div>
 
   <!-- TEAM SETUP -->
@@ -571,7 +571,7 @@
 
   /* ---------------- STATE ---------------- */
   const state = {
-    selectedDecks: new Set(["tv","animals","movies","celebs"]),
+    selectedDecks: new Set(),
     mode: "solo",              // 'solo' | 'team'
     timerSeconds: 60,
     limitSkips: false,
@@ -607,7 +607,6 @@
       if (!raw) return;
       const p = JSON.parse(raw);
       if (p.timerSeconds) state.timerSeconds = p.timerSeconds;
-      if (Array.isArray(p.selectedDecks) && p.selectedDecks.length) state.selectedDecks = new Set(p.selectedDecks);
       if (p.mode) state.mode = p.mode;
       if (typeof p.limitSkips === "boolean") state.limitSkips = p.limitSkips;
     } catch(e) { /* ignore, use defaults */ }
@@ -616,7 +615,6 @@
     try {
       localStorage.setItem("chinup-prefs", JSON.stringify({
         timerSeconds: state.timerSeconds,
-        selectedDecks: Array.from(state.selectedDecks),
         mode: state.mode,
         limitSkips: state.limitSkips
       }));
@@ -640,7 +638,7 @@
       chip.innerHTML = '<span class="deck-name">' + d.label + '</span><span class="deck-count">' + d.words.length + ' words</span><span class="check">✓</span>';
       chip.addEventListener("click", () => {
         if (state.selectedDecks.has(key)) {
-          if (state.selectedDecks.size > 1) state.selectedDecks.delete(key);
+          state.selectedDecks.delete(key);
         } else {
           state.selectedDecks.add(key);
         }
@@ -649,13 +647,20 @@
       deckGrid.appendChild(chip);
     });
     renderDeckPickerLabel();
+    updateContinueButtonState();
+  }
+
+  function updateContinueButtonState(){
+    const btn = document.getElementById("btn-continue");
+    if (!btn) return;
+    btn.disabled = state.selectedDecks.size === 0;
   }
 
   function renderDeckPickerLabel(){
     const labelEl = document.getElementById("deck-picker-label");
     if (!labelEl) return;
     const names = Object.keys(DECKS).filter(key => state.selectedDecks.has(key)).map(key => DECKS[key].label);
-    labelEl.textContent = "Picked Decks: " + names.join(", ");
+    labelEl.textContent = names.length ? ("Picked Decks: " + names.join(", ")) : "Picked Decks: none yet — tap a deck below";
   }
 
   const modeSoloBtn = document.getElementById("mode-solo");
