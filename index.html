@@ -312,7 +312,7 @@
         </label>
       </div>
     </div>
-    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v3</div>
+    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v4</div>
   </div>
 
   <!-- TEAM SETUP -->
@@ -1012,11 +1012,10 @@
       state.tiltArmed = true; // being back near neutral is always enough to allow the next tilt
       if (state.inDeadZoneSince === null) state.inDeadZoneSince = now;
       if (now - state.inDeadZoneSince >= MIN_SETTLE_MS) {
-        // Only after a genuine pause do we clear the anti-rebound guard and
-        // recalibrate "neutral" — that part stays cautious even though arming itself is fast now.
+        // Only after a genuine pause do we clear the anti-rebound guard.
+        // (Baseline itself is calibrated once at the start of the round, not continuously —
+        // continuous re-anchoring turned out to occasionally lock onto a bad mid-motion reading.)
         state.tiltLastAttemptDir = null;
-        state.crossBaseline = state.smoothedCross;
-        state.tiltBaseline = state.smoothedAngle;
       }
     } else {
       state.inDeadZoneSince = null;
