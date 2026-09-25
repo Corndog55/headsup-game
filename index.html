@@ -312,7 +312,7 @@
         </label>
       </div>
     </div>
-    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v5</div>
+    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v6</div>
   </div>
 
   <!-- TEAM SETUP -->
@@ -1002,7 +1002,7 @@
       return;
     } // cooldown — ignore rapid re-triggers
 
-    const TRIGGER = 60;        // how far past neutral counts as an intentional tilt
+    const TRIGGER = 50;        // how far past neutral counts as an intentional tilt
     const RESET = 22;          // dead zone — how close to neutral before it's considered "settled" (gives "play" for an imperfect hold)
     const HOLD_MS = 200;       // must stay past TRIGGER this long before it fires — filters a quick overshoot/wobble
     const MIN_SETTLE_MS = 130; // must rest in the dead zone this long before a DIFFERENT direction is allowed to register
