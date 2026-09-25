@@ -273,6 +273,7 @@
   .word-tag { font-size: 14px; font-weight: 600; border-radius: 10px; padding: 7px 11px; }
   .word-tag.correct { background: rgba(52,211,153,.18); color: var(--correct); }
   .word-tag.skip { background: rgba(255,92,92,.18); color: var(--skip); }
+  .word-tag.neutral { background: rgba(255,255,255,.1); color: var(--text-dim); }
   .scoreboard-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--panel-line); font-family:'Baloo 2'; font-size: 18px; }
   .scoreboard-row:last-child { border-bottom: none; }
 
@@ -312,7 +313,7 @@
         </label>
       </div>
     </div>
-    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v7</div>
+    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v8</div>
   </div>
 
   <!-- TEAM SETUP -->
@@ -375,6 +376,9 @@
 
       <div class="section-label">Skipped (<span id="skip-count">0</span>)</div>
       <div class="word-list" id="skip-list"></div>
+
+      <div class="section-label" id="lastcard-label" style="display:none;">Last card</div>
+      <div class="word-list" id="lastcard-list"></div>
     </div>
     <div class="footer-actions">
       <button class="btn secondary" id="btn-new-game">New game</button>
@@ -1103,6 +1107,18 @@
     skipCountEl.textContent = state.skippedWords.length;
     correctListEl.innerHTML = state.correctWords.map(w => '<span class="word-tag correct">' + escapeHtml(w) + '</span>').join("") || '<span class="muted">None yet</span>';
     skipListEl.innerHTML = state.skippedWords.map(w => '<span class="word-tag skip">' + escapeHtml(w) + '</span>').join("") || '<span class="muted">None</span>';
+
+    const lastCardLabel = document.getElementById("lastcard-label");
+    const lastCardList = document.getElementById("lastcard-list");
+    if (state.currentWord) {
+      lastCardLabel.style.display = "block";
+      lastCardList.style.display = "flex";
+      lastCardList.innerHTML = '<span class="word-tag neutral">' + escapeHtml(state.currentWord) + '</span>';
+    } else {
+      lastCardLabel.style.display = "none";
+      lastCardList.style.display = "none";
+      lastCardList.innerHTML = "";
+    }
   }
 
   function escapeHtml(s){
