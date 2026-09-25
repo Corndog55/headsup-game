@@ -312,7 +312,7 @@
         </label>
       </div>
     </div>
-    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v1</div>
+    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v2</div>
   </div>
 
   <!-- TEAM SETUP -->
@@ -1014,6 +1014,7 @@
         state.tiltLastAttemptDir = null; // genuinely settled — either direction is fair game again
         state.tiltArmed = true;
         state.crossBaseline = state.smoothedCross; // re-anchor "not twisted" against however they're resting now
+        state.tiltBaseline = state.smoothedAngle;  // re-anchor "neutral" against however they're actually resting now
       }
     } else {
       state.inDeadZoneSince = null;
