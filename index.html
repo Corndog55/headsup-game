@@ -312,6 +312,7 @@
         </label>
       </div>
     </div>
+    <div class="muted" style="text-align:center; font-size:10px; opacity:.35; margin-top:6px;">v1</div>
   </div>
 
   <!-- TEAM SETUP -->
@@ -1005,7 +1006,6 @@
     const RESET = 22;          // dead zone — how close to neutral before it's considered "settled" (gives "play" for an imperfect hold)
     const HOLD_MS = 200;       // must stay past TRIGGER this long before it fires — filters a quick overshoot/wobble
     const MIN_SETTLE_MS = 130; // must rest in the dead zone this long before a DIFFERENT direction is allowed to register
-    const CROSS_LIMIT = 60;    // if the phone is twisting/rolling this much at the same time, don't count it as a tilt
 
     const inDeadZone = Math.abs(delta) < RESET;
     if (inDeadZone) {
@@ -1024,11 +1024,6 @@
       return;
     }
 
-    // Twisting/rolling the phone alongside the tilt — treat this as not a clean gesture yet.
-    if (Math.abs(crossDelta) > CROSS_LIMIT) {
-      state.tiltPendingDir = null;
-      return;
-    }
 
     const dir = delta > TRIGGER ? "correct" : delta < -TRIGGER ? "skip" : null;
 
