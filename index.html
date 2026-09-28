@@ -390,8 +390,6 @@
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="word-stage"><div class="word-text" id="word-text">WORD</div></div>
     <div class="tilt-hint" id="tilt-hint"></div>
-    <div class="tilt-hint" id="tilt-debug" style="opacity:.5;"></div>
-    <div class="tilt-hint" id="landscape-debug" style="opacity:.5;"></div>
     <div class="tap-controls">
       <button class="tap-btn skip-btn" id="btn-tap-skip">✕</button>
       <button class="tap-btn correct-btn" id="btn-tap-correct">✓</button>
@@ -868,29 +866,18 @@
   });
 
   function lockLandscape(){
-    const report = (msg) => {
-      const el = document.getElementById("landscape-debug");
-      if (el) el.textContent = msg;
-    };
     try {
       const el = document.documentElement;
-      const hasFs = !!(el.requestFullscreen || el.webkitRequestFullscreen);
       const fsRequest = el.requestFullscreen ? el.requestFullscreen()
         : el.webkitRequestFullscreen ? el.webkitRequestFullscreen()
-        : Promise.reject(new Error("no fullscreen API on this browser"));
-      const tryLock = (fsErr) => {
-        if (!(screen.orientation && screen.orientation.lock)) {
-          report("landscape: no orientation.lock API" + (fsErr ? " (fullscreen also failed: " + fsErr + ")" : " (fullscreen ok)"));
-          return;
+        : Promise.reject(new Error("no fullscreen API"));
+      const tryLock = () => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock("landscape").catch(() => {});
         }
-        screen.orientation.lock("landscape")
-          .then(() => report("landscape: locked ✓"))
-          .catch((e) => report("landscape: lock failed — " + e.message + (fsErr ? " (fullscreen also failed: " + fsErr + ")" : " (fullscreen ok)")));
       };
-      Promise.resolve(fsRequest).then(() => tryLock(null)).catch((e) => tryLock(e.message));
-    } catch(e) {
-      report("landscape: error — " + e.message);
-    }
+      Promise.resolve(fsRequest).then(tryLock).catch(tryLock);
+    } catch(e) { /* orientation lock unsupported here; game still works in portrait */ }
   }
 
   function unlockOrientation(){
@@ -1031,7 +1018,6 @@
     gameTimerEl.textContent = state.secondsLeft;
     progressFill.style.width = "100%";
     tiltHint.textContent = state.motionActive ? "Tilt down = correct · Tilt up = skip" : "Tap the buttons below";
-    document.getElementById("tilt-debug").textContent = "";
     updateSkipButtonState();
     showWord();
 
@@ -1125,9 +1111,6 @@
       state.smoothedCross = state.smoothedCross * 0.75 + cross * 0.25;
     }
     const crossDelta = (state.smoothedCross !== null) ? state.smoothedCross - state.crossBaseline : 0;
-
-    const debugEl = document.getElementById("tilt-debug");
-    if (debugEl) debugEl.textContent = "tilt: " + Math.round(delta) + "° / twist: " + Math.round(crossDelta) + "°";
 
     const now = Date.now();
     if (now - state.lastTiltTrigger < 700) {
