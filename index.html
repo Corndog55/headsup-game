@@ -130,6 +130,31 @@
   }
   .muted { color: var(--text-dim); font-size: 14px; line-height: 1.5; }
   .top-title { font-size: 26px; padding: 4px 0 6px; letter-spacing: .3px; }
+  .home-top-row { display: flex; align-items: center; justify-content: space-between; }
+  .help-btn {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--panel-line);
+    background: var(--panel); color: var(--text-dim); font-weight: 700; font-size: 15px; cursor: pointer;
+  }
+  .deck-picker-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .deck-bulk-actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .text-btn { white-space: nowrap; }
+  .text-btn {
+    background: none; border: none; color: var(--pink); font-family: 'Inter'; font-weight: 700;
+    font-size: 12px; padding: 4px 2px; cursor: pointer;
+  }
+  #screen-help .card { font-size: 14px; line-height: 1.5; color: var(--text); }
+  .deck-cat-header {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase;
+    color: var(--text-dim); margin: 16px 2px 6px;
+  }
+  .deck-cat-header:first-child { margin-top: 2px; }
+  .team-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .team-row .team-input { margin-bottom: 0; flex: 1; }
+  .remove-team-btn {
+    width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; border: 1px solid var(--panel-line);
+    background: var(--panel); color: var(--text-dim); font-size: 16px; cursor: pointer;
+  }
   .brand-chin { color: var(--pink); }
   .brand-up { color: var(--yellow); }
 
@@ -283,7 +308,7 @@
   .progress-track { position: relative; z-index: 2; height: 6px; background: rgba(255,255,255,.15); margin: 0 20px; border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--yellow); width: 100%; }
   .word-stage { position: relative; z-index: 2; flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px 24px; }
-  .word-text { font-family: 'Baloo 2'; font-weight: 800; font-size: clamp(28px, 12vmin, 90px); text-align: center; line-height: 1.05; word-break: break-word; }
+  .word-text { font-family: 'Baloo 2'; font-weight: 800; font-size: clamp(28px, 12vmin, 90px); text-align: center; line-height: 1.05; overflow-wrap: break-word; max-width: 100%; }
   .tap-controls { position: relative; z-index: 2; display: flex; gap: 14px; padding: 0 20px calc(env(safe-area-inset-bottom,0px) + 16px); }
   .tap-btn {
     flex: 1; border: none; border-radius: 22px; padding: 20px 0; font-size: 30px; cursor: pointer;
@@ -303,7 +328,7 @@
   }
 
   /* ---------- RESULTS ---------- */
-  #screen-results h2 { font-size: 24px; margin-bottom: 2px; }
+  #screen-results h2, #screen-final h2 { font-size: 24px; margin-bottom: 2px; }
   .results-score { font-family: 'Baloo 2'; font-size: 56px; margin: 8px 0 18px; }
   .word-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
   .word-tag { font-size: 14px; font-weight: 600; border-radius: 10px; padding: 7px 11px; }
@@ -322,11 +347,24 @@
 
   <!-- HOME -->
   <div class="screen active" id="screen-home">
-    <h1 class="top-title"><span class="brand-chin">Chin</span><span class="brand-up">Up</span></h1>
-    <div class="section-label" id="deck-picker-label" style="margin-top:0;">Picked Decks</div>
+    <div class="home-top-row">
+      <h1 class="top-title"><span class="brand-chin">Chin</span><span class="brand-up">Up</span></h1>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="muted" id="best-score-line" style="font-size:12px; display:none;"></div>
+        <button class="help-btn" id="btn-sound" aria-label="Toggle sound">🔊</button>
+        <button class="help-btn" id="btn-help" aria-label="How to play">?</button>
+      </div>
+    </div>
+    <div class="deck-picker-row">
+      <div class="section-label" id="deck-picker-label" style="margin-top:0;">Picked Decks</div>
+      <div class="deck-bulk-actions">
+        <button class="text-btn" id="btn-select-all">Select all</button>
+        <button class="text-btn" id="btn-clear-all">Clear</button>
+      </div>
+    </div>
 
     <div class="scroll">
-      <div class="deck-grid" id="deck-grid"></div>
+      <div id="deck-grid"></div>
     </div>
 
     <button class="btn block" id="btn-continue" style="margin-top:10px; padding:12px 16px; font-size:15px;">Continue</button>
@@ -351,12 +389,40 @@
     </div>
   </div>
 
+  <!-- HELP -->
+  <div class="screen" id="screen-help">
+    <h1 class="top-title" style="font-size:22px;">How to play</h1>
+    <div class="scroll">
+      <div class="card" style="margin-bottom:12px;">
+        <strong>Hold the phone to your forehead</strong>, screen facing out toward your friends — they can see the word, you can't.
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        <strong>Tilt down</strong> when they get it right, <strong>tilt up</strong> to skip it. On most phones this works automatically; if tilt isn't available, have a friend facing you tap ✓ / ✕ instead.
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        Pick one or more decks, set a round timer, and choose <strong>Solo</strong> for single rounds or <strong>Team</strong> (2 to 4 teams) to keep score across turns. Tap <strong>End game</strong> on the results screen to see who won.
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        Turn on <strong>Skips</strong> to limit each round to the classic 3 skips — after that, you can only mark words correct.
+      </div>
+      <div class="card">
+        A faint ✕ in the top-left corner during a round ends it early and takes you to the results screen.
+      </div>
+      <div class="card" style="margin-top:12px;">
+        Tap 🔊 on the home screen to turn sound effects on or off.
+      </div>
+    </div>
+    <div class="footer-actions">
+      <button class="btn block" id="btn-help-back">Got it</button>
+    </div>
+  </div>
+
   <!-- TEAM SETUP -->
   <div class="screen" id="screen-team-setup">
     <h1 class="top-title">Name your teams</h1>
-    <input class="team-input" id="team1-name" value="Team 1" maxlength="18">
-    <input class="team-input" id="team2-name" value="Team 2" maxlength="18">
-    <div class="muted" style="margin-top:4px;">Teams take turns. Scores carry over until you end the game.</div>
+    <div id="team-inputs"></div>
+    <button class="text-btn" id="btn-add-team" style="align-self:flex-start; font-size:14px;">+ Add team</button>
+    <div class="muted" style="margin-top:8px;">Teams take turns. Scores carry over until you end the game.</div>
     <div class="spacer"></div>
     <div class="footer-actions">
       <button class="btn secondary" id="team-back">Back</button>
@@ -402,7 +468,7 @@
       <h2 id="results-title">Round over!</h2>
       <div class="results-score" id="results-score">0</div>
 
-      <div id="results-scoreboard" style="display:none;" class="card" style="margin-bottom:16px;"></div>
+      <div id="results-scoreboard" class="card" style="display:none; margin-bottom:16px;"></div>
 
       <div class="section-label">Got right (<span id="correct-count">0</span>)</div>
       <div class="word-list" id="correct-list"></div>
@@ -416,6 +482,18 @@
     <div class="footer-actions">
       <button class="btn secondary" id="btn-new-game">New game</button>
       <button class="btn block" id="btn-play-again">Next round</button>
+    </div>
+  </div>
+
+  <!-- FINAL STANDINGS -->
+  <div class="screen" id="screen-final">
+    <div class="scroll">
+      <h2>Game over!</h2>
+      <div class="results-score" id="final-winner" style="font-size:34px;"></div>
+      <div class="card" id="final-standings"></div>
+    </div>
+    <div class="footer-actions">
+      <button class="btn block" id="btn-final-home">New game</button>
     </div>
   </div>
 
@@ -442,12 +520,12 @@
     rock30: {
       label: "30 Rock",
       cls: "rock30",
-      words: ["Liz Lemon","Jack Donaghy","Tracy Jordan","Jenna Maroney","Kenneth Parcell","Pete Hornberger","Frank Rossitano","Toofer","Lutz","Cerie","TGS with Tracy Jordan","Night Cheese","I Want to Go to There","Blerg","Sabor de Soledad","GE Building","NBC Page Program","Dealbreakers Talk Show","Werewolf Bar Mitzvah","Rural Juror","Astronaut Mike Dexter","MILF Island","Muffin Top","Cabbage Batman","Grizz and Dot Com","Devon Banks","Nancy Donovan","Colleen Donaghy","Black Crime Network","Kabletown","Reaganomics References","Liz's Sandwiches","Jack's Scotch","Tracy's Movie EGOT","Kenneth's Page Uniform","TGS Studio 6H","Apollo Apollo","Shazam!"]
+      words: ["Liz Lemon","Jack Donaghy","Tracy Jordan","Jenna Maroney","Kenneth Parcell","Pete Hornberger","Frank Rossitano","Toofer","Lutz","Cerie","TGS with Tracy Jordan","Night Cheese","I Want to Go to There","Blerg","Sabor de Soledad","GE Building","NBC Page Program","Dealbreakers Talk Show","Werewolf Bar Mitzvah","Rural Juror","Astronaut Mike Dexter","MILF Island","Muffin Top","Hank Hooper","Grizz and Dot Com","Devon Banks","Nancy Donovan","Colleen Donaghy","Dr. Spaceman","Kabletown","Floyd","Liz's Sandwiches","Jack's Scotch","Tracy's EGOT","Kenneth's Page Uniform","TGS Studio 6H","Apollo Apollo","Dennis Duffy"]
     },
     ninetwooneten: {
       label: "90210",
       cls: "ninetwooneten",
-      words: ["Brandon Walsh","Brenda Walsh","Kelly Taylor","Dylan McKay","Steve Sanders","Donna Martin","David Silver","Andrea Zuckerman","The Peach Pit","West Beverly High","Beverly Hills Zip Code","Nat's Diner","Prom Episode","Love Triangle","David and Donna Romance","Kelly and Dylan Romance","Brandon's Journalism Career","Steve's Wild Antics","Donna Martin Graduates","The Peach Pit After Dark","Spin-Off Series","Jason Priestley","Shannen Doherty","Jennie Garth","Luke Perry","Tori Spelling","Ian Ziering","The Original Cast","Beverly Hills High School","Teen Drama Classic"]
+      words: ["Brandon Walsh","Brenda Walsh","Kelly Taylor","Dylan McKay","Steve Sanders","Donna Martin","David Silver","Andrea Zuckerman","The Peach Pit","West Beverly High","Beverly Hills Zip Code","Nat Bussichio","Prom Episode","Love Triangle","David and Donna Romance","Kelly and Dylan Romance","Brandon's Journalism Career","Steve's Wild Antics","Donna Martin Graduates","The Peach Pit After Dark","Spin-Off Series","Jason Priestley","Shannen Doherty","Jennie Garth","Luke Perry","Tori Spelling","Ian Ziering","The Original Cast","Beverly Hills High School","Teen Drama Classic"]
     },
     nineties: {
       label: "90s",
@@ -462,7 +540,7 @@
     ace: {
       label: "Ace Ventura",
       cls: "ace",
-      words: ["Ace Ventura","Pet Detective","Alrighty Then","Spleen the Alpaca","Einhorn is Finkle","Finkle is Einhorn","Loo Loo Loo","Dolphin Named Snowflake","Miami Dolphins","Ray Finkle","Squirrel Impression","Talking Out of His Backside","Consuela","Woodstock the Bird","Shikaka","Pet Alligator","Rhino Costume","Renting a Room from Woody","Wachootoo Tribe","Wachati Tribe","Bat Cave Scene","Snapping Gum","Kicking Down the Door","Do Not Go In There","Turtle Neck Sweater","Loud Hawaiian Shirt","White Suit","Ace's Convertible","Detective Einhorn","Miss Finkle","Hair Flip","Talking to Animals","Squeaky Voice","Cheek Talking","Fake Mustache","Zebra Suit","Ventura's Apartment","Answering Machine Message","Parrot Sidekick","Pigeon-English Accent"]
+      words: ["Ace Ventura","Pet Detective","Alrighty Then","Laces Out","Einhorn is Finkle","Finkle is Einhorn","Dan Marino","Dolphin Named Snowflake","Miami Dolphins","Ray Finkle","Squirrel Impression","Talking Out of His Backside","Melissa Robinson","Spike the Monkey","Shikaka","Sean Young","Rhino Costume","Mr. Shickadance","Wachootoo Tribe","Wachati Tribe","Bat Cave Scene","Snapping Gum","Kicking Down the Door","Do Not Go In There","Turtle Neck Sweater","Loud Hawaiian Shirt","White Suit","Ace's Convertible","Detective Einhorn","Miss Finkle","Hair Flip","Talking to Animals","Squeaky Voice","Courteney Cox","Fake Mustache","Super Bowl Ring","Ventura's Apartment","Answering Machine Message","Monastery Retreat","Like a Glove"]
     },
     actitout: {
       label: "Act It Out",
@@ -477,7 +555,7 @@
     sunny: {
       label: "Always Sunny",
       cls: "sunny",
-      words: ["Paddy's Pub","The Gang","Nightman","Dayman","Kitten Mittons","Rum Ham","Milk Steak","Wildcard","Charlie Work","The D.E.N.N.I.S. System","Green Man","Troll Toll","Boyle Milk","The McPoyles","Gas Station Chili","Chardee MacDennis","Sweet Dee","Mac's Karate Moves","Frank's Wine Cellar","Wolf Cola","Cricket","PTSDee","Lethal Weapon 5","Pop-Pop","Da Maniac","Gail the Snail","The Waitress","The Implication","Nightcrawlers","South Philly","Philadelphia Eagles","The Lawyer","Riggs the Cat","Egg Hunt","World's Greatest Boxer","Trash Man","Flip Flop","Danny DeVito","The Nightman Cometh","Bird Law"]
+      words: ["Paddy's Pub","The Gang","Nightman","Dayman","Kitten Mittons","Rum Ham","Milk Steak","Wildcard","Charlie Work","The D.E.N.N.I.S. System","Green Man","Troll Toll","Fight Milk","The McPoyles","The Gang Solves the Gas Crisis","Chardee MacDennis","Sweet Dee","Mac's Karate Moves","Frank in the Couch","Wolf Cola","Cricket","PTSDee","Lethal Weapon 5","Pop-Pop","Da Maniac","Gail the Snail","The Waitress","The Implication","Nightcrawlers","South Philly","Philadelphia Eagles","The Lawyer","Paddy's Dollars","Dennis's Lamborghini","Bonnie Kelly","Trash Man","The Gang Goes to the Jersey Shore","Danny DeVito","The Nightman Cometh","Bird Law"]
     },
     american: {
       label: "American History",
@@ -492,7 +570,7 @@
     arrested: {
       label: "Arrested Development",
       cls: "arrested",
-      words: ["Banana Stand","There's Always Money in the Banana Stand","Chicken Dance","Steve Holt","Annyong","Her?","I've Made a Huge Mistake","Bluth Company","Frozen Banana","Gob's Magic Tricks","Segway","Cornballer","Motherboy","Never Nude","Hand to the Chicken","Franklin the Puppet","Tobias Fünke","Blue Man Group Audition","Light Treason","Bob Loblaw","Bob Loblaw's Law Blog","Egg? Ann?","The Model Home","Charlie Brown Shirt","Maeby's Fake Name","Come On!","I Just Blue Myself","The Stair Car","Lucille 2","Awesome","Gene Parmesan","Loose Seal","Balboa Towers","Illusion, Michael","Marry Me","Magician's Alliance","Skip's Scramble","Mock Trial with J. Reinhold","The Bluth Family Yacht","Fakeblock"]
+      words: ["Banana Stand","There's Always Money in the Banana Stand","Chicken Dance","Steve Holt","Annyong","Her?","I've Made a Huge Mistake","Bluth Company","Frozen Banana","Gob's Magic Tricks","Segway","Cornballer","Motherboy","Never Nude","Hot Cops","Franklin the Puppet","Tobias Fünke","Blue Man Group Audition","Light Treason","Bob Loblaw","Bob Loblaw's Law Blog","Ann Veal","The Model Home","Buster's Hook Hand","Maeby's Fake Name","Come On!","I Just Blue Myself","The Stair Car","Lucille 2","Mr. F","Gene Parmesan","Loose Seal","Balboa Towers","Illusion, Michael","Marry Me","Magician's Alliance","Skip's Scramble","Mock Trial with J. Reinhold","The Bluth Family Yacht","Fakeblock"]
     },
     arsenio: {
       label: "Arsenio Hall Show Guests",
@@ -517,12 +595,12 @@
     beertrivia: {
       label: "Beer Trivia",
       cls: "beertrivia",
-      words: ["IPA","Lager","Stout","Pilsner","Craft Brewery","Hops","Barley","Oktoberfest","Keg Stand","Bottoms Up","Beer Pong","Growler","Happy Hour","Six-Pack","Brewpub","Cold One","Beer Goggles","Chugging","Beer Belly","Session Beer","Wheat Beer","Porter","Ale","Draft Beer","Beer Pretzel","Bar Tab","Bottle Cap","Frat Party Classic","Beer Koozie","Hangover Cure","Pub Crawl","Beer Snob","Light Beer","Beer Run","Cheers","Tailgate Beer","Beer Garden","Beer Bong"]
+      words: ["IPA","Lager","Stout","Pilsner","Craft Brewery","Hops","Barley","Oktoberfest","Keg Stand","Bottoms Up","Beer Pong","Growler","Happy Hour","Six-Pack","Brewpub","Cold One","Beer Goggles","Chugging","Beer Belly","Session Beer","Wheat Beer","Porter","Ale","Draft Beer","Beer Pretzel","Bar Tab","Bottle Cap","Pale Ale","Beer Koozie","Hangover Cure","Pub Crawl","Beer Snob","Light Beer","Beer Run","Cheers","Tailgate Beer","Beer Garden","Beer Bong"]
     },
     blink182: {
       label: "Blink-182 Songs",
       cls: "blink182",
-      words: ["All the Small Things","What's My Age Again?","Adam's Song","First Date","Dammit","I Miss You","Feeling This","Down","Stay Together for the Kids","The Rock Show","Man Overboard","Josie","Aliens Exist","Dysentery Gary","Reckless Abandon","Every Time I Look for You","Wasting Time","Not Now","Always","Bored to Death","She's Out of Her Mind","Left Alone","Ghost on the Dance Floor","Up All Night","After Midnight","Anthem","Anthem Part Two","Wendy Clear","Going Away to College","Family Reunion","Voyeur","Stockholm Syndrome","Violence","Happy Days","Edging","Fell in Love","One More Time","Toxic Positivity","Apple Shampoo","Los Angeles"]
+      words: ["All the Small Things","What's My Age Again?","Adam's Song","First Date","Dammit","I Miss You","Feeling This","Down","Stay Together for the Kids","The Rock Show","Man Overboard","Josie","Aliens Exist","Dysentery Gary","Reckless Abandon","Every Time I Look for You","Wasting Time","Not Now","Always","Bored to Death","She's Out of Her Mind","Left Alone","Ghost on the Dance Floor","Up All Night","After Midnight","Anthem","Anthem Part Two","Wendy Clear","Going Away to College","Family Reunion","Voyeur","Stockholm Syndrome","Violence","Happy Days","Edging","Fell in Love","One More Time","Carousel","Apple Shampoo","Los Angeles"]
     },
     blockbuster: {
       label: "Blockbuster Movies",
@@ -542,7 +620,7 @@
     celebs: {
       label: "Celebrities",
       cls: "celebs",
-      words: ["Oprah Winfrey","Tom Hanks","Beyoncé","Elvis Presley","Marilyn Monroe","Albert Einstein","Michael Jordan","Serena Williams","Taylor Swift","Elton John","Meryl Streep","Will Smith","Dwayne Johnson","Jennifer Lawrence","Robin Williams","Charlie Chaplin","Walt Disney","Steve Jobs","Bill Gates","Abraham Lincoln","Cleopatra","Leonardo da Vinci","Mozart","William Shakespeare","Muhammad Ali","Babe Ruth","Amelia Earhart","Neil Armstrong","Martin Luther King Jr.","Rosa Parks","Bruce Lee","Jackie Chan","Betty White","Julia Child","Fred Rogers","Stan Lee","Walt Whitman","Vincent van Gogh","Pablo Picasso","Frida Kahlo"]
+      words: ["Oprah Winfrey","Tom Hanks","Beyoncé","Elvis Presley","Marilyn Monroe","Albert Einstein","Michael Jordan","Serena Williams","Taylor Swift","Elton John","Meryl Streep","Will Smith","Dwayne Johnson","Jennifer Lawrence","Robin Williams","Charlie Chaplin","Walt Disney","Steve Jobs","Bill Gates","Abraham Lincoln","Cleopatra","Leonardo da Vinci","Mozart","William Shakespeare","Muhammad Ali","Babe Ruth","Amelia Earhart","Neil Armstrong","Martin Luther King Jr.","Rosa Parks","Bruce Lee","Jackie Chan","Betty White","Julia Child","Fred Rogers","Stan Lee","Lady Gaga","Vincent van Gogh","Pablo Picasso","Frida Kahlo"]
     },
     cuisine: {
       label: "Cuisine",
@@ -562,17 +640,17 @@
     disneyparks: {
       label: "Disney Parks",
       cls: "disneyparks",
-      words: ["Space Mountain","Pirates of the Caribbean Ride","Haunted Mansion","It's a Small World","Splash Mountain","Big Thunder Mountain Railroad","Magic Kingdom","Epcot","Hollywood Studios","Animal Kingdom","Cinderella Castle","Main Street U.S.A.","Fantasyland","Tomorrowland","Adventureland","Frontierland","Dole Whip","Mickey Ears","Fireworks Show","Character Meet and Greet","Genie+","Monorail","Matterhorn Bobsleds","Star Wars: Galaxy's Edge","Toy Story Land","Soarin' Around the World","Test Track","Expedition Everest","Kilimanjaro Safaris","Jungle Cruise","Mad Tea Party","Peter Pan's Flight","Astro Orbiter","Carousel of Progress","Turkey Leg","Club 33","Disney PhotoPass","Rope Drop"]
+      words: ["Space Mountain","Pirates of the Caribbean Ride","Haunted Mansion","It's a Small World","Splash Mountain","Big Thunder Mountain Railroad","Magic Kingdom","Epcot","Hollywood Studios","Animal Kingdom","Cinderella Castle","Main Street U.S.A.","Fantasyland","Tomorrowland","Adventureland","Frontierland","Dole Whip","Mickey Ears","Fireworks Show","Character Meet and Greet","Lightning Lane","Monorail","Matterhorn Bobsleds","Star Wars: Galaxy's Edge","Toy Story Land","Soarin' Around the World","Test Track","Expedition Everest","Kilimanjaro Safaris","Jungle Cruise","Mad Tea Party","Peter Pan's Flight","Astro Orbiter","Carousel of Progress","Turkey Leg","Club 33","Disney PhotoPass","Rope Drop"]
     },
     dolly: {
       label: "Dolly Parton",
       cls: "dolly",
-      words: ["Jolene","9 to 5","I Will Always Love You","Coat of Many Colors","Dollywood","Here You Come Again","Islands in the Stream","Steel Magnolias","The Best Little Whorehouse in Texas","Rhinestone","Blue Smoke","Backwoods Barbie","My Tennessee Mountain Home","Applejack","Pure and Simple","Sevierville, Tennessee","The Grand Ole Opry","Porter Wagoner","Imagination Library","Dollywood's Splash Country","Chasing Rainbows","Country Music Hall of Fame","Signature Blonde Wig","Rhinestone Cowgirl Style","Butterfly Logo","It Costs A Lot Of Money To Look This Cheap","Songwriter","Platinum Blonde","Big Hair","Kenny Rogers Duet Partner","Whitney Houston Cover Song","Trio Album With Linda Ronstadt","9 to 5 The Musical","Heartstrings Netflix Series","Vaxxed and Waxed","Rhinestone Movie With Sylvester Stallone","Southern Belle Persona","Grammy Lifetime Achievement Award","Moderna Vaccine Donation","East Tennessee Roots"]
+      words: ["Jolene","9 to 5","I Will Always Love You","Coat of Many Colors","Dollywood","Here You Come Again","Islands in the Stream","Steel Magnolias","The Best Little Whorehouse in Texas","Rhinestone","Blue Smoke","Backwoods Barbie","My Tennessee Mountain Home","Applejack","Pure and Simple","Sevierville, Tennessee","The Grand Ole Opry","Porter Wagoner","Imagination Library","Dollywood's Splash Country","Chasing Rainbows","Country Music Hall of Fame","Signature Blonde Wig","Rhinestone Cowgirl Style","Butterfly Logo","It Costs A Lot Of Money To Look This Cheap","Songwriter","Platinum Blonde","Big Hair","Kenny Rogers Duet Partner","Whitney Houston Cover Song","Trio Album With Linda Ronstadt","9 to 5 The Musical","Heartstrings Netflix Series","Vaccine Jolene Parody","Rhinestone Movie With Sylvester Stallone","Southern Belle Persona","Grammy Lifetime Achievement Award","Moderna Vaccine Donation","East Tennessee Roots"]
     },
     dumb: {
       label: "Dumb and Dumber",
       cls: "dumb",
-      words: ["Lloyd Christmas","Harry Dunne","The Mutt Cutts Van","Sea Bass","So You're Telling Me There's a Chance","Most Annoying Sound in the World","Briefcase Full of Money","Aspen, Colorado","Mary Swanson","Ear Muffs","Petey the Parakeet","Toilet Scene","Tuxedo Rental","Samsonite Luggage","Hitchhiking","Sea World","Chapstick and Salt","Turbo Lax","Pat Sajak","Wheel of Fortune","Snowmobile","Ski Lodge","Kick Me Sign","Bickering Brothers","Pea Soup","Big Gulp","Motorcycle Cop","Ring the Bell for Service","Roadkill","Scooter","Money Belt","Newlyweds Van","Frozen Tongue on Ski Lift","Fanny Pack","World's Best Cup of Coffee Mug","Rhode Island","Providence","Wheelchair-Bound Villain","Shaggin' Wagon","Orange Tuxedo"]
+      words: ["Lloyd Christmas","Harry Dunne","The Mutt Cutts Van","Sea Bass","So You're Telling Me There's a Chance","Most Annoying Sound in the World","Briefcase Full of Money","Aspen, Colorado","Mary Swanson","Ear Muffs","Petey the Parakeet","Toilet Scene","Tuxedo Rental","Samsonite Luggage","Hitchhiking","Harry and Lloyd","Pretty Bird","Turbo Lax","Powder Blue Tuxedo","Hot Pepper Burger Prank","Snowmobile","Ski Lodge","Nicholas Andre","Dog Groomer","Joe Mentalino","Big Gulp","Motorcycle Cop","Bikini Tour Bus","We Landed on the Moon!","Scooter","Bowl Cut","Chipped Tooth","Frozen Tongue on Ski Lift","Fanny Pack","Big Gulps, Huh?","Rhode Island","Providence","Limo Driver","Shaggin' Wagon","Orange Tuxedo"]
     },
     famousdrunks: {
       label: "Famous Drunks",
@@ -607,7 +685,7 @@
     movies: {
       label: "Movies",
       cls: "movies",
-      words: ["Titanic","Inception","Frozen","Jurassic Park","The Matrix","Rocky","Gladiator","Toy Story","Shrek","Avatar","Casablanca","Psycho","Grease","Ghostbusters","Aladdin","Moana","Coco","Up","Cars","Finding Nemo","The Lion King","Star Wars","Jumanji","Elf","Home Alone","The Grinch","Twilight","Frankenstein","Dracula","Godzilla","King Kong","E.T.","Back to the Future","Ferris Bueller's Day Off","The Sandlot","Space Jam","The Goonies","Babe","Ratatouille","Rocky II"]
+      words: ["Titanic","Inception","Frozen","Jurassic Park","The Matrix","Rocky","Gladiator","Toy Story","Shrek","Avatar","Casablanca","Psycho","Grease","Ghostbusters","Aladdin","Moana","Coco","Up","Cars","Finding Nemo","The Lion King","Star Wars","Jumanji","Elf","Home Alone","The Grinch","Twilight","Frankenstein","Dracula","Godzilla","King Kong","E.T.","Back to the Future","Ferris Bueller's Day Off","The Sandlot","Space Jam","The Goonies","Babe","Ratatouille","The Godfather"]
     },
     mtv: {
       label: "MTV",
@@ -647,17 +725,17 @@
     savedbythebell: {
       label: "Saved By The Bell",
       cls: "savedbythebell",
-      words: ["Zack Morris","Kelly Kapowski","Screech","Lisa Turtle","A.C. Slater","Jessie Spano","Mr. Belding","Bayside High","Time Out Freeze Frame","The Max","Zack's Schemes","Jessie's Caffeine Pill Episode","Malibu Sands","Miss Bliss Spin-Off","Prom Episode","Graduation Episode","Zack and Kelly Romance","Slater and Jessie Romance","Screech's Inventions","Lisa's Fashion Sense","Bayside Tigers","Saved By The Bell Movie","College Years Spin-Off","The New Class Spin-Off","Hawaiian Style Episode","Wedding in Las Vegas","Zack Attack Band","I'm So Excited Song","Screech's Robot Kevin"]
+      words: ["Zack Morris","Kelly Kapowski","Screech","Lisa Turtle","A.C. Slater","Jessie Spano","Mr. Belding","Bayside High","Time Out Freeze Frame","The Max","Zack's Schemes","Jessie's Caffeine Pill Episode","Malibu Sands","Miss Bliss Spin-Off","Prom Episode","Graduation Episode","Zack and Kelly Romance","Slater and Jessie Romance","Screech's Inventions","Lisa's Fashion Sense","Bayside Tigers","Hey Hey Hey What Is Going On Here","College Years Spin-Off","The New Class Spin-Off","Hawaiian Style Episode","Wedding in Las Vegas","Zack Attack Band","I'm So Excited Song","Screech's Robot Kevin"]
     },
     seinfeld: {
       label: "Seinfeld",
       cls: "seinfeld",
-      words: ["The Soup Nazi","Master of My Domain","Yada Yada Yada","Festivus","The Puffy Shirt","Junior Mint","Not That There's Anything Wrong With That","Close Talker","Low Talker","Man Hands","Shrinkage","Spongeworthy","Double-Dipping","Regifting","The Contest","Serenity Now","The Big Salad","Bizarro World","Newman","The Marble Rye","No Soup For You","Elaine's Dance","The Opposite","Vandelay Industries","Art Vandelay","The Bubble Boy","The Comeback","The Mango","Kramer's Entrance","The Hamptons","Sponge-Worthy Test","Pretzels Making Me Thirsty","The Armoire","The Rye","Assman","Del Boca Vista","Superman","Cigars in the Office","Peterman","The Chicken Roaster"]
+      words: ["The Soup Nazi","Master of My Domain","Yada Yada Yada","Festivus","The Puffy Shirt","Junior Mint","Not That There's Anything Wrong With That","Close Talker","Low Talker","Man Hands","Shrinkage","Spongeworthy","Double-Dipping","Regifting","The Contest","Serenity Now","The Big Salad","Bizarro World","Newman","The Marble Rye","No Soup For You","Elaine's Dance","The Opposite","Vandelay Industries","Art Vandelay","The Bubble Boy","The Jerk Store","The Mango","Kramer's Entrance","The Hamptons","Kramer's Coffee Table Book","Pretzels Making Me Thirsty","The Armoire","Puddy","Assman","Del Boca Vista","Superman","Cuban Cigars","Peterman","The Chicken Roaster"]
     },
     snl: {
       label: "SNL",
       cls: "snl",
-      words: ["Weekend Update","Church Lady","Wayne's World","Da Bears","More Cowbell","Debbie Downer","MacGruber","The Californians","Celebrity Jeopardy","Matt Foley Motivational Speaker","Coneheads","Ambiguously Gay Duo","Spartan Cheerleaders","Roxbury Guys","Blues Brothers","Ladies Man","Toonces the Driving Cat","Mr. Bill","Stefon","Dick in a Box","Lazy Sunday","Black Jeopardy","TV Funhouse","Total Bass-O-Matic","Chippendales Audition","Deep Thoughts by Jack Handey","Grumpy Old Man","Opera Man","It's Pat","Sprockets","The Herlihy Boy","Copy Guy"]
+      words: ["Weekend Update","Church Lady","Wayne's World","Da Bears","More Cowbell","Debbie Downer","MacGruber","The Californians","Celebrity Jeopardy","Matt Foley Motivational Speaker","Coneheads","Ambiguously Gay Duo","Spartan Cheerleaders","Roxbury Guys","Blues Brothers","Ladies Man","Toonces the Driving Cat","Mr. Bill","Stefon","Dick in a Box","Lazy Sunday","Black Jeopardy","TV Funhouse","Bass-O-Matic","Chippendales Audition","Deep Thoughts by Jack Handey","Grumpy Old Man","Opera Man","It's Pat","Sprockets","The Herlihy Boy","The Richmeister"]
     },
     tswift: {
       label: "Taylor Swift",
@@ -682,17 +760,17 @@
     mask: {
       label: "The Mask",
       cls: "mask",
-      words: ["Stanley Ipkiss","The Mask of Loki","Cuban Pete","Smokin'!","Somebody Stop Me!","Ssss-Smokin'","Green Face","Milo the Dog","Tina Carlyle","Big Bad Wolf","Zoot Suit","Tommy Gun Scene","Bank Robbery","Cartoon Physics","Yellow Zoot Suit","Cha-Cha-Cha","Coco Bongo Club","Dorian Tyrell","Police Chase","Tank Scene","Wolf Whistle","Eyes Popping Out","Heart Pounding Out of Chest","Green Mask","Norse Mythology","Trickster God","Edge City","Charlie the Coworker","Peggy Brandt","Lieutenant Kellaway","Milo's Superhero Cape","Mask Transformation","Sledgehammer Gag","Tuxedo Dance Number","Rocket Skates","Gun Twirling","Big Mouth Gag","Tex Avery Style","Animated Hijinks","Ipkiss's Bank Job"]
+      words: ["Stanley Ipkiss","The Mask of Loki","Cuban Pete","Smokin'!","Somebody Stop Me!","Bank Clerk","Green Face","Milo the Dog","Tina Carlyle","Big Bad Wolf","Zoot Suit","Revenge on the Mechanics","Bank Robbery","Cartoon Physics","Mrs. Peenman","Cha-Cha-Cha","Coco Bongo Club","Dorian Tyrell","Police Chase","Balloon Animals","Wolf Whistle","Eyes Popping Out","Heart Pounding Out of Chest","P-A-R-T-Y Because I Gotta!","Norse Mythology","Trickster God","Edge City","Charlie the Coworker","Peggy Brandt","Lieutenant Kellaway","Tornado Spin","Mask Transformation","Mask Thrown in the River","Tuxedo Dance Number","Alarm Clock Smash","Gun Twirling","Big Mouth Gag","Tex Avery Style","Jim Carrey","Cameron Diaz"]
     },
     office: {
       label: "The Office",
       cls: "office",
-      words: ["Dunder Mifflin","World's Best Boss","Schrute Farms","Bears, Beets, Battlestar Galactica","That's What She Said","Prison Mike","Threat Level Midnight","Fire Drill","The Dundies","Parkour","Assistant to the Regional Manager","Identity Theft","Kevin's Chili","Diversity Day","The Birthday Party","Michael Scott Paper Company","Booze Cruise","Casino Night","Jim's Pranks","Stapler in Jell-O","The Finer Things Club","Basketball Game","Golden Ticket","Nard Dog","Angela's Cats","Creed's Secrets","Party Planning Committee","Toby From HR","Scranton Strangler","Vance Refrigeration","Pretzel Day","The Office Olympics","Beet-Related Puns","Dwight's Bobblehead","The Alliance","Conference Room Meeting","Cece Halpert","Sensei Dwight","Merger with Sabre","Float Like a Spelling Bee Champion"]
+      words: ["Dunder Mifflin","World's Best Boss","Schrute Farms","Bears, Beets, Battlestar Galactica","That's What She Said","Prison Mike","Threat Level Midnight","Fire Drill","The Dundies","Parkour","Assistant to the Regional Manager","Identity Theft","Kevin's Chili","Diversity Day","The Birthday Party","Michael Scott Paper Company","Booze Cruise","Casino Night","Jim's Pranks","Stapler in Jell-O","The Finer Things Club","Basketball Game","Golden Ticket","Nard Dog","Angela's Cats","Creed's Secrets","Party Planning Committee","Toby From HR","Scranton Strangler","Vance Refrigeration","Pretzel Day","The Office Olympics","Pam's Teapot","Dwight's Bobblehead","The Alliance","Ryan Howard","Cece Halpert","Sensei Dwight","Merger with Sabre","Kelly Kapoor"]
     },
     tv: {
       label: "TV Shows",
       cls: "tv",
-      words: ["Friends","Seinfeld","The Office","Cheers","Frasier","Lost","Survivor","Jeopardy!","Wheel of Fortune","SpongeBob SquarePants","The Simpsons","South Park","Sesame Street","MythBusters","Shark Tank","American Idol","The Voice","Big Brother","The Bachelor","Dancing with the Stars","Breaking Bad","Grey's Anatomy","ER","M*A*S*H","I Love Lucy","The Twilight Zone","Scooby-Doo","Tom and Jerry","Power Rangers","Full House","Saved by the Bell","Gilligan's Island","The Price Is Right","Family Feud","America's Got Talent","American Ninja Warrior","Deal or No Deal","Antiques Roadshow","Wild Kratts","Jaws"]
+      words: ["Friends","Seinfeld","The Office","Cheers","Frasier","Lost","Survivor","Jeopardy!","Wheel of Fortune","SpongeBob SquarePants","The Simpsons","South Park","Sesame Street","MythBusters","Shark Tank","American Idol","The Voice","Big Brother","The Bachelor","Dancing with the Stars","Breaking Bad","Grey's Anatomy","ER","M*A*S*H","I Love Lucy","The Twilight Zone","Scooby-Doo","Tom and Jerry","Power Rangers","Full House","Saved by the Bell","Gilligan's Island","The Price Is Right","Family Feud","America's Got Talent","American Ninja Warrior","Deal or No Deal","Antiques Roadshow","Wild Kratts","The Sopranos"]
     }
   };
 
@@ -722,8 +800,10 @@
     tiltPendingSince: 0,
     tiltLastAttemptDir: null,
     inDeadZoneSince: null,
-    crossBaseline: null,
-    smoothedCross: null,
+    calibSamples: [],
+    calibStart: 0,
+    roundEndsAt: 0,
+    soundOn: true,
     motionActive: false
   };
 
@@ -736,6 +816,7 @@
       if (p.timerSeconds) state.timerSeconds = p.timerSeconds;
       if (p.mode) state.mode = p.mode;
       if (typeof p.limitSkips === "boolean") state.limitSkips = p.limitSkips;
+      if (typeof p.soundOn === "boolean") state.soundOn = p.soundOn;
     } catch(e) { /* ignore, use defaults */ }
   }
   function savePrefs(){
@@ -743,7 +824,8 @@
       localStorage.setItem("chinup-prefs", JSON.stringify({
         timerSeconds: state.timerSeconds,
         mode: state.mode,
-        limitSkips: state.limitSkips
+        limitSkips: state.limitSkips,
+        soundOn: state.soundOn
       }));
     } catch(e) { /* storage unavailable, continue without persistence */ }
   }
@@ -756,22 +838,63 @@
 
   /* ---------------- HOME SCREEN ---------------- */
   const deckGrid = document.getElementById("deck-grid");
+  const CATEGORIES = [
+    ["Movies", ["comedy90s","ace","batman","blockbuster","dumb","holidaymovies","movies","avengers","mask"]],
+    ["TV", ["rock30","ninetwooneten","sunny","arrested","arsenio","friends","mtv","powerrangers","savedbythebell","seinfeld","snl","tmnt","office","tv"]],
+    ["Music", ["beatles","blink182","dolly","poppunk","tswift"]],
+    ["Pop Culture", ["y2k","y2010s","nineties","brands","celebs","popculture"]],
+    ["Sports", ["mlb","nfl","nhl","olympics"]],
+    ["Party", ["actitout","adult","beertrivia","boys","dadjokes","dadsetup","famousdrunks","girls","twss"]],
+    ["Everyday & Learning", ["american","animals","spanish","cuisine","disneyparks","greek"]]
+  ];
+
+  function deckCategories(){
+    const seen = new Set();
+    const cats = CATEGORIES.map(([name, keys]) => {
+      const valid = keys.filter(k => DECKS[k]);
+      valid.forEach(k => seen.add(k));
+      valid.sort((a, b) => DECKS[a].label.localeCompare(DECKS[b].label, undefined, { numeric: true }));
+      return [name, valid];
+    });
+    const other = Object.keys(DECKS).filter(k => !seen.has(k));
+    if (other.length) cats.push(["Other", other]);
+    return cats.filter(([, keys]) => keys.length);
+  }
+
   function renderDeckGrid(){
     deckGrid.innerHTML = "";
-    Object.keys(DECKS).forEach(key => {
-      const d = DECKS[key];
-      const chip = document.createElement("div");
-      chip.className = "deck-chip " + d.cls + (state.selectedDecks.has(key) ? " selected" : "");
-      chip.innerHTML = '<span class="deck-name">' + d.label + '</span><span class="deck-count">' + d.words.length + ' words</span><span class="check">✓</span>';
-      chip.addEventListener("click", () => {
-        if (state.selectedDecks.has(key)) {
-          state.selectedDecks.delete(key);
-        } else {
-          state.selectedDecks.add(key);
-        }
+    deckCategories().forEach(([catName, keys]) => {
+      const allOn = keys.every(k => state.selectedDecks.has(k));
+      const header = document.createElement("div");
+      header.className = "deck-cat-header";
+      const title = document.createElement("span");
+      title.textContent = catName;
+      const toggle = document.createElement("button");
+      toggle.className = "text-btn";
+      toggle.textContent = allOn ? "None" : "All";
+      toggle.addEventListener("click", () => {
+        keys.forEach(k => allOn ? state.selectedDecks.delete(k) : state.selectedDecks.add(k));
         renderDeckGrid();
       });
-      deckGrid.appendChild(chip);
+      header.appendChild(title);
+      header.appendChild(toggle);
+      deckGrid.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "deck-grid";
+      keys.forEach(key => {
+        const d = DECKS[key];
+        const chip = document.createElement("div");
+        chip.className = "deck-chip " + d.cls + (state.selectedDecks.has(key) ? " selected" : "");
+        chip.innerHTML = '<span class="deck-name">' + escapeHtml(d.label) + '</span><span class="deck-count">' + d.words.length + ' words</span><span class="check">✓</span>';
+        chip.addEventListener("click", () => {
+          if (state.selectedDecks.has(key)) state.selectedDecks.delete(key);
+          else state.selectedDecks.add(key);
+          renderDeckGrid();
+        });
+        grid.appendChild(chip);
+      });
+      deckGrid.appendChild(grid);
     });
     renderDeckPickerLabel();
     updateContinueButtonState();
@@ -786,9 +909,37 @@
   function renderDeckPickerLabel(){
     const labelEl = document.getElementById("deck-picker-label");
     if (!labelEl) return;
-    const names = Object.keys(DECKS).filter(key => state.selectedDecks.has(key)).map(key => DECKS[key].label);
-    labelEl.textContent = names.length ? ("Picked Decks: " + names.join(", ")) : "Picked Decks: none yet — tap a deck below";
+    const keys = Object.keys(DECKS).filter(key => state.selectedDecks.has(key));
+    if (!keys.length) {
+      labelEl.textContent = "Picked Decks: none yet — tap a deck below";
+      return;
+    }
+    const names = keys.map(key => DECKS[key].label);
+    const uniqueWords = new Set();
+    keys.forEach(key => DECKS[key].words.forEach(w => uniqueWords.add(w)));
+    labelEl.textContent = "Picked Decks (" + uniqueWords.size + " words): " + names.join(", ");
   }
+
+  document.getElementById("btn-select-all").addEventListener("click", () => {
+    state.selectedDecks = new Set(Object.keys(DECKS));
+    renderDeckGrid();
+  });
+  document.getElementById("btn-clear-all").addEventListener("click", () => {
+    state.selectedDecks = new Set();
+    renderDeckGrid();
+  });
+
+  document.getElementById("btn-help").addEventListener("click", () => show("screen-help"));
+
+  const soundBtn = document.getElementById("btn-sound");
+  function renderSoundBtn(){ soundBtn.textContent = state.soundOn ? "🔊" : "🔇"; }
+  soundBtn.addEventListener("click", () => {
+    state.soundOn = !state.soundOn;
+    renderSoundBtn();
+    savePrefs();
+    if (state.soundOn) { ensureAudio(); sound("correct"); }
+  });
+  document.getElementById("btn-help-back").addEventListener("click", () => show("screen-home"));
 
   const modeSoloBtn = document.getElementById("mode-solo");
   const modeTeamBtn = document.getElementById("mode-team");
@@ -816,8 +967,7 @@
   document.getElementById("btn-continue").addEventListener("click", () => {
     savePrefs();
     if (state.mode === "team") {
-      document.getElementById("team1-name").value = state.teams[0].name;
-      document.getElementById("team2-name").value = state.teams[1].name;
+      renderTeamInputs();
       show("screen-team-setup");
     } else {
       goToReady();
@@ -826,11 +976,41 @@
 
   /* ---------------- TEAM SETUP ---------------- */
   document.getElementById("team-back").addEventListener("click", () => show("screen-home"));
+  function renderTeamInputs(){
+    const wrap = document.getElementById("team-inputs");
+    wrap.innerHTML = "";
+    state.teams.forEach((t, i) => {
+      const row = document.createElement("div");
+      row.className = "team-row";
+      const input = document.createElement("input");
+      input.className = "team-input";
+      input.maxLength = 18;
+      input.value = t.name;
+      input.addEventListener("input", () => { state.teams[i].name = input.value; });
+      row.appendChild(input);
+      if (state.teams.length > 2) {
+        const rm = document.createElement("button");
+        rm.className = "remove-team-btn";
+        rm.textContent = "✕";
+        rm.setAttribute("aria-label", "Remove team");
+        rm.addEventListener("click", () => { state.teams.splice(i, 1); renderTeamInputs(); });
+        row.appendChild(rm);
+      }
+      wrap.appendChild(row);
+    });
+    document.getElementById("btn-add-team").style.display = state.teams.length >= 4 ? "none" : "inline-block";
+  }
+  document.getElementById("btn-add-team").addEventListener("click", () => {
+    if (state.teams.length >= 4) return;
+    state.teams.push({ name: "Team " + (state.teams.length + 1), total: 0 });
+    renderTeamInputs();
+  });
+
   document.getElementById("team-continue").addEventListener("click", () => {
-    const n1 = document.getElementById("team1-name").value.trim() || "Team 1";
-    const n2 = document.getElementById("team2-name").value.trim() || "Team 2";
-    state.teams[0].name = n1;
-    state.teams[1].name = n2;
+    state.teams.forEach((t, i) => {
+      t.name = (t.name || "").trim() || ("Team " + (i + 1));
+      t.total = 0; // fresh game: scores always start at zero
+    });
     state.currentTeamIndex = 0;
     goToReady();
   });
@@ -855,6 +1035,8 @@
   const startRoundBtn = document.getElementById("btn-start-round");
 
   startRoundBtn.addEventListener("click", async () => {
+    ensureAudio();
+    requestWakeLock();
     lockLandscape();
     startRoundBtn.disabled = true;
     const granted = await requestMotionPermission();
@@ -864,6 +1046,63 @@
     }
     startCountdown();
   });
+
+  /* ---------------- WAKE LOCK (keep screen on during a round) ---------------- */
+  let wakeLock = null;
+  async function requestWakeLock(){
+    try {
+      if ("wakeLock" in navigator && !wakeLock) {
+        wakeLock = await navigator.wakeLock.request("screen");
+        wakeLock.addEventListener("release", () => { wakeLock = null; });
+      }
+    } catch(e) { wakeLock = null; }
+  }
+  function releaseWakeLock(){
+    try { if (wakeLock) wakeLock.release(); } catch(e) { /* ignore */ }
+    wakeLock = null;
+  }
+  document.addEventListener("visibilitychange", () => {
+    const inRound = document.getElementById("screen-game").classList.contains("active")
+                 || document.getElementById("screen-countdown").classList.contains("active");
+    if (document.visibilityState === "visible" && inRound) requestWakeLock();
+  });
+
+  /* ---------------- SOUND ---------------- */
+  let audioCtx = null;
+  function ensureAudio(){
+    try {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    } catch(e) { audioCtx = null; }
+  }
+  function tone(freq, start, dur, type, vol){
+    const t0 = audioCtx.currentTime + start;
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g);
+    g.connect(audioCtx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.02);
+  }
+  function sound(kind){
+    if (!state.soundOn || !audioCtx) return;
+    try {
+      if (kind === "correct") { tone(660, 0, 0.12, "sine", 0.25); tone(990, 0.1, 0.18, "sine", 0.25); }
+      else if (kind === "skip") { tone(300, 0, 0.16, "triangle", 0.25); tone(220, 0.12, 0.2, "triangle", 0.22); }
+      else if (kind === "tick") { tone(1200, 0, 0.05, "square", 0.07); }
+      else if (kind === "count") { tone(520, 0, 0.12, "sine", 0.2); }
+      else if (kind === "go") { tone(880, 0, 0.25, "sine", 0.25); }
+      else if (kind === "end") { tone(440, 0, 0.25, "sawtooth", 0.13); tone(330, 0.22, 0.35, "sawtooth", 0.13); }
+    } catch(e) { /* ignore */ }
+  }
 
   function lockLandscape(){
     try {
@@ -937,34 +1176,22 @@
     }
   }
 
-  // The axis perpendicular to the tilt axis above — used to detect twisting/rolling
-  // the phone, which can otherwise bleed into the tilt reading near-vertical.
-  function getCrossAxis(e){
-    const g = e.accelerationIncludingGravity;
-    if (!g || g.x === null || g.z === null || typeof g.x === "undefined" || typeof g.z === "undefined") return null;
-    const screenAngle = currentScreenAngle();
-    switch (screenAngle) {
-      case 90: return Math.atan2(g.y, g.z) * (180 / Math.PI);
-      case -90:
-      case 270: return Math.atan2(g.y, g.z) * (180 / Math.PI);
-      case 180: return Math.atan2(g.x, g.z) * (180 / Math.PI);
-      default: return Math.atan2(g.x, g.z) * (180 / Math.PI);
-    }
-  }
-
   /* ---------------- COUNTDOWN ---------------- */
   const countdownNum = document.getElementById("countdown-num");
   function startCountdown(){
     show("screen-countdown");
     let n = 3;
     countdownNum.textContent = n;
+    sound("count");
     const iv = setInterval(() => {
       n -= 1;
       if (n <= 0) {
         clearInterval(iv);
+        sound("go");
         beginRound();
       } else {
         countdownNum.textContent = n;
+        sound("count");
       }
     }, 700);
   }
@@ -973,6 +1200,7 @@
   function buildPool(){
     let all = [];
     state.selectedDecks.forEach(key => { all = all.concat(DECKS[key].words); });
+    all = Array.from(new Set(all)); // same word can live in several decks; only offer it once
     let available = all.filter(w => !state.usedWords.has(w));
     if (available.length < 5) {
       state.usedWords.clear();
@@ -1011,8 +1239,8 @@
     state.tiltPendingSince = 0;
     state.tiltLastAttemptDir = null;
     state.inDeadZoneSince = null;
-    state.crossBaseline = null;
-    state.smoothedCross = null;
+    state.calibSamples = [];
+    state.calibStart = 0;
 
     gameScoreEl.textContent = "0";
     gameTimerEl.textContent = state.secondsLeft;
@@ -1022,6 +1250,7 @@
     showWord();
 
     show("screen-game");
+    fitWordText();
 
     state.sensorEventReceived = false;
     if (state.motionActive) {
@@ -1033,12 +1262,18 @@
       }, 1500);
     }
 
+    state.roundEndsAt = Date.now() + state.timerSeconds * 1000;
     state.timerHandle = setInterval(() => {
-      state.secondsLeft -= 1;
-      gameTimerEl.textContent = Math.max(0, state.secondsLeft);
-      progressFill.style.width = Math.max(0, (state.secondsLeft / state.timerSeconds) * 100) + "%";
-      if (state.secondsLeft <= 0) endRound();
-    }, 1000);
+      const msLeft = state.roundEndsAt - Date.now();
+      const secs = Math.max(0, Math.ceil(msLeft / 1000));
+      if (secs !== state.secondsLeft) {
+        state.secondsLeft = secs;
+        gameTimerEl.textContent = secs;
+        if (secs > 0 && secs <= 5) sound("tick");
+      }
+      progressFill.style.width = Math.max(0, (msLeft / (state.timerSeconds * 1000)) * 100) + "%";
+      if (msLeft <= 0) endRound();
+    }, 200);
   }
 
   function showWord(){
@@ -1049,7 +1284,28 @@
     state.currentWord = state.wordPool[state.wordIndex];
     wordTextEl.textContent = state.currentWord;
     state.usedWords.add(state.currentWord);
+    fitWordText();
   }
+
+  // Shrink long entries so they fit on at most two lines when possible.
+  function fitWordText(){
+    const stage = wordTextEl.parentElement;
+    if (!stage || stage.clientHeight === 0) return; // screen not visible yet
+    const cs = getComputedStyle(stage);
+    const availW = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const availH = stage.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    let size = Math.min(90, Math.max(28, Math.min(window.innerWidth, window.innerHeight) * 0.12));
+    wordTextEl.style.fontSize = size + "px";
+    while (size > 20) {
+      const lines = Math.round(wordTextEl.offsetHeight / (size * 1.05));
+      if (wordTextEl.offsetHeight <= availH && wordTextEl.scrollWidth <= availW + 1 && lines <= 2) break;
+      size -= 2;
+      wordTextEl.style.fontSize = size + "px";
+    }
+  }
+  window.addEventListener("resize", () => {
+    if (document.getElementById("screen-game").classList.contains("active")) fitWordText();
+  });
 
   function updateSkipButtonState(){
     const blocked = state.limitSkips && state.skipsUsed >= 3;
@@ -1069,6 +1325,7 @@
     state.score += 1;
     gameScoreEl.textContent = state.score;
     flash("correct");
+    sound("correct");
     if (navigator.vibrate) navigator.vibrate(40);
     state.wordIndex += 1;
     showWord();
@@ -1081,6 +1338,7 @@
     state.skipsUsed += 1;
     updateSkipButtonState();
     flash("skip");
+    sound("skip");
     if (navigator.vibrate) navigator.vibrate([20,40,20]);
     state.wordIndex += 1;
     showWord();
@@ -1091,14 +1349,16 @@
 
   function onTilt(e){
     const angle = getTiltAngle(e);
-    const cross = getCrossAxis(e);
     if (angle === null || typeof angle === "undefined" || Number.isNaN(angle)) return;
     state.sensorEventReceived = true;
     if (state.tiltBaseline === null) {
-      state.tiltBaseline = angle;
-      state.smoothedAngle = angle;
-      state.crossBaseline = cross;
-      state.smoothedCross = cross;
+      // Calibrate "neutral" from the average of the first ~0.3 s, not a single noisy reading.
+      if (!state.calibStart) state.calibStart = Date.now();
+      state.calibSamples.push(angle);
+      if (Date.now() - state.calibStart < 300 || state.calibSamples.length < 5) return;
+      const avg = state.calibSamples.reduce((a, b) => a + b, 0) / state.calibSamples.length;
+      state.tiltBaseline = avg;
+      state.smoothedAngle = avg;
       state.inDeadZoneSince = Date.now();
       return;
     }
@@ -1106,11 +1366,6 @@
     // Smooth the raw signal so small hand-shake/jitter doesn't register as intent.
     state.smoothedAngle = state.smoothedAngle * 0.75 + angle * 0.25;
     const delta = state.smoothedAngle - state.tiltBaseline;
-
-    if (cross !== null && typeof cross !== "undefined" && !Number.isNaN(cross)) {
-      state.smoothedCross = state.smoothedCross * 0.75 + cross * 0.25;
-    }
-    const crossDelta = (state.smoothedCross !== null) ? state.smoothedCross - state.crossBaseline : 0;
 
     const now = Date.now();
     if (now - state.lastTiltTrigger < 700) {
@@ -1175,14 +1430,41 @@
   }
 
   function endRound(){
+    if (!document.getElementById("screen-game").classList.contains("active")) return;
     clearInterval(state.timerHandle);
+    releaseWakeLock();
+    sound("end");
     window.removeEventListener("devicemotion", onTilt);
     unlockOrientation();
     if (state.mode === "team") {
       state.teams[state.currentTeamIndex].total += state.score;
     }
+    saveBestScoreIfRecord(state.score);
     renderResults();
     show("screen-results");
+  }
+
+  function saveBestScoreIfRecord(score){
+    try {
+      const current = parseInt(localStorage.getItem("chinup-best") || "0", 10);
+      if (score > current) localStorage.setItem("chinup-best", String(score));
+    } catch(e) { /* storage unavailable */ }
+  }
+
+  function renderBestScoreLine(){
+    const el = document.getElementById("best-score-line");
+    if (!el) return;
+    try {
+      const best = parseInt(localStorage.getItem("chinup-best") || "0", 10);
+      if (best > 0) {
+        el.textContent = "Best: " + best;
+        el.style.display = "block";
+      } else {
+        el.style.display = "none";
+      }
+    } catch(e) {
+      el.style.display = "none";
+    }
   }
 
   document.getElementById("btn-quit-round").addEventListener("click", endRound);
@@ -1196,11 +1478,13 @@
   const correctListEl = document.getElementById("correct-list");
   const skipListEl = document.getElementById("skip-list");
   const playAgainBtn = document.getElementById("btn-play-again");
+  const newGameBtn = document.getElementById("btn-new-game");
 
   function renderResults(){
     if (state.mode === "team") {
       resultsTitle.textContent = state.teams[state.currentTeamIndex].name + "'s round";
       playAgainBtn.textContent = "Next team's turn";
+      newGameBtn.textContent = "End game";
       resultsScoreboard.style.display = "block";
       resultsScoreboard.innerHTML = state.teams.map(t =>
         '<div class="scoreboard-row"><span>' + escapeHtml(t.name) + '</span><span>' + t.total + '</span></div>'
@@ -1208,6 +1492,7 @@
     } else {
       resultsTitle.textContent = "Round over!";
       playAgainBtn.textContent = "Play again";
+      newGameBtn.textContent = "New game";
       resultsScoreboard.style.display = "none";
     }
     resultsScore.textContent = state.score;
@@ -1233,11 +1518,38 @@
     return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   }
 
-  document.getElementById("btn-new-game").addEventListener("click", () => {
+  function goHome(){
     renderDeckGrid();
     renderMode();
     renderTimer();
+    renderBestScoreLine();
     show("screen-home");
+  }
+
+  newGameBtn.addEventListener("click", () => {
+    if (state.mode === "team") {
+      renderFinal();
+      show("screen-final");
+    } else {
+      goHome();
+    }
+  });
+
+  function renderFinal(){
+    const ranked = state.teams.slice().sort((a, b) => b.total - a.total);
+    const top = ranked.length ? ranked[0].total : 0;
+    const winners = ranked.filter(t => t.total === top);
+    document.getElementById("final-winner").textContent = winners.length > 1
+      ? "It's a tie: " + winners.map(t => t.name).join(" & ")
+      : ranked[0].name + " wins!";
+    document.getElementById("final-standings").innerHTML = ranked.map((t, i) =>
+      '<div class="scoreboard-row"><span>' + (i + 1) + ". " + escapeHtml(t.name) + '</span><span>' + t.total + '</span></div>'
+    ).join("");
+  }
+
+  document.getElementById("btn-final-home").addEventListener("click", () => {
+    state.teams.forEach(t => { t.total = 0; });
+    goHome();
   });
 
   playAgainBtn.addEventListener("click", () => {
@@ -1252,6 +1564,8 @@
   renderDeckGrid();
   renderMode();
   renderTimer();
+  renderBestScoreLine();
+  renderSoundBtn();
   limitSkipsBox.checked = state.limitSkips;
 })();
 </script>
